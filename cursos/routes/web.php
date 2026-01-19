@@ -10,8 +10,6 @@ Route::get('/', function () {
     return Inertia::render('Homepage', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-    return Inertia::render('Welcome', [
         'auth' => [
             'user' => auth()->user(), // ← Adiciona isto
         ],

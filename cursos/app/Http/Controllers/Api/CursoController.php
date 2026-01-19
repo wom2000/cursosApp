@@ -71,33 +71,38 @@ class CursoController extends Controller
     }
 
     // Ver detalhes de um curso
-    public function show(Curso $curso)
-    {
-        $user = auth()->user();
+   public function show(Curso $curso)
+{
+    $user = auth()->user(); // Pode ser null se não estiver autenticado
 
-        $curso->load([
-            'categoria',
-            'formador',
-            'materiais' => function($query) use ($user) {
-                // Alunos só veem materiais aprovados
-                if ($user->isEstudante()) {
-                    $query->where('status', 'aprovado');
-                }
+    $curso->load([
+        'categoria',
+        'formador',
+        'materiais' => function($query) use ($user) {
+            // Se não estiver autenticado OU for estudante, mostra só aprovados
+            if (!$user || $user->isEstudante()) {
+                $query->where('status', 'aprovado');
             }
-        ]);
+            // Admin e Formador veem tudo (incluindo pendentes)
+        }
+    ]);
 
-        // Verificar se o user tem acesso
+    // Verificar acesso (só se estiver autenticado)
+    $hasAccess = false;
+    if ($user) {
         $hasAccess = $user->isCesaeStudent() ||
                      $user->subscricaoAtiva()->exists() ||
                      $user->isAdmin() ||
                      $user->isFormador();
-
-        return response()->json([
-            'success' => true,
-            'data' => $curso,
-            'has_access' => $hasAccess
-        ]);
     }
+
+    return response()->json([
+        'success' => true,
+        'data' => $curso,
+        'has_access' => $hasAccess, // false se não estiver autenticado
+        'can_view_content' => $hasAccess // deixa claro se pode ver conteúdos
+    ]);
+}
 
     // Atualizar curso (formador do curso ou admin)
     public function update(Request $request, Curso $curso)
