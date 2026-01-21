@@ -11,7 +11,7 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    // Dashboard unificado (redireciona baseado no role)
+    // Dashboard redireciona baseado no role
     public function index()
     {
         $user = auth()->user();

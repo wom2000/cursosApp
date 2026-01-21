@@ -72,11 +72,11 @@ Route::get('/editar-conteudo', function () {
 })->name('EditMaterials');
 
 Route::get('/subscrever', function () {
-    return Inertia::render('Subscription/CreateSubscription');
+    return Inertia::render('Subscriptionsform/CreateSubscription');
 })->name('CreateSubscription');
 
 Route::get('/gerir-subscricao', function () {
-    return Inertia::render('Subscription/ManageSubscription');
+    return Inertia::render('Subscriptions/ManageSubscription');
 })->name('ManageSubscription');
 
 Route::middleware('auth')->group(function () {
