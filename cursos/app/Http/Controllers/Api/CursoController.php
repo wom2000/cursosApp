@@ -73,7 +73,7 @@ class CursoController extends Controller
     // Ver detalhes de um curso
    public function show(Curso $curso)
 {
-    $user = auth()->user(); // Pode ser null se não estiver autenticado
+    $user = auth()->user();
 
     $curso->load([
         'categoria',
