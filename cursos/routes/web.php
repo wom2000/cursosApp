@@ -19,7 +19,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Rotas de autenticação (Breeze)
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Rotas autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -72,7 +72,7 @@ Route::get('/editar-conteudo', function () {
 })->name('EditMaterials');
 
 Route::get('/subscrever', function () {
-    return Inertia::render('Subscriptionsform/CreateSubscription');
+    return Inertia::render('Subscriptions/CreateSubscription');
 })->name('CreateSubscription');
 
 Route::get('/gerir-subscricao', function () {
