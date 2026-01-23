@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_cesae_student' => $isCesae ? 1 : 0,
+            'cesae_student' => $isCesae ? 1 : 0,
 
         ]);
 
@@ -53,6 +53,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard')) ->with('message', $msg);
+        return redirect(route('dashboard') ->with('message', $msg));
     }
 }

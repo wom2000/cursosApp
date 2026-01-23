@@ -58,7 +58,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // ============================================
 // ROTAS PÚBLICAS
 // ============================================
-Route::prefix('v1')->group(function () {
 
     // Categorias (públicas - listar)
     Route::get('/categorias', [CategoriaController::class, 'index']);
@@ -67,12 +66,11 @@ Route::prefix('v1')->group(function () {
     // Cursos (públicos - listar e ver detalhes)
     Route::get('/cursos', [CursoController::class, 'index']);
     Route::get('/cursos/{curso}', [CursoController::class, 'show']);
-});
 
 // ============================================
 // ROTAS AUTENTICADAS
 // ============================================
-Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
 
     // CATEGORIAS
     Route::prefix('categorias')->group(function () {
