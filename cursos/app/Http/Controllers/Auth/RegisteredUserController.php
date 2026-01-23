@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'type' => User::TYPE_ESTUDANTE,
+            'type' => User::ROLE_ESTUDANTE,
         ]);
 
         $isCesae = str_ends_with($request->email, '@msft.cesae.pt');
@@ -53,6 +53,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false) ->with('message', $msg));
+        return redirect(route('dashboard')) ->with('message', $msg);
     }
 }
