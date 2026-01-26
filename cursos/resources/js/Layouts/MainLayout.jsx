@@ -1,59 +1,69 @@
 import { useState } from "react";
 import { MenuIcon, XIcon, UserCircleIcon } from "@heroicons/react/outline";
+import { Link } from "@inertiajs/react";
 
 export default function MainLayout({ header, children }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-    const [activeLink, setActiveLink] = useState({ header });
 
-    const links = ["Homepage", "Cursos", "Conteúdos", "Progresso"];
-    const profileLinks = ["Perfil", "Sair"];
+    const links = [
+        { label: "HOMEPAGE", routeName: "home" },
+        { label: "CURSOS", routeName: "AllCourses" },
+        { label: "CONTEÚDOS", routeName: "AllMaterials" },
+        { label: "PROGRESSO", routeName: "home" },
+    ];
+    const profileLinks = [
+        { label: "Perfil", routeName: "profile.edit" },
+        { label: "Sair", routeName: "logout" },
+    ];
 
     return (
         <>
-            <header className="text-white">
+            <header>
                 <div className="pink-section-header"></div>
-                <div className="">
-                    <div className="flex justify-between h-16">
-                        <div className="flex items-center">
-                            <div className="flex-shrink-0">
-                                <p>MIRAI</p>
+                <div className="nav-content-div">
+                    <div className="grid grid-cols-2 md:grid-cols-3 items-center h-full">
+                        {/* NAV WEBSITE TITLE */}
+                        <div className="flex justify-start">
+                            <div className="title-nav">
+                                <a href={route("home")}>MIRAI</a>
                             </div>
-                            <div className="hidden md:flex md:ml-6 space-x-4">
-                                {links.map((link) => (
-                                    <button
-                                        key={link}
-                                        onClick={() => setActiveLink(link)}
-                                        className={`px-3 py-2 rounded-md text-sm font-medium ${
-                                            activeLink === link
-                                                ? "bg-gray-900"
-                                                : "hover:bg-gray-700"
-                                        }`}
+                        </div>
+                        {/* NAV LINKS LIST */}
+                        <div className="hidden md:flex justify-center nav-links ">
+                            {links.map((link) => {
+                                return (
+                                    <Link
+                                        key={link.label}
+                                        href={route(link.routeName)}
+                                        className={`nav-link ${route().current(link.routeName) ? "active-link" : ""}`}
                                     >
-                                        {link}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>{" "}
-                        <div className="flex items-center">
-                            <div className="hidden md:flex md:ml-4 relative">
+                                        {link.label}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                        {/* NAV PROFILE ICON */}
+                        <div className="flex justify-end">
+                            <div className="hidden md:flex">
                                 <button
                                     onClick={() => setProfileOpen(!profileOpen)}
-                                    className="bg-gray-800 p-1 rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                                 >
                                     <UserCircleIcon className="h-8 w-8" />
                                 </button>
                                 {profileOpen && (
-                                    <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white text-gray-800 ring-1 ring-black ring-opacity-5">
-                                        {profileLinks.map((link) => (
-                                            <a
-                                                key={link}
-                                                href="#"
-                                                className="block px-4 py-2 text-sm hover:bg-gray-100"
-                                            >
-                                                {link}
-                                            </a>
-                                        ))}
+                                    <div className="origin-top-right dropdown-perfil">
+                                        {profileLinks.map((link) => {
+                                            return (
+                                                <Link
+                                                    key={link.label}
+                                                    href={route(link.routeName)}
+                                                    className={`dropdown-perfil-link ${route().current(link.routeName) ? "active-link" : ""}`}
+                                                >
+                                                    {link.label}
+                                                </Link>
+                                            );
+                                        })}
                                     </div>
                                 )}
                             </div>
@@ -62,7 +72,7 @@ export default function MainLayout({ header, children }) {
                                     onClick={() =>
                                         setMobileMenuOpen(!mobileMenuOpen)
                                     }
-                                    className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                    className="inline-flex items-center justify-center p-2"
                                 >
                                     {mobileMenuOpen ? (
                                         <XIcon className="block h-6 w-6" />
@@ -74,44 +84,40 @@ export default function MainLayout({ header, children }) {
                         </div>
                     </div>
                 </div>
+                {/* MOBILE HAMBURGUER MENU */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden px-2 pt-2 pb-3 space-y-1">
+                    <div className="md:hidden max-w-full overflow-x-hidden px-2 pt-2 pb-3 space-y-1">
+                        {/* MOBILE NAV LINKS LIST */}
                         {links.map((link) => (
-                            <button
-                                key={link}
-                                onClick={() => {
-                                    setActiveLink(link);
-                                    setMobileMenuOpen(false);
-                                }}
-                                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${
-                                    activeLink === link
-                                        ? "bg-gray-900"
-                                        : "hover:bg-gray-700"
-                                }`}
+                            <Link
+                                key={link.label}
+                                href={route(link.routeName)}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`block w-full mobile-nav-link ${route().current(link.routeName) ? "mobile-active-link" : ""}`}
                             >
-                                {link}
-                            </button>
+                                {link.label}
+                            </Link>
                         ))}
 
-                        {/* Mobile Profile Dropdown */}
                         <div className="relative">
                             <button
                                 onClick={() => setProfileOpen(!profileOpen)}
-                                className="flex items-center px-3 py-2 rounded-md w-full hover:bg-gray-700"
+                                className="flex items-center mobile-profile-icon"
                             >
-                                <UserCircleIcon className="h-6 w-6 mr-2" />
-                                Perfil
+                                <UserCircleIcon className="h-8 w-8 mr-2" />
+                                Opções de Perfil
                             </button>
+                            {/* MOBILE PROFILE LINKS */}
                             {profileOpen && (
                                 <div className="mt-1 space-y-1">
                                     {profileLinks.map((link) => (
-                                        <a
-                                            key={link}
-                                            href="#"
-                                            className="block px-5 py-2 rounded-md hover:bg-gray-600"
+                                        <Link
+                                            key={link.label}
+                                            href={route(link.routeName)}
+                                            className="block mobile-profile-link"
                                         >
-                                            {link}
-                                        </a>
+                                            {link.label}
+                                        </Link>
                                     ))}
                                 </div>
                             )}
@@ -119,14 +125,38 @@ export default function MainLayout({ header, children }) {
                     </div>
                 )}
             </header>
-            {/* {header && (
-                <header>
-                    <div>{header}</div>
-                </header>
-            )} */}
-
             <main>{children}</main>
-            <footer>Footer</footer>
+            <footer className="grid grid-cols-2 md:grid-cols-3 ">
+                <div className="footer-left ">
+                    <img src="/images/Footer.svg" />
+                </div>
+                <div className="footer-center">
+                    <div className="footer-email">
+                        <p>Email:</p>
+                        <p>
+                            <a href="mailto:hello@mirai.com">hello@mirai.com</a>
+                        </p>
+                    </div>
+                    <div className="footer-instagram">
+                        <p>Instagram</p>
+                        <p>
+                            <a href="https://www.instagram.com">@mirai.cesae</a>
+                        </p>
+                    </div>
+                    <div className="footer-facebook">
+                        <p>Facebook</p>
+                        <p>
+                            <a href="https://www.facebook.com">MiraiCesae</a>
+                        </p>
+                    </div>
+                </div>
+                <div className="footer-right">
+                    <p>Morada:</p>
+                    <p>Rua de Fundões 151, 3700-121 São João da Madeira</p>
+                    <p>(+351) 256 123 456</p>
+                    <p>Mirai &copy; 2026 Cesae Digital</p>
+                </div>
+            </footer>
         </>
     );
 }
