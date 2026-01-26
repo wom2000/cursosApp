@@ -1,5 +1,6 @@
 import { Head, Link } from "@inertiajs/react";
 import MainLayout from "@/Layouts/MainLayout";
+import GuestLayout from "@/Layouts/GuestLayout";
 
 export default function Homepage({ auth, laravelVersion, phpVersion }) {
     const handleImageError = () => {
@@ -14,7 +15,7 @@ export default function Homepage({ auth, laravelVersion, phpVersion }) {
     };
 
     return (
-        <MainLayout
+        <GuestLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     Mirai{" "}
@@ -405,6 +406,6 @@ export default function Homepage({ auth, laravelVersion, phpVersion }) {
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </GuestLayout>
     );
 }
