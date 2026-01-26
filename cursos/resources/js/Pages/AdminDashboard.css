@@ -1,0 +1,144 @@
+.admin-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.admin-wrapper {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-color: #1a1a1a;
+}
+
+.admin-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.card {
+    background: #1a1a1a;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    color: #f9fafb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    color: white;
+}
+
+.card-title h1 {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline;
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .tasks-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.task-card {
+    background: #f9fafb;
+    border: 3px solid #CC0266;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    color: #1a1a1a;
+}
+
+.task-title {
+    font-weight: 600;
+}
+
+.task-title {
+    color: #CC0266;
+}
+
+.task-text {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.label {
+    font-weight: 500;
+}
+
+.task-time {
+    font-size: 0.75rem;
+    color: #1a1a1a;
+    margin-top: 0.25rem;
+}
+
+.contacts-list {
+    font-size: 0.875rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contacts-list li {
+    margin-bottom: 0.25rem;
+}
+
+.footer-text {
+    font-size: 0.75rem;
+    color: #f9fafb;
+    margin-top: 1rem;
+}
+
+.mini-calendar-card {
+    background: #CC0266;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 260px;
+}
+
+.mini-calendar-title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    text-transform: capitalize;
+}
+
+.mini-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+}
+
+.mini-calendar-dayname {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.mini-calendar-day {
+    text-align: center;
+    padding: 0.4rem 0;
+    background: #f3f4f6;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    color: #1f2937;
+}
+
+.mini-calendar-today {
+    background: #2563eb;
+    color: white;
+    font-weight: 700;
+}
