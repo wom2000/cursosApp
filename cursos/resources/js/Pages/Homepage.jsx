@@ -1,5 +1,7 @@
 import { Head, Link } from "@inertiajs/react";
 import MainLayout from "@/Layouts/MainLayout";
+import GuestLayout from "@/Layouts/GuestLayout";
+
 
 export default function Homepage({ auth, laravelVersion, phpVersion }) {
     const handleImageError = () => {
@@ -14,7 +16,7 @@ export default function Homepage({ auth, laravelVersion, phpVersion }) {
     };
 
     return (
-        <MainLayout
+        <GuestLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     Mirai{" "}
@@ -348,23 +350,21 @@ export default function Homepage({ auth, laravelVersion, phpVersion }) {
                             <div>
                                 <ul>
                                     <li>
-                                        <a href={route("AllCourses")}>
-                                            Todos os Cursos
-                                        </a>
+                                      <a href={route("AllCourses")}>Todos os Cursos</a>
                                     </li>
-                                    <li>
-                                        <a href={route("ShowCourse")}>Curso</a>
-                                    </li>
+                                    {/* <li>
+                                     <a href={route("ShowCourse")}>Curso</a>
+                                    </li> */}
                                     <li>
                                         <a href={route("CreateCourse")}>
                                             Criar Curso
                                         </a>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <a href={route("EditCourse")}>
                                             Editar Curso
                                         </a>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <a href={route("AllMaterials")}>
                                             Conteúdos
@@ -375,26 +375,26 @@ export default function Homepage({ auth, laravelVersion, phpVersion }) {
                                             Carregar Conteúdos
                                         </a>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <a href={route("EditMaterials")}>
                                             Editar Conteúdos
                                         </a>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <a href={route("CreateSubscription")}>
                                             Subscrever
                                         </a>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <a href={route("ManageSubscription")}>
                                             Gerir Subscrição
                                         </a>
-                                    </li>
-                                    <li>
+                                    </li> */}
+                                    {/* <li>
                                         <a href={route("AdminDashboard")}>
                                             Dashboard do Administrador
                                         </a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </main>
@@ -405,6 +405,6 @@ export default function Homepage({ auth, laravelVersion, phpVersion }) {
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </GuestLayout>
     );
 }

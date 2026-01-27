@@ -1,124 +1,67 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\ProgressoController;
 use App\Http\Controllers\Api\SubscricaoController;
-use App\Http\Controllers\Api\ProgressoCursoController;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Hash;
 
-// ============================================
-// AUTENTICAÇÃO (Login/Logout)
-// ============================================
-Route::post('/login', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
-
-    $user = User::where('email', $request->email)->first();
-
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Credenciais inválidas'
-        ], 401);
-    }
-
-    $token = $user->createToken('auth-token')->plainTextToken;
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Login efetuado com sucesso',
-        'token' => $token,
-        'user' => $user
-    ]);
+// Ping
+Route::get('/ping', function () {
+    return response()->json(['message' => 'API funcionando!', 'timestamp' => now()]);
 });
 
-Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
-    $request->user()->currentAccessToken()->delete();
+// Auth - Públicas
+Route::post('/auth/login', [ApiAuthController::class, 'login'])->name('auth.login');
+Route::post('/auth/register', [ApiAuthController::class, 'register'])->name('auth.register');
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Logout efetuado com sucesso'
-    ]);
-});
+// Auth - Protegidas
+Route::post('/auth/logout', [ApiAuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
+Route::get('/auth/me', [ApiAuthController::class, 'me'])->name('auth.me')->middleware('auth:sanctum');
 
-// Rota para obter user autenticado
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return response()->json([
-        'success' => true,
-        'user' => $request->user()
-    ]);
-});
+// User
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
-// ============================================
-// ROTAS PÚBLICAS
-// ============================================
-Route::prefix('v1')->group(function () {
+// Categorias
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index')->middleware('auth:sanctum');
+Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store')->middleware('auth:sanctum');
+Route::get('/categorias/{categoria}', [CategoriaController::class, 'show'])->name('categorias.show')->middleware('auth:sanctum');
+Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update')->middleware('auth:sanctum');
+Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy')->middleware('auth:sanctum');
 
-    // Categorias (públicas - listar)
-    Route::get('/categorias', [CategoriaController::class, 'index']);
-    Route::get('/categorias/{categoria}', [CategoriaController::class, 'show']);
+// Cursos
+Route::get('/cursos-publicos', [CursoController::class, 'index'])->name('cursos.public');
+Route::get('/cursos', [CursoController::class, 'index'])->name('cursos.index')->middleware('auth:sanctum');
+Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store')->middleware('auth:sanctum');
+Route::get('/cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show')->middleware('auth:sanctum');
+Route::put('/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update')->middleware('auth:sanctum');
+Route::delete('/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy')->middleware('auth:sanctum');
 
-    // Cursos (públicos - listar e ver detalhes)
-    Route::get('/cursos', [CursoController::class, 'index']);
-    Route::get('/cursos/{curso}', [CursoController::class, 'show']);
-});
+// Materiais
+Route::get('/materiais', [MaterialController::class, 'index'])->name('materiais.index')->middleware('auth:sanctum');
+Route::post('/materiais', [MaterialController::class, 'store'])->name('materiais.store')->middleware('auth:sanctum');
+Route::get('/materiais/pendentes', [MaterialController::class, 'pendentes'])->name('materiais.pendentes')->middleware('auth:sanctum');
+Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show')->middleware('auth:sanctum');
+Route::patch('/materiais/{material}/status', [MaterialController::class, 'updateStatus'])->name('materiais.updateStatus')->middleware('auth:sanctum');
+Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('materiais.destroy')->middleware('auth:sanctum');
 
-// ============================================
-// ROTAS AUTENTICADAS
-// ============================================
-Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+// Progressos
+Route::get('/progressos', [ProgressoController::class, 'index'])->name('progressos.index')->middleware('auth:sanctum');
+Route::post('/progressos', [ProgressoController::class, 'store'])->name('progressos.store')->middleware('auth:sanctum');
+Route::get('/progressos/cursos-completados', [ProgressoController::class, 'cursosCompletados'])->name('progressos.cursosCompletados')->middleware('auth:sanctum');
+Route::get('/progressos/{progresso}', [ProgressoController::class, 'show'])->name('progressos.show')->middleware('auth:sanctum');
+Route::put('/progressos/{progresso}', [ProgressoController::class, 'update'])->name('progressos.update')->middleware('auth:sanctum');
+Route::delete('/progressos/{progresso}', [ProgressoController::class, 'destroy'])->name('progressos.destroy')->middleware('auth:sanctum');
 
-    // CATEGORIAS
-    Route::prefix('categorias')->group(function () {
-        Route::post('/', [CategoriaController::class, 'store']); // Criar (admin)
-        Route::put('/{categoria}', [CategoriaController::class, 'update']); // Editar (admin)
-        Route::delete('/{categoria}', [CategoriaController::class, 'destroy']); // Apagar (admin)
-    });
-
-    // CURSOS
-    Route::prefix('cursos')->group(function () {
-        Route::post('/', [CursoController::class, 'store']); // Criar curso
-        Route::put('/{curso}', [CursoController::class, 'update']); // Editar curso
-        Route::delete('/{curso}', [CursoController::class, 'destroy']); // Apagar curso
-        Route::get('/meus-cursos', [CursoController::class, 'meusCursos']); // Cursos do formador
-    });
-
-    // MATERIAIS
-    Route::prefix('materiais')->group(function () {
-        Route::get('/', [MaterialController::class, 'index']); // Listar materiais
-        Route::post('/', [MaterialController::class, 'store']); // Upload material
-        Route::get('/pendentes', [MaterialController::class, 'pendentes']); // Materiais pendentes
-        Route::get('/{material}', [MaterialController::class, 'show']); // Ver material
-        Route::post('/{material}/status', [MaterialController::class, 'updateStatus']); // Aprovar/Rejeitar
-        Route::delete('/{material}', [MaterialController::class, 'destroy']); // Apagar material
-    });
-
-    // SUBSCRIÇÕES
-    Route::prefix('subscricoes')->group(function () {
-        Route::get('/', [SubscricaoController::class, 'index']); // Minhas subscrições
-        Route::post('/', [SubscricaoController::class, 'store']); // Criar subscrição
-        Route::get('/verificar-acesso', [SubscricaoController::class, 'verificarAcesso']); // Verificar acesso
-        Route::get('/todas', [SubscricaoController::class, 'todas']); // Todas (admin)
-        Route::get('/{subscricao}', [SubscricaoController::class, 'show']); // Ver subscrição
-        Route::put('/{subscricao}', [SubscricaoController::class, 'update']); // Atualizar (admin)
-        Route::post('/{subscricao}/cancelar', [SubscricaoController::class, 'cancelar']); // Cancelar
-        Route::post('/{subscricao}/renovar', [SubscricaoController::class, 'renovar']); // Renovar
-    });
-
-    // PROGRESSO
-    Route::prefix('progresso')->group(function () {
-        Route::get('/', [ProgressoCursoController::class, 'index']); // Meu progresso
-        Route::post('/', [ProgressoCursoController::class, 'store']); // Registar progresso
-        Route::get('/curso/{curso}', [ProgressoCursoController::class, 'progressoCurso']); // Progresso de um curso
-        Route::post('/curso/{curso}/resetar', [ProgressoCursoController::class, 'resetarCurso']); // Resetar curso
-        Route::get('/{progressoCurso}', [ProgressoCursoController::class, 'show']); // Ver progresso
-        Route::put('/{progressoCurso}', [ProgressoCursoController::class, 'update']); // Atualizar progresso
-        Route::delete('/{progressoCurso}', [ProgressoCursoController::class, 'destroy']); // Apagar progresso
-    });
-});
+// Subscrições
+Route::get('/subscricoes', [SubscricaoController::class, 'index'])->name('subscricoes.index')->middleware('auth:sanctum');
+Route::post('/subscricoes', [SubscricaoController::class, 'store'])->name('subscricoes.store')->middleware('auth:sanctum');
+Route::get('/subscricoes/todas', [SubscricaoController::class, 'todas'])->name('subscricoes.todas')->middleware('auth:sanctum');
+Route::get('/subscricoes/{subscricao}', [SubscricaoController::class, 'show'])->name('subscricoes.show')->middleware('auth:sanctum');
+Route::put('/subscricoes/{subscricao}', [SubscricaoController::class, 'update'])->name('subscricoes.update')->middleware('auth:sanctum');
+Route::patch('/subscricoes/{subscricao}/cancelar', [SubscricaoController::class, 'cancelar'])->name('subscricoes.cancelar')->middleware('auth:sanctum');
+Route::post('/subscricoes/{subscricao}/renovar', [SubscricaoController::class, 'renovar'])->name('subscricoes.renovar')->middleware('auth:sanctum');

@@ -10,9 +10,6 @@ Route::get('/', function () {
     return Inertia::render('Homepage', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'auth' => [
-            'user' => auth()->user(), // ← Adiciona isto
-        ],
         'laravelVersion' => \Illuminate\Foundation\Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
@@ -24,65 +21,53 @@ require __DIR__ . '/auth.php';
 // Rotas autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // Dashboard unificado (redireciona baseado no role)
+    // Dashboards
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Dashboards específicos por role
     Route::get('/dashboard/estudante', [DashboardController::class, 'estudante'])->name('dashboard.estudante');
     Route::get('/dashboard/formador', [DashboardController::class, 'formador'])->name('dashboard.formador');
     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
 
-    // Profile (Breeze)
-});
+    // Cursos
+    Route::get('/cursos', function () {
+        return Inertia::render('Courses/AllCourses');
+    })->name('AllCourses');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/curso/{id}', function ($id) {
+        return Inertia::render('Courses/ShowCourse', ['id' => $id]);
+    })->name('ShowCourse');
 
-Route::get('/admin-dashboard', function () {
-    return Inertia::render('AdminDashboard');
-})->middleware(['auth', 'verified'])->name('AdminDashboard');
+    Route::get('/criar-curso', function () {
+        return Inertia::render('Courses/CreateCourse');
+    })->name('CreateCourse');
 
-Route::get('/cursos', function () {
-    return Inertia::render('Courses/AllCourses');
-})->name('AllCourses');
+    Route::get('/editar-curso/{id}', function ($id) {
+        return Inertia::render('Courses/EditCourse', ['id' => $id]);
+    })->name('EditCourse');
 
-Route::get('/curso', function () {
-    return Inertia::render('Courses/ShowCourse');
-})->name('ShowCourse');
+    // Materiais
+    Route::get('/conteudos', function () {
+        return Inertia::render('Materials/AllMaterials');
+    })->name('AllMaterials');
 
-Route::get('/criar-curso', function () {
-    return Inertia::render('Courses/CreateCourse');
-})->name('CreateCourse');
+    Route::get('/carregar-conteudo', function () {
+        return Inertia::render('Materials/UploadMaterials');
+    })->name('UploadMaterials');
 
-Route::get('/editar-curso', function () {
-    return Inertia::render('Courses/EditCourse');
-})->name('EditCourse');
+    Route::get('/editar-conteudo/{id}', function ($id) {
+        return Inertia::render('Materials/EditMaterials', ['id' => $id]);
+    })->name('EditMaterials');
 
-Route::get('/conteudos', function () {
-    return Inertia::render('Materials/AllMaterials');
-})->name('AllMaterials');
+    // Subscrições
+    Route::get('/subscrever', function () {
+        return Inertia::render('Subscriptions/CreateSubscription');
+    })->name('CreateSubscription');
 
-Route::get('/carregar-conteudo', function () {
-    return Inertia::render('Materials/UploadMaterials');
-})->name('UploadMaterials');
+    Route::get('/gerir-subscricao/{id}', function ($id) {
+        return Inertia::render('Subscriptions/ManageSubscription', ['id' => $id]);
+    })->name('ManageSubscription');
 
-Route::get('/editar-conteudo', function () {
-    return Inertia::render('Materials/EditMaterials');
-})->name('EditMaterials');
-
-Route::get('/subscrever', function () {
-    return Inertia::render('Subscriptions/CreateSubscription');
-})->name('CreateSubscription');
-
-Route::get('/gerir-subscricao', function () {
-    return Inertia::render('Subscriptions/ManageSubscription');
-})->name('ManageSubscription');
-
-Route::middleware('auth')->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-require __DIR__ . '/auth.php';
