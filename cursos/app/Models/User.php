@@ -69,7 +69,7 @@ class User extends Authenticatable
     }
 
     public function progressos(){
-        return $this->hasMany(ProgressoCurso::class, 'id_user');
+        return $this->hasMany(Progresso::class, 'id_user');
     }
 
     public function subscricao(){
