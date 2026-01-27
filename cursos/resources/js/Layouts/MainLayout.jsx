@@ -53,17 +53,18 @@ export default function MainLayout({ header, children }) {
                                 </button>
                                 {profileOpen && (
                                     <div className="origin-top-right dropdown-perfil">
-                                        {profileLinks.map((link) => {
-                                            return (
-                                                <Link
-                                                    key={link.label}
-                                                    href={route(link.routeName)}
-                                                    className={`dropdown-perfil-link ${route().current(link.routeName) ? "active-link" : ""}`}
-                                                >
-                                                    {link.label}
-                                                </Link>
-                                            );
-                                        })}
+                                        {profileLinks.map((link) => (
+    <Link
+        key={link.label}
+        href={route(link.routeName)}
+        method={link.routeName === "logout" ? "post" : undefined}
+        as={link.routeName === "logout" ? "button" : "a"}
+        className={`dropdown-perfil-link ${route().current(link.routeName) ? "active-link" : ""}`}
+    >
+        {link.label}
+    </Link>
+))}
+
                                     </div>
                                 )}
                             </div>
