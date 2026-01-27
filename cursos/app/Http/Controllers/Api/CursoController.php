@@ -1,179 +1,126 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use App\Models\Curso;
 use Illuminate\Http\Request;
 
 class CursoController extends Controller
 {
-    // Listar todos os cursos (com filtros opcionais)
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
-        $query = Curso::with(['categoria', 'formador'])
-            ->withCount('materiais');
+        $query = Curso::with('categoria', 'formador')->withCount('materiais');
 
-        // Filtro por categoria
-        if ($request->has('area')) {
+        if($request->has('area')){
             $query->where('area', $request->area);
         }
-
-        // Filtro por nível
-        if ($request->has('nivel')) {
+         if($request->has('nivel')){
             $query->where('nivel', $request->nivel);
         }
-
-        // Busca por nome
-        if ($request->has('search')) {
+         if ($request->has('search')) {
             $query->where('nome', 'like', '%' . $request->search . '%');
         }
-
-        $cursos = $query->paginate(12);
-
-        return response()->json([
-            'success' => true,
-            'data' => $cursos
-        ]);
+        $cursos = $query ->paginate(12);
+        return response()->json($cursos);
     }
 
-    // Criar novo curso (formador/admin)
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $user = auth()->user();
-
-        // Verificar permissões
-        if (!$user->isAdmin() && !$user->isFormador()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Não tens permissão para criar cursos'
-            ], 403);
+         $user = auth()->user();
+         if(!$user->isAdmin() && !$user->isFormador()){
+            return response()->json('Não é autorizado a criar cursos', 403);
         }
-
         $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'area' => 'required|exists:categorias,id',
-            'duracao' => 'required|string',
-            'descricao' => 'required|string',
-            'nivel' => 'required|in:iniciante,intermedio,avancado',
+            'nome' =>'required|string|max:125|unique:cursos',
+            'descricao'=>'nullable|string',
+            'area'=>'required|exists:categorias,id',
+            'duracao'=>'required|string',
+            'nivel'=>'required|in:iniciante,intermedio,avancado',
         ]);
-
-        // Formador só pode criar cursos para si próprio
-        $validated['formadores'] = $user->isFormador() ? $user->id : $request->formadores;
+        if ($user->isFormador()) {
+            $validated['formadores'] = $user->id;
+        } else {
+            $request->validate([
+                'formadores' => 'required|exists:users,id']);
+            $validated['formadores'] = $request->formadores;
+        }
 
         $curso = Curso::create($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Curso criado com sucesso',
-            'data' => $curso->load(['categoria', 'formador'])
-        ], 201);
+        return response()->json($curso, 201);
     }
 
-    // Ver detalhes de um curso
-   public function show(Curso $curso)
-{
-    $user = auth()->user();
+    /**
+     * Display the specified resource.
+     */
+    public function show(Curso $curso)
+    {
+       $user = auth()->user();
 
-    $curso->load([
+       $curso->load([
         'categoria',
-        'formador',
-        'materiais' => function($query) use ($user) {
-            // Se não estiver autenticado OU for estudante, mostra só aprovados
-            if (!$user || $user->isEstudante()) {
+        'formador', ]);
+        if ($user) {
+        if ($user->isAdmin() || $user->isFormador()) {
+            $curso->load('materiais');
+        } elseif ($user->hasAcessoCursos()) {
+            $curso->load(['materiais' => function($query) {
                 $query->where('status', 'aprovado');
-            }
-            // Admin e Formador veem tudo (incluindo pendentes)
-        }
+            }]);
+        }};
+        return response()->json([
+        'curso' => $curso,
+        'tem_acesso_materiais' => $user ? ($user->isAdmin() || $user->isFormador() || $user->hasAcessoCursos()) : false,
     ]);
-
-    // Verificar acesso (só se estiver autenticado)
-    $hasAccess = false;
-    if ($user) {
-        $hasAccess = $user->isCesaeStudent() ||
-                     $user->subscricaoAtiva()->exists() ||
-                     $user->isAdmin() ||
-                     $user->isFormador();
     }
 
-    return response()->json([
-        'success' => true,
-        'data' => $curso,
-        'has_access' => $hasAccess, // false se não estiver autenticado
-        'can_view_content' => $hasAccess // deixa claro se pode ver conteúdos
-    ]);
-}
-
-    // Atualizar curso (formador do curso ou admin)
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Curso $curso)
     {
         $user = auth()->user();
-
-        // Verificar permissões
-        if (!$user->isAdmin() && $curso->formadores !== $user->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Não tens permissão para editar este curso'
-            ], 403);
+         if(!$user->isAdmin() && !$user->isFormador()){
+            return response()->json('Não é autorizado a atualizar cursos', 403);
         }
-
         $validated = $request->validate([
-            'nome' => 'sometimes|string|max:255',
-            'area' => 'sometimes|exists:categorias,id',
-            'duracao' => 'sometimes|string',
-            'descricao' => 'sometimes|string',
-            'nivel' => 'sometimes|in:iniciante,intermedio,avancado',
+            'nome' =>'required|string|max:125|unique:cursos,nome,' . $curso->id,
+            'descricao'=>'nullable|string',
+            'area'=>'required|exists:categorias,id',
+            'duracao'=>'required|string',
+            'nivel'=>'required|in:iniciante,intermedio,avancado',
         ]);
+        if ($user->isFormador()) {
+            $validated['formadores'] = $user->id;
+        } else {
+            $request->validate([
+                'formadores' => 'required|exists:users,id']);
+            $validated['formadores'] = $request->formadores;
+        }
 
         $curso->update($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Curso atualizado com sucesso',
-            'data' => $curso->load(['categoria', 'formador'])
-        ]);
+        return response()->json($curso, 200);
     }
 
-    // Apagar curso (formador do curso ou admin)
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Curso $curso)
     {
-        $user = auth()->user();
-
-        if (!$user->isAdmin() && $curso->formadores !== $user->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Não tens permissão para apagar este curso'
-            ], 403);
-        }
-
+         $user = auth()->user();
+        if(!$user->isAdmin()){
+            return response()->json('Não é autorizado a eliminar cursos', 403);
+            }
         $curso->delete();
+            return response()->json("curso eliminado", 200);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Curso apagado com sucesso'
-        ]);
+    }
     }
 
-    // Cursos do formador logado
-    public function meusCursos()
-    {
-        $user = auth()->user();
-
-        if (!$user->isFormador() && !$user->isAdmin()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Apenas formadores podem aceder a esta funcionalidade'
-            ], 403);
-        }
-
-        $cursos = Curso::where('formadores', $user->id)
-            ->with(['categoria', 'materiais'])
-            ->withCount('materiais')
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => $cursos
-        ]);
-    }
-}

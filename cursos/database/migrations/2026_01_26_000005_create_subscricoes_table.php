@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('data_fim');
             $table->enum('status', ['ativa', 'expirada', 'cancelada'])->default('ativa');
             $table->timestamps();
-
         });
     }
 
