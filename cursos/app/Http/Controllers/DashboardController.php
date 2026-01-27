@@ -51,7 +51,7 @@ class DashboardController extends Controller
             ->where('status', 'a_ver')
             ->count();
 
-        return Inertia::render('Dashboard/Estudante', [
+        return Inertia::render('EstudanteDashboard', [
             'stats' => [
                 'total_progressos' => $totalProgressos,
                 'materiais_vistos' => $materiaisVistos,
@@ -99,7 +99,7 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
-        return Inertia::render('Dashboard/Formador', [
+        return Inertia::render('FormadorDashboard', [
             'stats' => [
                 'total_cursos' => $totalCursos,
                 'total_materiais' => $totalMateriais,
@@ -155,7 +155,7 @@ class DashboardController extends Controller
             ->take(5)
             ->get(['id', 'name', 'email', 'role', 'created_at']);
 
-        return Inertia::render('Dashboard/Admin', [
+        return Inertia::render('AdminDashboard', [
             'stats' => $stats,
             'cursos_por_categoria' => $cursosPorCategoria,
             'materiais_pendentes' => $materiaisPendentes,
