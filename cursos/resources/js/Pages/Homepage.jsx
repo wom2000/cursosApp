@@ -350,7 +350,7 @@ export default function Homepage({ auth, laravelVersion, phpVersion }) {
                             <div>
                                 <ul>
                                     <li>
-                                      <a href={route("AllCourses")}>Todos os Cursos</a>
+                                      <a href={route("cursos.index")}>Todos os Cursos</a>
                                     </li>
                                     {/* <li>
                                      <a href={route("ShowCourse")}>Curso</a>
