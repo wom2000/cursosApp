@@ -24,8 +24,11 @@
 
     /* LINKS */
     --links-font-family: "Encode Sans", sans-serif;
-    --links-font-family: 1.1rem;
+    --links-font-size: 0.8rem;
     --hover-transition: 0.1s ease;
+
+    /* TEXT */
+    --text-size: 1rem;
 }
 
 *,
@@ -153,7 +156,6 @@ footer a:hover {
     color: var(--accent-color);
     transition: var(--hover-transition);
 }
-
 footer p {
     margin-top: 0.5rem;
 }

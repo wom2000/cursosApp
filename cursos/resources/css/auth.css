@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@100..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    /* COLORS */
+    --main-color: #cc0266;
+    --main-background-color: #000000;
+    --main-font-color: #ffffff;
+    --accent-color: #6b1e6f;
+    --dividers: #575757;
+
+    /* TITLE */
+    --title-font-family: "Anek Tamil", sans-serif;
+    --title-size: 1.5rem;
+
+    /* NAVBAR */
+    --nav-font-family: "Anek Tamil", sans-serif;
+    --nav-title-size: 1.6rem;
+    --nav-link-size: 1.1rem;
+
+    /* LINKS */
+    --links-font-family: "Encode Sans", sans-serif;
+    --links-font-size: 0.8rem;
+    --hover-transition: 0.1s ease;
+
+    /* TEXT */
+    --text-size: 1rem;
+    --text-font-family: "Anek Tamil", sans-serif;
+}
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+body {
+    overflow-x: hidden;
+    font-family: "Encode Sans", sans-serif;
+    background-color: var(--main-background-color);
+    color: var(--main-font-color);
+}
+
+.login-form-container {
+    background-image: url("images/login_hero.png");
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+.login-form {
+    background-color: var(--main-background-color);
+    width: 70%;
+    padding: 1rem;
+}
+.login-form .form-label {
+    color: var(--main-color);
+    font-size: var(--text-size);
+    margin-bottom: 0.7rem;
+}
+.login-form .form-checkbox-label {
+    color: var(--main-color);
+    font-size: var(--text-size);
+}
+.login-form .form-input {
+    color: var(--main-background-color);
+    border-radius: 0;
+}
+.reset-password {
+    font-family: var(--text-font-family);
+    font-size: var(--links-font-size);
+}
+
+@media screen and (min-width: 768px) {
+    .login-form {
+        width: 50%;
+    }
+}
