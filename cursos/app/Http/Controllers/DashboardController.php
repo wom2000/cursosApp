@@ -11,7 +11,6 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    // Dashboard redireciona baseado no role
     public function index()
     {
         $user = auth()->user();
@@ -25,7 +24,6 @@ class DashboardController extends Controller
         }
     }
 
-    // Dashboard do Estudante
     public function estudante()
     {
         $user = auth()->user();
@@ -33,27 +31,32 @@ class DashboardController extends Controller
         if (!$user->isEstudante()) {
             abort(403, 'Acesso negado');
         }
-
-        // Progresso geral
         $totalProgressos = $user->progressos()->count();
         $materiaisVistos = $user->progressos()->where('status', 'visto')->count();
+        $cursosCompletados = $user->progressos()
+            ->where('curso_completado', true)
+            ->distinct('id_material')
+            ->count();
 
-        // Subscrição
-        $subscricao = $user->subscricaoAtiva;
+        $subscricao = $user->subscricao()->where('status', 'ativa')->first();
         $hasAccess = $user->isCesaeStudent() || $subscricao !== null;
-
-        // Últimos materiais vistos
         $ultimosMateriais = $user->progressos()
-            ->with('material.curso')
+            ->with(['material.materialCurso'])
             ->where('status', 'visto')
             ->latest('completado_em')
             ->take(5)
             ->get();
 
+        $materiaisAVer = $user->progressos()
+            ->where('status', 'a_ver')
+            ->count();
+
         return Inertia::render('Dashboard/Estudante', [
             'stats' => [
                 'total_progressos' => $totalProgressos,
                 'materiais_vistos' => $materiaisVistos,
+                'materiais_a_ver' => $materiaisAVer,
+                'cursos_completados' => $cursosCompletados,
                 'has_access' => $hasAccess,
                 'is_cesae' => $user->isCesaeStudent(),
             ],
@@ -62,7 +65,6 @@ class DashboardController extends Controller
         ]);
     }
 
-    // Dashboard do Formador
     public function formador()
     {
         $user = auth()->user();
@@ -70,28 +72,29 @@ class DashboardController extends Controller
         if (!$user->isFormador()) {
             abort(403, 'Acesso negado');
         }
-
-        // Estatísticas dos cursos
         $totalCursos = $user->cursosLecionados()->count();
         $cursosIds = $user->cursosLecionados()->pluck('id');
-
-        // Materiais dos cursos
         $totalMateriais = Material::whereIn('id_curso', $cursosIds)->count();
+        $materiaisAprovados = Material::whereIn('id_curso', $cursosIds)
+            ->where('status', 'aprovado')
+            ->count();
         $materiaisPendentes = Material::whereIn('id_curso', $cursosIds)
             ->where('status', 'pendente')
             ->count();
+        $materiaisRejeitados = Material::whereIn('id_curso', $cursosIds)
+            ->where('status', 'rejeitado')
+            ->count();
 
-        // Cursos recentes
         $cursosRecentes = $user->cursosLecionados()
             ->withCount('materiais')
+            ->with('categoria')
             ->latest()
             ->take(5)
             ->get();
 
-        // Materiais pendentes de aprovação
         $materiaisPendentesLista = Material::whereIn('id_curso', $cursosIds)
             ->where('status', 'pendente')
-            ->with(['curso', 'user'])
+            ->with(['materialCurso', 'materialUser'])
             ->latest()
             ->take(10)
             ->get();
@@ -100,14 +103,15 @@ class DashboardController extends Controller
             'stats' => [
                 'total_cursos' => $totalCursos,
                 'total_materiais' => $totalMateriais,
+                'materiais_aprovados' => $materiaisAprovados,
                 'materiais_pendentes' => $materiaisPendentes,
+                'materiais_rejeitados' => $materiaisRejeitados,
             ],
             'cursos_recentes' => $cursosRecentes,
             'materiais_pendentes' => $materiaisPendentesLista,
         ]);
     }
 
-    // Dashboard do Admin
     public function admin()
     {
         $user = auth()->user();
@@ -116,7 +120,6 @@ class DashboardController extends Controller
             abort(403, 'Acesso negado');
         }
 
-        // Estatísticas gerais
         $stats = [
             'total_users' => User::count(),
             'total_estudantes' => User::where('role', User::ROLE_ESTUDANTE)->count(),
@@ -124,35 +127,40 @@ class DashboardController extends Controller
             'alunos_cesae' => User::where('cesae_student', true)->count(),
             'total_cursos' => Curso::count(),
             'total_materiais' => Material::count(),
+            'materiais_aprovados' => Material::where('status', 'aprovado')->count(),
             'materiais_pendentes' => Material::where('status', 'pendente')->count(),
+            'materiais_rejeitados' => Material::where('status', 'rejeitado')->count(),
             'subscricoes_ativas' => Subscricao::where('status', 'ativa')->count(),
             'subscricoes_expiradas' => Subscricao::where('status', 'expirada')->count(),
+            'subscricoes_canceladas' => Subscricao::where('status', 'cancelada')->count(),
         ];
 
-        // Cursos por categoria
         $cursosPorCategoria = Curso::selectRaw('area, COUNT(*) as total')
             ->groupBy('area')
             ->with('categoria:id,nome')
             ->get();
 
-        // Materiais pendentes
         $materiaisPendentes = Material::where('status', 'pendente')
-            ->with(['curso', 'user'])
+            ->with(['materialCurso', 'materialUser'])
             ->latest()
             ->take(10)
             ->get();
 
-        // Últimas subscrições
         $ultimasSubscricoes = Subscricao::with('user')
             ->latest()
             ->take(5)
             ->get();
+
+        $ultimosUsers = User::latest()
+            ->take(5)
+            ->get(['id', 'name', 'email', 'role', 'created_at']);
 
         return Inertia::render('Dashboard/Admin', [
             'stats' => $stats,
             'cursos_por_categoria' => $cursosPorCategoria,
             'materiais_pendentes' => $materiaisPendentes,
             'ultimas_subscricoes' => $ultimasSubscricoes,
+            'ultimos_users' => $ultimosUsers,
         ]);
     }
 }

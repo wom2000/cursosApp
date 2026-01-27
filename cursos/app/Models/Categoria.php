@@ -2,20 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'nome',
-        'descricao',
+        'nome', 'descricao',
     ];
 
-    public function cursos()
-    {
-        return $this->hasMany(Curso::class, 'area');
+    public function cursos(){
+        return $this->hasMany(Curso::class,'area');
     }
 }
