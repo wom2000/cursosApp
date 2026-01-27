@@ -1,0 +1,334 @@
+Criação do projeto Cursos (laravel + react)
+
+
+
+NOVO TEMRINAL
+composer create-project laravel/laravel cursos
+cd cursos
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+composer require laravel/breeze --dev
+php artisan breeze:install react
+
+NOVO TERMINAL
+cd cursos
+npm install
+npm run dev
+
+NOVO TERMINAL
+cd cursos
+php artisan serve
+
+CRIAR AS TABELAS 
+php artisan make:migration create_categorias_table
+php artisan make:migration create_cursos_table
+php artisan make:migration create_progressos_table
+php artisan make:migration create_materiais_table
+php artisan make:migration create_subscricoes_table
+Php artisan make:migration add_role_ro_users_table
+
+EDITAR AS COLUNAS DAS TABELAS
+
+CATEGORIAS
+$table->string('nome')->unique();
+$table->text('descricao')->nullable();
+
+CURSOS
+$table->string('nome');
+$table->unsignedBigInteger('area');
+$table->foreign('area')->references('id')->on('categorias')->onDelete('cascade');
+$table->string('duracao');
+$table->text('descricao');
+$table->enum('nivel', ['iniciante', 'intermedio', 'avancado'])->default('iniciante');
+$table->unsignedBigInteger('formadores');
+$table->foreign('formadores')->references('id')->on('users')->onDelete('cascade');
+
+PROGRESSOS
+$table->unsignedBigInteger('id_user');
+$table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+$table->unsignedBigInteger('id_material');
+$table->foreign('id_material')->references('id')->on('materiais')->onDelete('cascade');
+$table->enum('status', ['para_ver', 'a_ver', 'visto'])->default('para_ver');
+$table->timestamp('completado_em')->nullable();
+$table->unique(['id_user', 'id_material']);
+
+MATERIAIS
+$table->string('nome');
+$table->unsignedBigInteger('id_user');
+$table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+$table->unsignedBigInteger('id_curso');
+$table->foreign('id_curso')->references('id')->on('cursos')->onDelete('cascade');
+$table->string('caminho_ficheiro');
+$table->enum('formato', ['mp3', 'mp4', 'pdf', 'jpg', 'png', 'docx']);
+$table->enum('status', ['aprovado', 'pendente', 'rejeitado']);
+$table->unsignedBigInteger('aprovado_por')->nullable();
+$table->foreign('aprovado_por')->references('id')->on('users')->onDelete('set null');
+$table->timestamp('data_aprovacao')->nullable();
+
+SUBSCRICOES
+$table->unsignedBigInteger('user_id');
+$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+$table->date('data_inicio');
+$table->date('data_fim');
+$table->enum('status', ['ativa', 'expirada', 'cancelada'])->default('ativa');
+
+ADD_ROLE_TO_USERS_TABLE
+$table->string('telemovel')->nullable()->after('email');
+$table->enum('role', ['estudante', 'formador', 'admin'])->default('estudante')->after('telemovel');
+
+NO TERMINAL
+cd cursos
+php artisan migrate
+
+CRIAR OS MODELS
+php artisan make:model Categoria
+php artisan make:model Curso
+php artisan make:model Serie
+php artisan make:model Material
+php artisan make:model Progresso
+
+EDITAR OS MODELS
+
+MODEL CATEGORIA
+protected $fillable = ['nome', 'descricao'];
+--- define quais campos da tabela podem ser preenchidos em massa, ou seja, quais colunas podem ser atribuídas de uma só vez usando métodos como create() ou update()
+public function cursos(){return $this->hasMany(Curso::class,'area');}
+---relacionamento entre tabelas
+
+MODEL CURSO
+protected $fillable = ['nome', 'descricao', 'area', 'duracao', 'nivel', 'formadores'];
+public function categoria(){return $this->belongsTo(Categoria::class, 'area');}
+public function formador(){return $this->belongsTo(User::class, 'formadores');}
+public function materiais(){return $this->hasMany(Material::class, 'id_curso');}
+---relacionamento entre tabelas com o Eloquent
+public function progresso(){return $this->hasManyThrough(Progresso::class, Material::class,'id_curso', 'id_material');}
+---tem muitos através de; 1ºargumento: qual o model que quero no final? 2ºargumento: qual é a ponte entre o progresso e o curso? 3ºargumento: qual é a coluna em materiais que aponta para cursos? 4ºargumento: qual é a coluna em progresso que aponta para materiais?
+
+MODEL MATERIAL
+protected $table = 'materiais';
+---é utilizado porque no plural o laravek procuraria por materials, mas a minha tabela está em pt
+protected $fillable =['nome', 'id_user', 'id_curso', 'caminho_ficheiro', 'formato', 'status', 'aprovado_por', 'data_aprovacao'];
+public function progressoUser(){return $this->belongsTo(User::class, 'id_user');}
+public function progressoCurso(){return $this->belongsTo(Curso::class, 'id_curso');}
+public function aprovadoPor(){return $this->belongsTo(User::class, 'aprovado_por');}
+public function progresso(){return $this->hasMany(Progresso::class, 'id_material');}
+---relacionamento entre tabelas
+
+MODEL PROGRESSO
+protected $table = 'progressos';
+protected $fillable=['id_user', 'id_material', 'status', 'completado_em'];
+public function user(){return $this->belongsTo(User::class, 'id_user');}
+public function material(){return $this->belongsTo(Material::class, 'id_materiais');}
+---relacionamento entre tabelas
+public function curso(){return $this->hasOneThrough(Curso::class, Material::class, 'id_curso', 'id', 'id_material');}
+---tem um através de; quero ir de progresso para curso através de material
+
+MODEL SUBSCRICAO
+protected $table = 'subscricoes';
+
+protected $fillable = ['user_id', 'data_inicio', 'data_fim', 'status',];
+
+public function user(){return $this->belongsTo(User::class, 'user_id');}
+---relacionamento entre tabelas
+
+MODEL USER
+const ROLE_ADMIN = "admin";
+const ROLE_FORMADOR = "formador";
+const ROLE_ESTUDANTE = "estudante";
+---constantes de classe
+'telemovel', 'role', 'cesae_student',
+---acrescento aos campos da tabela que ao fazer certas por exemplo, são preenchidos
+public function cursosLecionados(){return $this->hasMany(Curso::class, 'formadores');}
+public function materiais(){return $this->hasMany(Material::class, 'id_user');}
+public function materiaisAprovados(){return $this->hasMany(Material::class, 'aprovado_por');}
+public function progressos(){return $this->hasMany(ProgressoCurso::class, 'id_user');}
+public function subscricoes(){return $this->hasMany(Subscricao::class);}
+public function temSubscricaoAtiva():bool{return $this->subscricao()->where('status', 'ativa')->exists();}
+---relacionamento entre tabelas
+public function isAdmin(): bool{return $this->role === self::ROLE_ADMIN;}
+public function isFormador(): bool{return $this->role === self::ROLE_FORMADOR;}
+public function isEstudante(): bool{return $this->role === self::ROLE_ESTUDANTE;}
+public function isCesaeStudent(): bool{return $this->cesae_student;}
+public function hasAcessoCursos(): bool{return $this->cesae_student || $this->temSubscricaoAtiva()->exists();}
+public function podeAprovarMateriais(): bool{return $this->isAdmin() || $this->isFormador();}
+---helpers
+
+CRIAR OS CONTROLLERS
+php artisan make:controller CursoController --api
+php artisan make:controller CategoriaController --api
+php artisan make:controller SubscricaoController --api
+php artisan make:controller ProgressoController --api
+php artisan make:controller MaterialController --api
+---para criar os controllers já preparados a receber a api (sem create ou edit por exemplo)
+php artisan make:controller DashboardController -r
+---para criar o controller com as resources já pre feitas
+
+EDITAR OS CONTROLLERS
+
+CATEGORIA CONTROLLER
+public function index(){$categorias = Categoria::withCount('cursos')->get();return response()->json($categorias)}
+---para mostrar as categorias e a quantidade de cursos associados a ela. Responder em json para o react
+public function store(Request $request){if(!auth()->user()->isAdmin()){return response()->json('Não é autorizado a criar categorias', 403);}
+$categoria = Categoria::create($request->validate(['nome' =>'required|string|max:125|unique:categorias', 'descricao'=>'nullable|string',]));return response()->json($categoria, 201);}
+---nesta função só os admin podem criar uma categoria
+public function show(Categoria $categoria){$categoria->load('cursos');return response()->json($categoria);}
+---o load diz carrega os cursos relacionados a esta categoria (método definido no model)
+public function update(Request $request, Categoria $categoria){if(!auth()->user()->isAdmin()){return response()->json('Não é autorizado a editar categorias', 403);}
+$categoria->update($request->validate(['nome' =>'required|string|max:125|unique:categorias,nome,' . $categoria->id,'descricao'=>'nullable|string',]));return response()->json($categoria, 200);}
+---unique:categorias,nome,' . $categoria->id : é unico na tabela categorias, coluna nome concatena o id dele próprio que é para ignorar
+public function destroy(Categoria $categoria){if(!auth()->user()->isAdmin()){return response()->json('Não é autorizado a eliminar categorias', 403);}$categoria->delete();return response()->json("categoria eliminada", 200);}
+
+CURSO CONTROLLER
+public function index(Request $request){$query = Curso::with('categoria', 'formador')->withCount('materiais');
+if($request->has('area')){$query->where('area', $request->area);}
+if($request->has('nivel')){$query->where('nivel', $request->nivel);}
+if ($request->has('search')) {$query->where('nome', 'like', '%' . $request->search . '%');}
+$cursos = $query ->paginate(12); return response()->json($cursos);}
+---para mostrar os cursos de 12 em 12 e por filtro (também inclui o filtro search)
+public function store(Request $request){$user = auth()->user();
+if(!$user->isAdmin() && !$user->isFormador()){return response()->json('Não é autorizado a criar cursos', 403);}
+$validated = $request->validate(['nome' =>'required|string|max:125|unique:cursos','descricao'=>'nullable|string','area'=>'required|exists:categorias,id','duracao'=>'required|string','nivel'=>'required|in:iniciante,intermedio,avancado',]);
+if ($user->isFormador()) {$validated['formadores'] = $user->id;} else {$request->validate(['formadores' => 'required|exists:users,id']);$validated['formadores'] = $request->formadores;}
+$curso = Curso::create($validated);return response()->json($curso, 201);}
+---nesta função só os admin e formadores podem criar uma curso
+public function show(Curso $curso){$user = auth()->user();$curso->load(['categoria','formador',]);
+if ($user) {if ($user->isAdmin() || $user->isFormador()) {$curso->load('materiais');} elseif ($user->hasAcessoCursos()) {$curso->load(['materiais' => function($query) {$query->where('status', 'aprovado');}]);}} return response()->json(['curso' => $curso, 'tem_acesso_materiais' => $user ? ($user->isAdmin() || $user->isFormador() || $user->hasAcessoCursos()) : false,]);}
+---o load diz carrega as infos do curso, com os relacionamentos (sem ter que fazer join), só permite aos users subscritos/alunos cesae e formadores e admin ver os materiais.
+public function update(Request $request, Curso $curso){$user = auth()->user();if(!$user->isAdmin() && !$user->isFormador()){return response()->json('Não é autorizado a atualizar cursos', 403);}
+$validated = $request->validate(['nome' =>'required|string|max:125|unique:cursos,nome,' . $curso->id, 'descricao'=>'nullable|string', 'area'=>'required|exists:categorias,id', 'duracao'=>'required|string','nivel'=>'required|in:iniciante,intermedio,avancado',]); if ($user->isFormador()) {$validated['formadores'] = $user->id;} else {$request->validate(['formadores' => 'required|exists:users,id']);$validated['formadores'] = $request->formadores;}$curso->update($validated);
+return response()->json($curso, 200);}
+---faz a mesma coisa, o . $curso->id exclui o próprio curso quando compara se é unique. restrito aos formadores e admin
+public function destroy(Curso $curso){$user = auth()->user();if(!$user->isAdmin()){return response()->json('Não é autorizado a eliminar cursos', 403);}
+$curso->delete(); return response()->json("curso eliminado", 200);}}
+
+MATERIAL CONTROLLER
+public function index(){$query = Material::with('materialCurso', 'materialUser', 'aprovadoPor');$user = auth()->user();if ($user->isFormador() || $user->isAdmin()){ } elseif ($user->hasAcessoCursos()) {$query->where('status', 'aprovado');} else { return response()->json([]);}if ($request->has('curso_id')) {$query->where('id_curso', $request->curso_id);}if ($request->has('status')) {$query->where('status', $request->status);}$materiais = $query->paginate(12);return response()->json([$materiais]);}
+---faz-se as condições de acesso aos materiais e a busca por filtros(pelo curso ou pelo status)
+public function store(Request $request){$user = auth()->user();if(!$user->isAdmin() && !$user->isFormador() && !$user->hasAcessoCursos()){return response()->json('Não é autorizado a dar upload de materiais', 403);}$validated = $request->validate(['nome' => 'required|string|max:255','id_curso' => 'required|exists:cursos,id','ficheiro' => 'required|file|mimes:mp3,mp4,pdf,jpg,png,docx|max:51200',]);
+$file = $request->file('ficheiro');$path = $file->store('materiais', 'public');$validated['caminho_ficheiro'] = $path;$validated['formato'] = $file->getClientOriginalExtension();$validated['id_user'] = $user->id;if ($user->isAdmin() || $user->isformador()) {$validated['status'] = 'aprovado';$validated['aprovado_por'] = $user->id;$validated['data_aprovacao'] = now();} else {$validated['status'] = 'pendente';$validated['aprovado_por'] = null;$validated['data_aprovacao'] = null;}
+$material = Material::create($validated);$material->load(['materialCurso', 'materialUser', 'aprovadoPor']);return response()->json($material, 201);}
+---apenas permite ao formador, admin ou subscrito adicionar materiais. Mimes verifica o mime real do ficheiro, e getClientOriginalExtension serve para pegar a extensão que o user meteu
+public function show(Material $material){$user = auth()->user();if (!$user->isAdmin() && !$user->isFormador()) {if (!$user->hasAcessoCursos()) {return response()->json('Sem acesso aos materiais', 403);} if ($material->status !== 'aprovado') {return response()->json('Material não aprovado', 403);}} $material->load(['materialCurso', 'materialUser', 'aprovadoPor']); return response()->json($material);}
+---o load diz carrega os materiais, com os relacionamentos (sem ter que fazer join), só permite aos users subscritos/alunos cesae ver aprovados e formadores e admin ver os materiais todos
+public function updateStatus(Request $request, Material $material){$user = auth()->user();if (!$user->isAdmin() && !$user->isFormador()) {return response()->json('Não tens permissão para aprovar materiais', 403);} if ($user->isFormador()) {$cursoIds = $user->cursosLecionados()->pluck('id'); if (!$cursoIds->contains($material->id_curso)) {return response()->json('Não tens permissão para aprovar materiais deste curso', 403);}}$validated = $request->validate(['status' => 'required|in:aprovado,rejeitado',]);
+$material->update(['status' => $validated['status'],'aprovado_por' => $user->id,'data_aprovacao' => now(),]);return response()->json($material);}
+--- esta função permite atualizar o estado do material, sendo aprovado por admin e formadores(so no seu curso)
+public function pendentes(){$user = auth()->user();if (!$user->isAdmin() && !$user->isFormador()) {return response()->json('Não tens permissão', 403);}$query = Material::where('status', 'pendente')->with(['curso', 'user']);if ($user->isFormador()) {$cursoIds = $user->cursosLecionados()->pluck('id');$query->whereIn('id_curso', $cursoIds);}$materiais = $query->get();return response()->json($materiais);}}
+---se for admin vai buscar os materiais pendentes, se for formador os materiais pendentes do seu curso.
+
+PROGRESSO CONTROLLER
+public function index(){$user = auth()->user();$progressos = $user->progressos()->with(['material.curso', 'material'])->orderBy('updated_at', 'desc')->get();return response()->json($progressos);}
+---para ver os progressos
+public function store(Request $request){
+$user = auth()->user();$validated = $request->validate(['id_material' => 'required|exists:materiais,id','status' => 'required|in:para_ver,a_ver,visto',]);$material = Material::where('id', $validated['id_material'])->where('status', 'aprovado')->first();
+if (!$material) {return response()->json('Material não encontrado ou não aprovado', 404);}if (!$user->hasAcessoCursos()) {return response()->json('Sem acesso aos cursos', 403);}$progresso = Progresso::updateOrCreate(['id_user' => $user->id,'id_material' => $validated['id_material'],],['status' => $validated['status'],'completado_em' => $validated['status'] === 'visto' ? now() : null,]);$cursoCompletado = $this->verificarConclusaoCurso($user, $material->id_curso);
+return response()->json(['message' => 'Progresso atualizado','progresso' => $progresso,'curso_completado' => $cursoCompletado,]);}
+---para criar um progresso ou atualizar
+public function show(Progresso $progresso){$user = auth()->user();if ($progresso->id_user !== $user->id && !$user->isAdmin()) {return response()->json('Não tens permissão', 403);}$progresso->load(['material.materialCurso']);return response()->json($progresso);}
+---para ver um progresso em detalhe
+public function update(Request $request, Progresso $progresso){$user = auth()->user();if ($progresso->id_user !== $user->id) {return response()->json('Não tens permissão', 403);}$validated = $request->validate(['status' => 'required|in:para_ver,a_ver,visto',]);
+$progresso->update(['status' => $validated['status'],'completado_em' => $validated['status'] === 'visto' ? now() : null,]);$material = $progresso->material;$cursoCompletado = $this->verificarConclusaoCurso($user, $material->id_curso);return response()->json(['message' => 'Progresso atualizado','progresso' => $progresso->load('material'),'curso_completado' => $cursoCompletado,]);}
+---para atualizar o progresso consoante o material visto
+public function destroy(Progresso $progresso){$user = auth()->user();if ($progresso->id_user !== $user->id && !$user->isAdmin()) {return response()->json('Não tens permissão', 403);}$progresso->delete();return response()->json(['Progresso removido']);}
+---apagar o progresso 
+private function verificarConclusaoCurso($user, $cursoId){$materiaisAprovados = Material::where('id_curso', $cursoId)->where('status', 'aprovado')->pluck('id');$totalMateriais = $materiaisAprovados->count();if ($totalMateriais === 0) {return false;}
+$materiaisVistos = Progresso::where('id_user', $user->id)->whereIn('id_material', $materiaisAprovados)->where('status', 'visto')->count();if ($materiaisVistos === $totalMateriais) {Progresso::where('id_user', $user->id)->whereIn('id_material', $materiaisAprovados)->update(['curso_completado' => true,'curso_completado_em' => now(),]);return true;}return false;}
+---ver se o curso esta completo consoante os materiais vistos. é private porque ele serve apenas como lógica interna da classe, não representa uma ação da aplicação, nem deve ser acessível por rotas, controllers externos ou outras classes
+public function cursosCompletados(){$user = auth()->user();$cursosCompletadosIds = Progresso::where('id_user', $user->id) ->where('curso_completado', true)->with('material')->get()->pluck('material.id_curso')->unique();$cursos = Curso::whereIn('id', $cursosCompletadosIds)->with('categoria')->get()->map(function($curso) use ($user) {$conclusao = Progresso::where('id_user', $user->id)->whereHas('material', function($q) use ($curso) {$q->where('id_curso', $curso->id);})->where('curso_completado', true)->first();return ['curso' => $curso,'completado_em' => $conclusao->curso_completado_em ?? null,];});return response()->json($cursos);}}
+---mostra os cursos todos completados
+
+SUBSCRICAO CONTROLLER
+public function index(){$user = auth()->user();$subscricoes = $user->subscricoes()->orderBy('created_at', 'desc')->get();return response()->json($subscricoes);}
+---cada user ve as suas subscrições
+public function store(Request $request){$user = auth()->user();if($user->isCesaeStudent()){return response()->json("os alunos CESAE têm subscrição gratuita", 400);}if($user->temSubscricaoAtiva()){return response()->json("a subscrição está ativa", 400);}$validated = $request->validate(['data_inicio' => 'required|date','data_fim' => 'required|date|after:data_inicio',]);$subscricao = Subscricao::create(['user_id' => $user->id,'data_inicio' => $validated['data_inicio'],'data_fim' => $validated['data_fim'],'status' => 'ativa',]);return response()->json($subscricao, 201);}
+public function show(Subscricao $subscricao){$user = auth()->user();if ($subscricao->user_id !== $user->id && !$user->isAdmin()) {return response()->json('Não tens permissão para ver esta subscrição', 403);}return response()->json($subscricao);}public function update(Request $request, Subscricao $subscricao){if (!auth()->user()->isAdmin()) {return response()->json('Apenas administradores podem atualizar subscrições', 403);}$validated = $request->validate(['data_inicio' => 'sometimes|date','data_fim' => 'sometimes|date|after:data_inicio','status' => 'sometimes|in:ativa,expirada,cancelada',]);$subscricao->update($validated);return response()->json($subscricao);}
+public function cancelar(Subscricao $subscricao){$user = auth()->user();if ($subscricao->user_id !== $user->id && !$user->isAdmin()) {return response()->json('Não tens permissão para cancelar esta subscrição', 403);}$subscricao->update(['status' => 'cancelada']);return response()->json($subscricao);}
+public function renovar(Subscricao $subscricao, Request $request){$user = auth()->user();if ($subscricao->user_id !== $user->id) {return response()->json('Não tens permissão', 403);}$validated = $request->validate(['meses' => 'required|integer|min:1|max:12',]);$dataInicio = $subscricao->data_fim->addDay();$dataFim = $dataInicio->copy()->addMonths($validated['meses']);$novaSubscricao = Subscricao::create(['user_id' => $user->id,'data_inicio' => $dataInicio,'data_fim' => $dataFim,'status' => 'ativa',]);$subscricao->update(['status' => 'expirada']);return response()->json($novaSubscricao);}public function todas(){if (!auth()->user()->isAdmin()) { return response()->json('Apenas administradores podem ver todas as subscrições', 403);}
+$subscricoes = Subscricao::with('user')->orderBy('created_at', 'desc')->paginate(12);
+return response()->json($subscricoes);}
+
+DASHBOARD CONTROLLER (é enorme vai ver no código pq esta com comentários)
+
+Criar um APIAUTHCONTROLLER para poder ver se está td ok com as rotas no postman e ADICIONAR AO APP.PHP
+api: __DIR__.'/../routes/api.php', ---para carregar o ficheiro das rotas de api
+
+Criar seeders para ver dados reais e começar a trabalhar no front com dados
+
+CRIAR AS ROTAS
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ApiAuthController;
+use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\Api\CursoController;
+use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\ProgressoController;
+use App\Http\Controllers\Api\SubscricaoController;
+
+// Teste
+Route::get('/teste', function () {
+    return response()->json(['message' => 'API funcionando!', 'timestamp' => now()]);
+});
+
+// Auth - Públicas
+Route::post('/auth/login', [ApiAuthController::class, 'login'])->name('auth.login');
+Route::post('/auth/register', [ApiAuthController::class, 'register'])->name('auth.register');
+
+// Auth - Protegidas
+Route::post('/auth/logout', [ApiAuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
+Route::get('/auth/me', [ApiAuthController::class, 'me'])->name('auth.me')->middleware('auth:sanctum');
+
+// User
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+// Categorias
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index')->middleware('auth:sanctum');
+Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store')->middleware('auth:sanctum');
+Route::get('/categorias/{categoria}', [CategoriaController::class, 'show'])->name('categorias.show')->middleware('auth:sanctum');
+Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update')->middleware('auth:sanctum');
+Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy')->middleware('auth:sanctum');
+
+// Cursos
+Route::get('/cursos', [CursoController::class, 'index'])->name('cursos.index')->middleware('auth:sanctum');
+Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store')->middleware('auth:sanctum');
+Route::get('/cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show')->middleware('auth:sanctum');
+Route::put('/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update')->middleware('auth:sanctum');
+Route::delete('/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy')->middleware('auth:sanctum');
+
+// Materiais
+Route::get('/materiais', [MaterialController::class, 'index'])->name('materiais.index')->middleware('auth:sanctum');
+Route::post('/materiais', [MaterialController::class, 'store'])->name('materiais.store')->middleware('auth:sanctum');
+Route::get('/materiais/pendentes', [MaterialController::class, 'pendentes'])->name('materiais.pendentes')->middleware('auth:sanctum');
+Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show')->middleware('auth:sanctum');
+Route::patch('/materiais/{material}/status', [MaterialController::class, 'updateStatus'])->name('materiais.updateStatus')->middleware('auth:sanctum');
+Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('materiais.destroy')->middleware('auth:sanctum');
+
+// Progressos
+Route::get('/progressos', [ProgressoController::class, 'index'])->name('progressos.index')->middleware('auth:sanctum');
+Route::post('/progressos', [ProgressoController::class, 'store'])->name('progressos.store')->middleware('auth:sanctum');
+Route::get('/progressos/cursos-completados', [ProgressoController::class, 'cursosCompletados'])->name('progressos.cursosCompletados')->middleware('auth:sanctum');
+Route::get('/progressos/{progresso}', [ProgressoController::class, 'show'])->name('progressos.show')->middleware('auth:sanctum');
+Route::put('/progressos/{progresso}', [ProgressoController::class, 'update'])->name('progressos.update')->middleware('auth:sanctum');
+Route::delete('/progressos/{progresso}', [ProgressoController::class, 'destroy'])->name('progressos.destroy')->middleware('auth:sanctum');
+
+// Subscrições
+Route::get('/subscricoes', [SubscricaoController::class, 'index'])->name('subscricoes.index')->middleware('auth:sanctum');
+Route::post('/subscricoes', [SubscricaoController::class, 'store'])->name('subscricoes.store')->middleware('auth:sanctum');
+Route::get('/subscricoes/todas', [SubscricaoController::class, 'todas'])->name('subscricoes.todas')->middleware('auth:sanctum');
+Route::get('/subscricoes/{subscricao}', [SubscricaoController::class, 'show'])->name('subscricoes.show')->middleware('auth:sanctum');
+Route::put('/subscricoes/{subscricao}', [SubscricaoController::class, 'update'])->name('subscricoes.update')->middleware('auth:sanctum');
+Route::patch('/subscricoes/{subscricao}/cancelar', [SubscricaoController::class, 'cancelar'])->name('subscricoes.cancelar')->middleware('auth:sanctum');
+Route::post('/subscricoes/{subscricao}/renovar', [SubscricaoController::class, 'renovar'])->name('subscricoes.renovar')->middleware('auth:sanctum');
+
+
+
+
+
+
+
+
+
+
+
+
