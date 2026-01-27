@@ -15,6 +15,10 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+    Route::get('/cursos', function () {
+        return Inertia::render('Courses/AllCourses');
+    })->name('cursos.index');
+
 // Rotas de autenticação (Breeze)
 require __DIR__ . '/auth.php';
 
@@ -28,9 +32,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
 
     // Cursos
-    Route::get('/cursos', function () {
-        return Inertia::render('Courses/AllCourses');
-    })->name('AllCourses');
+
+
+        Route::get('/categorias', function () {
+        return Inertia::render('Categories/AllCategories');
+    })->name('AllCategories');
 
     Route::get('/curso/{id}', function ($id) {
         return Inertia::render('Courses/ShowCourse', ['id' => $id]);
@@ -45,9 +51,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('EditCourse');
 
     // Materiais
-    Route::get('/conteudos', function () {
-        return Inertia::render('Materials/AllMaterials');
-    })->name('AllMaterials');
+Route::get('/conteudos', function () {
+    return Inertia::render('Materials/AllMaterials');
+})->name('AllMaterials');
 
     Route::get('/carregar-conteudo', function () {
         return Inertia::render('Materials/UploadMaterials');
