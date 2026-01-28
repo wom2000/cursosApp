@@ -2,25 +2,21 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomepageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+require __DIR__ . '/auth.php';
 
-// Página inicial pública
-Route::get('/', function () {
-    return Inertia::render('Homepage', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => \Illuminate\Foundation\Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('home');
 
+Route::get('/', [HomepageController::class, 'index'])->name('home');
     Route::get('/cursos', function () {
         return Inertia::render('Courses/AllCourses');
     })->name('cursos.index');
+     Route::get('/categorias', function () {
+        return Inertia::render('Categories/AllCategories');
+    })->name('AllCategories');
 
-// Rotas de autenticação (Breeze)
-require __DIR__ . '/auth.php';
+
 
 // Rotas autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -34,9 +30,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Cursos
 
 
-        Route::get('/categorias', function () {
-        return Inertia::render('Categories/AllCategories');
-    })->name('AllCategories');
 
     Route::get('/curso/{id}', function ($id) {
         return Inertia::render('Courses/ShowCourse', ['id' => $id]);

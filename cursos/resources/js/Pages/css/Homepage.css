@@ -1,0 +1,189 @@
+.categories-section {
+    background-color: #000000;
+    padding: 4rem 0 0 0;
+}
+
+.categories-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-family: 'Anek Tamil', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4rem;
+}
+
+.no-categories {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.no-categories-text {
+    color: #9CA3AF;
+    font-size: 1.125rem;
+}
+
+.create-category-button {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: #DB2777;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+.create-category-button:hover {
+    background-color: #BE185D;
+}
+
+/* Secção de Skills */
+.skills-section {
+    background-color: #000000;
+    padding: 4rem 0;
+}
+
+.skills-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.skills-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-bottom: 0;
+}
+
+/* Bloco 1 - Imagem Esquerda */
+.skills-image-left {
+    background-color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    min-height: 400px;
+}
+
+.skills-content-right {
+    background-color: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 400px;
+}
+
+/* Bloco 2 - Imagem Direita */
+.skills-content-left {
+    background-color: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.skills-image-right {
+    background-color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    min-height: 400px;
+}
+
+/* Elementos comuns */
+.image-placeholder {
+    width: 100%;
+    height: 16rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gradient-cyan {
+    background: linear-gradient(to bottom right, #06B6D4, #2563EB);
+}
+
+.gradient-purple {
+    background: linear-gradient(to bottom right, #3B82F6, #9333EA);
+}
+
+.icon-large {
+    width: 8rem;
+    height: 8rem;
+    color: white;
+}
+
+.skills-title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.skills-description {
+    color: #4B5563;
+    margin-bottom: 1.5rem;
+    line-height: 1.75;
+}
+
+.skills-link {
+    display: inline-flex;
+    align-items: center;
+    color: #4F46E5;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.skills-link:hover {
+    color: #DB2777;
+}
+
+.skills-link-text {
+    margin-right: 0.5rem;
+}
+
+.skills-link-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Responsive */
+@media (min-width: 1024px) {
+    .skills-block {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .skills-content-left {
+        order: 1;
+    }
+
+    .skills-image-right {
+        order: 2;
+    }
+}
+
+@media (min-width: 640px) {
+    .categories-container,
+    .skills-container {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .section-title {
+        font-size: 2.5rem;
+    }
+}
