@@ -1,0 +1,20 @@
+.all-courses-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+.course-card {
+}
+
+/* courses-cards-container
+course-card
+course-card-title
+tag nivel
+iniciante
+intermedio
+avancado
+tag duracao
+tag materials
+primary-button */

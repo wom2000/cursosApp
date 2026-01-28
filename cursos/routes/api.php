@@ -34,8 +34,7 @@ Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->n
 Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy')->middleware('auth:sanctum');
 
 // Cursos
-Route::get('/cursos-publicos', [CursoController::class, 'index'])->name('cursos.public');
-Route::get('/cursos', [CursoController::class, 'index'])->name('AllCourses');
+Route::get('/cursos', [CursoController::class, 'index']);
 Route::post('/cursos-criar', [CursoController::class, 'store'])->name('cursos.store')->middleware('auth:sanctum');
 Route::get('/cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show')->middleware('auth:sanctum');
 Route::put('/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.update')->middleware('auth:sanctum');
