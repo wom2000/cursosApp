@@ -1,0 +1,45 @@
+.community-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.community-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
+    border-color: rgba(233, 30, 99, 0.5);
+}
+
+.community-card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.community-card-icon svg {
+    width: 60px;
+    height: 60px;
+    color: #E91E63;
+}
+
+.community-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.community-card-description {
+    color: #9CA3AF;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
