@@ -1,0 +1,35 @@
+.carousel-image {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-caption-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: auto;
+    text-align: center;
+}
+
+.carousel-title {
+    font-family: 'Anek Tamil', sans-serif;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carousel-image {
+        height: 400px;
+    }
+
+    .carousel-title {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+}

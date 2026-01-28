@@ -1,0 +1,34 @@
+.pink-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 3rem;
+    background-color: #CC0266;
+    color: white;
+    font-family: 'Anek Tamil', sans-serif;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.pink-button:hover {
+    transform: translateY(-2px);
+}
+
+.pink-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.3);
+}
+
+.pink-button:active {
+    background-color: #CC0266;
+    transform: translateY(0);
+}
+
+.pink-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

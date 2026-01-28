@@ -127,7 +127,7 @@ export default function MainLayout({ header, children }) {
                 )}
             </header>
             <main>{children}</main>
-            <footer className="grid grid-cols-2 md:grid-cols-3 ">
+            <footer className="grid grid-cols-1 md:grid-cols-3 ">
                 <div className="footer-left ">
                     <img src="/images/Footer.svg" />
                 </div>
@@ -150,12 +150,6 @@ export default function MainLayout({ header, children }) {
                             <a href="https://www.facebook.com">MiraiCesae</a>
                         </p>
                     </div>
-                </div>
-                <div className="footer-right">
-                    <p>Morada:</p>
-                    <p>Rua de Fundões 151, 3700-121 São João da Madeira</p>
-                    <p>(+351) 256 123 456</p>
-                    <p>Mirai &copy; 2026 Cesae Digital</p>
                 </div>
             </footer>
         </>

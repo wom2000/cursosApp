@@ -1,13 +1,15 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import GuestLayout from '@/Layouts/GuestLayout';
+import MainLayout from '@/Layouts/MainLayout';
 
 export default function AllCategories({ auth }) {
     const [categorias, setCategorias] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
+    const Layout = auth.user ? MainLayout : GuestLayout;
 
     useEffect(() => {
         fetchCategorias(currentPage);
@@ -39,7 +41,7 @@ export default function AllCategories({ auth }) {
     };
 
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <Layout>
             <Head title="Categorias" />
 
             <div className="py-12">
@@ -115,6 +117,6 @@ export default function AllCategories({ auth }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </Layout>
     );
 }
