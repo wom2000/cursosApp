@@ -3,7 +3,7 @@ import MainLayout from "@/Layouts/MainLayout";
 import GuestLayout from "@/Layouts/GuestLayout";
 import InfiniteScrollCategories from "@/Components/InfiniteScrollCategories";
 import CarouselBanner from '@/Components/CarouselBanner';
-import './css/Homepage.css';
+import '../../css/Homepage.css'
 
 export default function Homepage({ auth, cursosDestaque, categorias }) {
     const Layout = auth.user ? MainLayout : GuestLayout;
@@ -44,7 +44,6 @@ export default function Homepage({ auth, cursosDestaque, categorias }) {
                         Eleva as Tuas Skills de Programação
                     </h2>
 
-                    {/* Bloco 1 - Imagem Esquerda */}
                     <div className="skills-block">
                         <div className="skills-image-left">
                             <div className="image-placeholder gradient-cyan">

@@ -1,4 +1,4 @@
-import '../Components/css/PrimaryButton.css';
+import '../../css/PrimaryButton.css';
 
 export default function PrimaryButton({
     className = '',

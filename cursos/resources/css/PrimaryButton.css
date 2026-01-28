@@ -1,4 +1,4 @@
-.pink-button {
+.primary-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -14,21 +14,21 @@
     transition: all 0.15s ease-in-out;
 }
 
-.pink-button:hover {
+.primary-button:hover {
     transform: translateY(-2px);
 }
 
-.pink-button:focus {
+.primary-button:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.3);
 }
 
-.pink-button:active {
+.primary-button:active {
     background-color: #CC0266;
     transform: translateY(0);
 }
 
-.pink-button.disabled {
+.primary-button.disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
