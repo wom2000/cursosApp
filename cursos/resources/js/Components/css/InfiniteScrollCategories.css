@@ -1,0 +1,197 @@
+/* resources/js/Components/InfiniteScrollCategories.css */
+
+/* ===========================
+   CONTAINER PRINCIPAL
+   =========================== */
+.infinite-scroll-container {
+    position: relative;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+/* ===========================
+   GRADIENTES LATERAIS (FADE)
+   =========================== */
+
+
+/* ===========================
+   TRACK DE SCROLL
+   =========================== */
+.scroll-track {
+    display: flex;
+    gap: 0;
+    animation: scroll-animation 40s linear infinite;
+}
+
+/* Pausa ao hover */
+.scroll-track:hover {
+    animation-play-state: paused;
+}
+
+/* ===========================
+   ANIMAÇÃO DO SCROLL
+   =========================== */
+@keyframes scroll-animation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-33.333%);
+    }
+}
+
+/* ===========================
+   CARD DE CATEGORIA
+   =========================== */
+.categoria-card {
+    flex-shrink: 0;
+    width: 320px;
+    background-color: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    padding: 32px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: block;
+}
+
+.categoria-card:hover {
+    background-color: #f9fafb;
+}
+
+/* ===========================
+   CONTEÚDO DO CARD
+   =========================== */
+.card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+}
+
+/* ===========================
+   TEXTO DO CARD
+   =========================== */
+.card-title {
+    font-size: 1.5rem;
+    font-family: 'Anek Tamil', sans-serif;
+    font-weight: 400;
+    color: #000000;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.card-description {
+    color: #000000;
+    font-family: 'Anek Tamil', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.625;
+}
+
+/* ===========================
+   LINK "VER MAIS"
+   =========================== */
+.card-link {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    color: #4f46e5;
+    font-family: 'Anek Tamil', sans-serif;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.categoria-card:hover .card-link {
+    color: #ec4899;
+}
+
+.card-link span {
+    margin-right: 8px;
+}
+
+.arrow-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.categoria-card:hover .arrow-icon {
+    transform: translateX(4px);
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .categoria-card {
+        width: 280px;
+        padding: 24px;
+    }
+
+    .fade-left,
+    .fade-right {
+        width: 64px;
+    }
+
+    .scroll-track {
+        animation-duration: 30s;
+    }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .categoria-card {
+        width: 240px;
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-family: 'Anek Tamil', sans-serif;
+    }
+
+    .card-content {
+        min-height: 240px;
+    }
+
+    .fade-left,
+    .fade-right {
+        width: 32px;
+    }
+}
+
+/* ===========================
+   CUSTOMIZAÇÕES FÁCEIS
+   =========================== */
+
+/*
+VELOCIDADE DO SCROLL:
+- Mais rápido: animation-duration: 30s;
+- Mais lento: animation-duration: 60s;
+- Localização: .scroll-track
+
+LARGURA DOS CARDS:
+- Mais largo: width: 400px;
+- Mais estreito: width: 280px;
+- Localização: .categoria-card
+
+CORES:
+- Fundo preto: .infinite-scroll-container { background-color: #000; }
+- Card branco: .categoria-card { background-color: #fff; }
+- Hover rosa: .categoria-card:hover .card-link { color: #ec4899; }
+
+ALTURA DOS CARDS:
+- Mais alto: min-height: 320px;
+- Mais baixo: min-height: 240px;
+- Localização: .card-content
+
+GRADIENTES:
+- Mais intenso: rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%
+- Mais suave: rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%
+- Localização: .fade-left e .fade-right
+
+REMOVER GRADIENTES:
+- Comenta ou apaga as classes .fade-left e .fade-right
+*/
