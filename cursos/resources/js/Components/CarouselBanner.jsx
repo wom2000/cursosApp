@@ -1,6 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import '../Components/css/CarouselBanner.css';
+import '../../css/CarouselBanner.css';
 
 function CarouselBanner() {
   return (

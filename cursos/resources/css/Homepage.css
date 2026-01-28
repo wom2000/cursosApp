@@ -1,0 +1,103 @@
+
+.categories-section {
+    background-color: #000000;
+    padding: 4rem 0 0 0;
+}
+
+.categories-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-family: 'Anek Tamil', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4rem;
+}
+
+.no-categories {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.no-categories-text {
+    color: #9CA3AF;
+    font-size: 1.125rem;
+}
+
+.create-category-button {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: #DB2777;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+.create-category-button:hover {
+    background-color: #BE185D;
+}
+
+.skills-section {
+    background-color: #000000;
+    padding: 4rem 0;
+}
+
+.skills-container {
+    margin: 0;
+    padding: 0;
+}
+/* Secção Comunidade */
+.comunidade-section {
+    background-color: #000000;
+    padding: 4rem 0;
+}
+
+.comunidade-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.community-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.community-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+    .community-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .categories-container {
+        padding: 0 1.5rem;
+    }
+    .section-title {
+    font-size: 1.75rem;
+    font-family: 'Anek Tamil', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+}
+    .comunidade-container {
+        padding: 0 1.5rem;
+    }
+}
