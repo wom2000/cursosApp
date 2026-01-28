@@ -1,15 +1,18 @@
+.register-form-container,
 .login-form-container {
-    background-image: url("images/login_hero.png");
     padding: 2rem;
     display: flex;
     justify-content: center;
+    height: fit-content;
 }
-.login-form {
+.login-form,
+.register-form {
     background-color: var(--main-background-color);
     width: 70%;
     padding: 1rem;
 }
-.login-form .form-label {
+.login-form .form-label,
+.register-form .form-label {
     color: var(--main-color);
     font-size: var(--text-size);
     margin-bottom: 0.7rem;
@@ -22,12 +25,14 @@
     color: var(--main-background-color);
     border-radius: 0;
 }
-.reset-password {
+.reset-password,
+.already-registered {
     font-family: var(--text-font-family);
     font-size: var(--links-font-size);
     transition: var(--hover-transition);
 }
-.reset-password:hover {
+.reset-password:hover,
+.already-registered:hover {
     color: var(--main-color);
     transition: var(--hover-transition);
 }

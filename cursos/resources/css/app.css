@@ -160,7 +160,7 @@ footer {
     border-top: var(--dividers) 1px solid;
 }
 footer img {
-    max-width: 200px;
+    max-width: 150px;
 }
 footer a {
     color: var(--main-color);

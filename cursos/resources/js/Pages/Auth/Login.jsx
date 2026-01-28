@@ -32,7 +32,7 @@ export default function Login({ status, canResetPassword }) {
             )}
 
             <div>
-                <div className="login-form-container">
+                <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700 overflow-hidden login-form-container">
                     <form className="login-form" onSubmit={submit}>
                         <div>
                             <InputLabel
@@ -95,7 +95,7 @@ export default function Login({ status, canResetPassword }) {
                                     }
                                 />
                                 <span className="ms-2 text-sm text-gray-600 form-checkbox-label">
-                                    Remember me
+                                    Lembrar-me
                                 </span>
                             </label>
                         </div>
@@ -106,7 +106,7 @@ export default function Login({ status, canResetPassword }) {
                                     href={route("password.request")}
                                     className="reset-password"
                                 >
-                                    Forgot your password?
+                                    Esqueceu-se da password?
                                 </Link>
                             )}
 
@@ -122,10 +122,10 @@ export default function Login({ status, canResetPassword }) {
                 <div className="cta-subscribe-container">
                     <h3 className="cta-title">ENTRA NA COMUNIDADE MIRAI</h3>
                     <Link
-                        href={route("CreateSubscription")}
+                        href={route("register")}
                         className="subscribe-button cta-button"
                     >
-                        SUBSCREVER
+                        INSCREVE-TE
                     </Link>
                 </div>
             </div>
