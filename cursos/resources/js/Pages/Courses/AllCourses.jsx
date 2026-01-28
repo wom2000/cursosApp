@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 const response = await axios.get(`/api/cursos?page=${page}`);
 
-export default function AllCourses({ auth }) {
+export default function AllCourses() {
     const [cursos, setCursos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -16,9 +16,7 @@ export default function AllCourses({ auth }) {
     const fetchCursos = async (page = 1) => {
         try {
             setLoading(true);
-            const response = await axios.get(
-                `/api/cursos-publicos?page=${page}`,
-            ); // rota pública
+            const response = await axios.get(`/api/cursos?page=${page}`);
             const cursosArray = response.data.data;
             setCursos(cursosArray);
             setCurrentPage(response.data.current_page);
@@ -38,7 +36,7 @@ export default function AllCourses({ auth }) {
     };
 
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <GuestLayout>
             <Head title="Cursos" />
 
             <div className="py-12">
@@ -157,6 +155,6 @@ export default function AllCourses({ auth }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </GuestLayout>
     );
 }

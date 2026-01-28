@@ -7,7 +7,7 @@ export default function MainLayout({ header, children }) {
 
     const links = [
         { label: "HOMEPAGE", routeName: "home" },
-        { label: "CURSOS", routeName: "AllCourses" },
+        { label: "CURSOS", routeName: "cursos.index" },
         { label: "CONTEÚDOS", routeName: "AllMaterials" },
         { label: "PROGRESSO", routeName: "home" },
     ];
