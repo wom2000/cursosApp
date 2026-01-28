@@ -151,12 +151,6 @@ export default function MainLayout({ header, children }) {
                         </p>
                     </div>
                 </div>
-                <div className="footer-right">
-                    <p>Morada:</p>
-                    <p>Rua de Fundões 151, 3700-121 São João da Madeira</p>
-                    <p>(+351) 256 123 456</p>
-                    <p>Mirai &copy; 2026 Cesae Digital</p>
-                </div>
             </footer>
         </>
     );

@@ -1,3 +1,5 @@
+import '../Components/css/PrimaryButton.css';
+
 export default function PrimaryButton({
     className = "",
     disabled,
@@ -7,11 +9,7 @@ export default function PrimaryButton({
     return (
         <button
             {...props}
-            className={
-                `primary-button focus:border-[#6b1e6f] focus:ring-2 focus:ring-[#6b1e6f] active:bg-gray-900 ${
-                    disabled && "opacity-25"
-                } ` + className
-            }
+            className={`pink-button ${disabled && 'disabled'} ${className}`}
             disabled={disabled}
         >
             {children}
