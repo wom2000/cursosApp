@@ -1,4 +1,4 @@
-.admin-wrapper {
+.formador-wrapper {
     padding-top: 3rem;
     padding-bottom: 3rem;
     background-color: #1a1a1a;
@@ -35,7 +35,7 @@
     flex: 1;
 }
 
-.admin-container {
+.formador-container {
     max-width: 1120px;
     margin: 0 auto;
     padding-left: 1.5rem;
