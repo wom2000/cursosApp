@@ -130,12 +130,26 @@ body {
     transition: var(--hover-transition);
 }
 .subscribe-button {
+    font-family: "Anek Tamil", sans-serif;
     background-color: var(--main-color);
     padding: 0.5rem 0.8rem;
     margin-right: 1rem;
     transition: var(--hover-transition);
+    width: fit-content;
 }
 .subscribe-button:hover {
+    background-color: var(--accent-color);
+    transition: var(--hover-transition);
+}
+
+.primary-button {
+    font-size: 1.3rem;
+    font-family: "Anek Tamil", sans-serif;
+    background-color: var(--main-color);
+    padding: 0.2rem 1rem;
+    transition: var(--hover-transition);
+}
+.primary-button:hover {
     background-color: var(--accent-color);
     transition: var(--hover-transition);
 }
@@ -160,13 +174,13 @@ footer p {
     margin-top: 0.5rem;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1040px) {
     .nav-links {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 1rem;
     }
-    .nav-content-div {
-        padding: 1rem 2rem 0.7rem 2rem;
+    .nav-link {
+        padding: 0 1rem;
     }
 }

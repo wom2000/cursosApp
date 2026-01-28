@@ -119,6 +119,15 @@ export default function Login({ status, canResetPassword }) {
                         </div>
                     </form>
                 </div>
+                <div className="cta-subscribe-container">
+                    <h3 className="cta-title">ENTRA NA COMUNIDADE MIRAI</h3>
+                    <Link
+                        href={route("CreateSubscription")}
+                        className="subscribe-button cta-button"
+                    >
+                        SUBSCREVER
+                    </Link>
+                </div>
             </div>
         </GuestLayout>
     );

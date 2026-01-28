@@ -126,7 +126,7 @@ export default function MainLayout({ header, children }) {
                 )}
             </header>
             <main>{children}</main>
-            <footer className="grid grid-cols-2 md:grid-cols-3 ">
+            <footer className="grid grid-cols-1 md:grid-cols-3 ">
                 <div className="footer-left ">
                     <img src="/images/Footer.svg" />
                 </div>
