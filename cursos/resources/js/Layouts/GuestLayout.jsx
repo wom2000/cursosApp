@@ -17,7 +17,7 @@ export default function MainLayout({ header, children }) {
             <header>
                 <div className="pink-section-header"></div>
                 <div className="nav-content-div">
-                    <div className="grid grid-cols-2 md:grid-cols-3 items-center h-full">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 items-center h-full">
                         {/* NAV WEBSITE TITLE */}
                         <div className="flex justify-start">
                             <div className="title-nav">
@@ -25,7 +25,7 @@ export default function MainLayout({ header, children }) {
                             </div>
                         </div>
                         {/* NAV LINKS LIST */}
-                        <div className="hidden md:flex justify-center nav-links">
+                        <div className="hidden lg:flex justify-center nav-links">
                             {links.map((link) => {
                                 return (
                                     <Link
@@ -40,7 +40,7 @@ export default function MainLayout({ header, children }) {
                         </div>
                         {/* NAV BUTTONS */}
                         <div className="flex justify-end items-center">
-                            <div className="hidden md:flex items-center gap-4">
+                            <div className="hidden lg:flex items-center gap-4">
                                 <Link
                                     href={route("login")}
                                     className="login-button"
@@ -54,7 +54,7 @@ export default function MainLayout({ header, children }) {
                                     SUBSCREVER
                                 </Link>
                             </div>
-                            <div className="flex md:hidden">
+                            <div className="flex lg:hidden">
                                 <button
                                     onClick={() =>
                                         setMobileMenuOpen(!mobileMenuOpen)
@@ -73,7 +73,7 @@ export default function MainLayout({ header, children }) {
                 </div>
                 {/* MOBILE HAMBURGUER MENU */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden max-w-full overflow-x-hidden px-2 pt-2 pb-3 space-y-1">
+                    <div className="lg:hidden max-w-full overflow-x-hidden px-2 pt-2 pb-3 space-y-1">
                         {/* MOBILE NAV LINKS LIST */}
                         {links.map((link) => (
                             <Link
@@ -90,7 +90,7 @@ export default function MainLayout({ header, children }) {
                                 href={route("login")}
                                 className="login-button"
                             >
-                                ENTRAR
+                                ENTRAR{" "}
                             </Link>
                             <Link
                                 href={route("CreateSubscription")}
@@ -103,39 +103,50 @@ export default function MainLayout({ header, children }) {
                 )}
             </header>
             <main>{children}</main>
-                       <footer className="bg-black text-white py-12 border-t border-gray-800">
+
+            <footer className="bg-black text-white py-12">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid md:grid-cols-3 gap-8">
                         <div>
-                            <h3 className="text-3xl font-bold mb-2">MIRAI</h3>
-                            <p className="text-gray-400 text-sm">powered by Cesae</p>
+                            <img src="/images/Footer.svg" />
                         </div>
+
                         <div>
                             <div className="mb-4">
-                                <p className="text-gray-400 text-sm mb-1">Email:</p>
-                                <a href="mailto:hello@mirai.com" className="text-pink-500 hover:text-pink-400 transition-colors">
+                                <p className="text-gray-400 text-sm mb-1">
+                                    Email:
+                                </p>
+                                <a href="mailto:hello@mirai.com">
                                     hello@mirai.com
                                 </a>
                             </div>
                             <div className="mb-4">
-                                <p className="text-gray-400 text-sm mb-1">Instagram</p>
-                                <a href="https://instagram.com/mirai.cesae" className="text-pink-500 hover:text-pink-400 transition-colors">
+                                <p className="text-gray-400 text-sm mb-1">
+                                    Instagram
+                                </p>
+                                <a href="https://www.instagram.com">
                                     @mirai.cesae
                                 </a>
                             </div>
                             <div>
-                                <p className="text-gray-400 text-sm mb-1">Facebook</p>
-                                <a href="https://facebook.com/MiraiCesae" className="text-pink-500 hover:text-pink-400 transition-colors">
+                                <p className="text-gray-400 text-sm mb-1">
+                                    Facebook
+                                </p>
+                                <a href="https://www.facebook.com">
                                     MiraiCesae
                                 </a>
                             </div>
                         </div>
                         <div>
-                            <p className="text-gray-400 text-sm mb-2">Morada:</p>
+                            <p className="text-gray-400 text-sm mb-2">
+                                Morada:
+                            </p>
                             <p className="text-white mb-2">
                                 Rua de Fundões 151, 3700-121 São João da Madeira
                             </p>
-                            <p className="text-white mb-4">(+351) 256 123 456</p>
+                            <p className="text-white mb-4">
+                                (+351) 256 123 456
+                            </p>
                             <p className="text-gray-400 text-sm">
                                 Mirai © 2026 Cesae Digital
                             </p>
