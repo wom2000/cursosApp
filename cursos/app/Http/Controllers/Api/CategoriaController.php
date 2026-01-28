@@ -22,12 +22,12 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-        if(!$user->isAdmin()){
+        if (!$user->isAdmin()) {
             return response()->json('Não é autorizado a criar categorias', 403);
         }
         $categoria = Categoria::create($request->validate([
-            'nome' =>'required|string|max:125|unique:categorias',
-            'descricao'=>'nullable|string',
+            'nome' => 'required|string|max:125|unique:categorias',
+            'descricao' => 'nullable|string',
         ]));
         return response()->json($categoria, 201);
     }
@@ -48,12 +48,12 @@ class CategoriaController extends Controller
     public function update(Request $request, Categoria $categoria)
     {
         $user = auth()->user();
-        if(!$user->isAdmin()){
+        if (!$user->isAdmin()) {
             return response()->json('Não é autorizado a editar categorias', 403);
-            }
+        }
         $categoria->update($request->validate([
-            'nome' =>'required|string|max:125|unique:categorias,nome,' . $categoria->id,
-            'descricao'=>'nullable|string',
+            'nome' => 'required|string|max:125|unique:categorias,nome,' . $categoria->id,
+            'descricao' => 'nullable|string',
         ]));
         return response()->json($categoria, 200);
     }
@@ -64,10 +64,10 @@ class CategoriaController extends Controller
     public function destroy(Categoria $categoria)
     {
         $user = auth()->user();
-        if(!$user->isAdmin()){
+        if (!$user->isAdmin()) {
             return response()->json('Não é autorizado a eliminar categorias', 403);
-            }
+        }
         $categoria->delete();
-            return response()->json("categoria eliminada", 200);
+        return response()->json("categoria eliminada", 200);
     }
 }
