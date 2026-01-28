@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,12 +15,12 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-    Route::get('/cursos', function () {
-        return Inertia::render('Courses/AllCourses');
-    })->name('cursos.index');
+Route::get('/cursos', function () {
+    return Inertia::render('Courses/AllCourses');
+})->name('cursos.index');
 
 // Rotas de autenticação (Breeze)
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 // Rotas autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -33,8 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Cursos
 
-
-        Route::get('/categorias', function () {
+    Route::get('/categorias', function () {
         return Inertia::render('Categories/AllCategories');
     })->name('AllCategories');
 
@@ -51,9 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('EditCourse');
 
     // Materiais
-Route::get('/conteudos', function () {
-    return Inertia::render('Materials/AllMaterials');
-})->name('AllMaterials');
+    Route::get('/conteudos', function () {
+        return Inertia::render('Materials/AllMaterials');
+    })->name('AllMaterials');
 
     Route::get('/carregar-conteudo', function () {
         return Inertia::render('Materials/UploadMaterials');
@@ -71,6 +70,15 @@ Route::get('/conteudos', function () {
     Route::get('/gerir-subscricao/{id}', function ($id) {
         return Inertia::render('Subscriptions/ManageSubscription', ['id' => $id]);
     })->name('ManageSubscription');
+
+    Route::get('/progresso', function () {
+        return Inertia::render('Subscriptions/ManageSubscription');
+    })->name('subscriptions.progress');
+
+    // todas notificações
+    Route::get('/notificacoes', function () {
+        return Inertia::render('Notifications/AllNotifications');
+    })->name('notifications.index');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
