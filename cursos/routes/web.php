@@ -55,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);
     })->name('EditMaterials');
 
+
     // Subscrições
     Route::get('/subscrever', function () {
         return Inertia::render('Subscriptions/CreateSubscription');
