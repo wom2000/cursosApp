@@ -13,13 +13,6 @@
     border-right: 2px solid #f9fafb;
 }
 
-.sidebar-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #f9fafb;
-}
-
 .sidebar-list {
     list-style: none;
     padding: 0;
@@ -114,51 +107,6 @@
     margin-top: 1rem;
 }
 
-.mini-calendar-card {
-    background: #CC0266;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    width: 260px;
-    margin-left: 1.5rem;
-}
-
-.mini-calendar-title {
-    text-align: center;
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-    text-transform: capitalize;
-}
-
-.mini-calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.25rem;
-}
-
-.mini-calendar-dayname {
-    text-align: center;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.mini-calendar-day {
-    text-align: center;
-    padding: 0.4rem 0;
-    background: #f3f4f6;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    color: #1f2937;
-}
-
-.mini-calendar-today {
-    background: #2563eb;
-    color: white;
-    font-weight: 700;
-}
-
 .topbar {
     background-color: #000000;
     padding: 1rem 2rem;
@@ -229,5 +177,25 @@
     font-weight: 600;
     margin-bottom: 1rem;
     color: #f9fafb;
-    margin-top: -0.5rem; /* novo */
+    margin-top: -0.5rem;
+}
+
+.student-avatar-card {
+    width: 260px;
+    height: 240px;
+    padding: 1rem;
+    background: #1a1a1a;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 1rem;
+}
+
+.student-avatar {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
 }
