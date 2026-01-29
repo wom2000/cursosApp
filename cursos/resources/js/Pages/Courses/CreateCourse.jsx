@@ -7,7 +7,7 @@ import { Head, useForm, usePage } from "@inertiajs/react";
 import "../../../css/CreateCourse.css";
 
 export default function CreateCourse() {
-    const { auth } = usePage().props;
+    const { auth, categorias = [] } = usePage().props;
 
     const { data, setData, post, processing, errors, reset } = useForm({
         nome: "",
@@ -15,7 +15,8 @@ export default function CreateCourse() {
         area: "",
         duracao: "",
         nivel: "",
-        formadores: "",
+        formadores: 1,
+        imagem: "",
     });
     const submit = (e) => {
         e.preventDefault();
@@ -91,12 +92,21 @@ export default function CreateCourse() {
                             className="mt-1 block w-full"
                             required
                         >
-                            <option value="">Select a category</option>
-                            {categorias.map((categoria) => (
-                                <option key={categoria.id} value={categoria.id}>
-                                    {categoria.nome}
+                            <option value="">Selecione uma categoria</option>
+                            {categorias && categorias.length > 0 ? (
+                                categorias.map((categoria) => (
+                                    <option
+                                        key={categoria.id}
+                                        value={categoria.id}
+                                    >
+                                        {categoria.nome}
+                                    </option>
+                                ))
+                            ) : (
+                                <option disabled>
+                                    Nenhuma categoria encontrada
                                 </option>
-                            ))}
+                            )}
                         </select>
 
                         <InputError message={errors.area} className="mt-2" />
@@ -136,7 +146,7 @@ export default function CreateCourse() {
                             className="mt-1 block w-full"
                             required
                         >
-                            <option value="">Select level</option>
+                            <option value="">Selecione um nível</option>
                             <option value="iniciante">Iniciante</option>
                             <option value="intermedio">Intermédio</option>
                             <option value="avancado">Avançado</option>
@@ -158,13 +168,30 @@ export default function CreateCourse() {
                                 setData("formadores", e.target.value)
                             }
                             className="mt-1 block w-full"
-                            required
                         />
 
                         <InputError
                             message={errors.formadores}
                             className="mt-2"
                         />
+                    </div>
+                    <div className="mt-4">
+                        <InputLabel
+                            htmlFor="imagem"
+                            value="Imagem"
+                            className="form-label"
+                        />
+                        <TextInput
+                            id="imagem"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) =>
+                                setData("imagem", e.target.files[0])
+                            }
+                            className="mt-1 block w-full"
+                        />
+
+                        <InputError message={errors.imagem} className="mt-2" />
                     </div>
 
                     <div className="mt-4 flex items-center justify-end">

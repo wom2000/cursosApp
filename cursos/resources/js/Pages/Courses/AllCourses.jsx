@@ -62,7 +62,15 @@ export default function AllCourses({ auth }) {
                                             key={curso.id}
                                             className="course-card"
                                             style={{
-                                                backgroundImage: `url(/${curso.imagem_curso || "images/imagensCursos/placeholder.png"})`,
+                                                backgroundImage: `url(${
+                                                    curso.imagem_curso
+                                                        ? curso.imagem_curso.startsWith(
+                                                              "images/",
+                                                          )
+                                                            ? `/${curso.imagem_curso}`
+                                                            : `/storage/${curso.imagem_curso}`
+                                                        : "/images/imagensCursos/placeholder.png"
+                                                })`,
                                             }}
                                         >
                                             <h3 className="course-card-title">
