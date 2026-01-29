@@ -2,12 +2,10 @@ import { Link } from "@inertiajs/react";
 import "../../css/InfiniteScrollCategories.css";
 
 export default function InfiniteScrollCategories({ categorias }) {
-    // Duplicar categorias 3x para criar efeito infinito perfeito
     const duplicatedCategorias = [...categorias, ...categorias, ...categorias];
 
     return (
         <div className="infinite-scroll-container">
-            {/* Container do scroll */}
             <div className="scroll-track">
                 {duplicatedCategorias.map((categoria, index) => (
                     <Link

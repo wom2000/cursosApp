@@ -1,4 +1,4 @@
-.admin-wrapper {
+.estudante-wrapper {
     padding-top: 3rem;
     padding-bottom: 3rem;
     background-color: #1a1a1a;
@@ -35,7 +35,7 @@
     flex: 1;
 }
 
-.admin-container {
+.estudante-container {
     max-width: 1120px;
     margin: 0 auto;
     padding-left: 1.5rem;
@@ -219,4 +219,15 @@
 .logout {
     background-color: #CC0266;
     color: white;
+}
+.dashboard-header-card {
+    margin-top: -1rem;
+}
+
+.sidebar-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #f9fafb;
+    margin-top: -0.5rem; /* novo */
 }

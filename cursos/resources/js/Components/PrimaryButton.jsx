@@ -1,3 +1,5 @@
+import "../../css/PrimaryButton.css";
+
 export default function PrimaryButton({
     className = "",
     disabled,

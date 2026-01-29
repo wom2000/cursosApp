@@ -1,0 +1,52 @@
+.formador-dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background: #000000;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+}
+
+.dashboard-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    font-family: 'Anek Tamil', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.dashboard-subtitle {
+    font-size: 1.25rem;
+    color: #9CA3AF;
+    font-weight: 300;
+}
+
+.dashboard-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+}
+
+@media (min-width: 640px) {
+    .dashboard-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .dashboard-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .dashboard-title {
+        font-size: 3.5rem;
+    }
+}

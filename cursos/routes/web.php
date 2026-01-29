@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomepageController;
 use Illuminate\Support\Facades\Route;
@@ -44,9 +43,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('EditCourse');
 
     // Materiais
-Route::get('/conteudos', function () {
-    return Inertia::render('Materials/AllMaterials');
-})->name('AllMaterials');
+    Route::get('/conteudos', function () {
+        return Inertia::render('Materials/AllMaterials');
+    })->name('AllMaterials');
 
     Route::get('/carregar-conteudo', function () {
         return Inertia::render('Materials/UploadMaterials');
@@ -56,6 +55,7 @@ Route::get('/conteudos', function () {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);
     })->name('EditMaterials');
 
+
     // Subscrições
     Route::get('/subscrever', function () {
         return Inertia::render('Subscriptions/CreateSubscription');
@@ -64,6 +64,15 @@ Route::get('/conteudos', function () {
     Route::get('/gerir-subscricao/{id}', function ($id) {
         return Inertia::render('Subscriptions/ManageSubscription', ['id' => $id]);
     })->name('ManageSubscription');
+
+    Route::get('/progresso', function () {
+        return Inertia::render('Subscriptions/ManageSubscription');
+    })->name('subscriptions.progress');
+
+    // todas notificações
+    Route::get('/notificacoes', function () {
+        return Inertia::render('Notifications/AllNotifications');
+    })->name('notifications.index');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
