@@ -15,7 +15,10 @@
 
     /* TITLE */
     --title-font-family: "Anek Tamil", sans-serif;
-    --title-size: 1.5rem;
+    --title-size: 2.5rem;
+    --title-text-transform: uppercase;
+    --title-font-weight: bold;
+    --title-margin: 1.5rem;
 
     /* NAVBAR */
     --nav-font-family: "Anek Tamil", sans-serif;
@@ -29,6 +32,19 @@
 
     /* TEXT */
     --text-size: 1rem;
+    --text-font-family: "Encode Sans", sans-serif;
+
+    /* OTHERS */
+    --success-background-color: #d8ffbb;
+    --success-color: #163511;
+    --danger-background-color: #ffbcbc;
+    --danger-color: #421a1a;
+    --warning-background-color: #ffffa3;
+    --warning-color: #705200;
+    --info-background-color: #c6bcff;
+    --info-color: #211757;
+    --tertiary-background-color: #f3b0f6;
+    --tertiary-color: #3a0a3c;
 }
 
 *,
@@ -119,38 +135,14 @@ body {
 .mobile-active-link {
     color: var(--main-color);
 }
-.login-button {
+.secondary-button {
     border: var(--main-color) 1px solid;
     padding: 0.5rem 0.8rem;
     margin-right: 1rem;
     transition: var(--hover-transition);
 }
-.login-button:hover {
+.secondary-button:hover {
     background-color: var(--main-color);
-    transition: var(--hover-transition);
-}
-.subscribe-button {
-    font-family: "Anek Tamil", sans-serif;
-    background-color: var(--main-color);
-    padding: 0.5rem 0.8rem;
-    margin-right: 1rem;
-    transition: var(--hover-transition);
-    width: fit-content;
-}
-.subscribe-button:hover {
-    background-color: var(--accent-color);
-    transition: var(--hover-transition);
-}
-
-.primary-button {
-    font-size: 1.3rem;
-    font-family: "Anek Tamil", sans-serif;
-    background-color: var(--main-color);
-    padding: 0.2rem 1rem;
-    transition: var(--hover-transition);
-}
-.primary-button:hover {
-    background-color: var(--accent-color);
     transition: var(--hover-transition);
 }
 

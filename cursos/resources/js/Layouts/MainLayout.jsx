@@ -54,17 +54,24 @@ export default function MainLayout({ header, children }) {
                                 {profileOpen && (
                                     <div className="origin-top-right dropdown-perfil">
                                         {profileLinks.map((link) => (
-    <Link
-        key={link.label}
-        href={route(link.routeName)}
-        method={link.routeName === "logout" ? "post" : undefined}
-        as={link.routeName === "logout" ? "button" : "a"}
-        className={`dropdown-perfil-link ${route().current(link.routeName) ? "active-link" : ""}`}
-    >
-        {link.label}
-    </Link>
-))}
-
+                                            <Link
+                                                key={link.label}
+                                                href={route(link.routeName)}
+                                                method={
+                                                    link.routeName === "logout"
+                                                        ? "post"
+                                                        : undefined
+                                                }
+                                                as={
+                                                    link.routeName === "logout"
+                                                        ? "button"
+                                                        : "a"
+                                                }
+                                                className={`dropdown-perfil-link ${route().current(link.routeName) ? "active-link" : ""}`}
+                                            >
+                                                {link.label}
+                                            </Link>
+                                        ))}
                                     </div>
                                 )}
                             </div>
@@ -127,28 +134,53 @@ export default function MainLayout({ header, children }) {
                 )}
             </header>
             <main>{children}</main>
-            <footer className="grid grid-cols-1 md:grid-cols-3 ">
-                <div className="footer-left ">
-                    <img src="/images/Footer.svg" />
-                </div>
-                <div className="footer-center">
-                    <div className="footer-email">
-                        <p>Email:</p>
-                        <p>
-                            <a href="mailto:hello@mirai.com">hello@mirai.com</a>
-                        </p>
-                    </div>
-                    <div className="footer-instagram">
-                        <p>Instagram</p>
-                        <p>
-                            <a href="https://www.instagram.com">@mirai.cesae</a>
-                        </p>
-                    </div>
-                    <div className="footer-facebook">
-                        <p>Facebook</p>
-                        <p>
-                            <a href="https://www.facebook.com">MiraiCesae</a>
-                        </p>
+            <footer className="bg-black text-white py-12">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div>
+                            <img src="/images/Footer.svg" />
+                        </div>
+
+                        <div>
+                            <div className="mb-4">
+                                <p className="text-gray-400 text-sm mb-1">
+                                    Email:
+                                </p>
+                                <a href="mailto:hello@mirai.com">
+                                    hello@mirai.com
+                                </a>
+                            </div>
+                            <div className="mb-4">
+                                <p className="text-gray-400 text-sm mb-1">
+                                    Instagram
+                                </p>
+                                <a href="https://www.instagram.com">
+                                    @mirai.cesae
+                                </a>
+                            </div>
+                            <div>
+                                <p className="text-gray-400 text-sm mb-1">
+                                    Facebook
+                                </p>
+                                <a href="https://www.facebook.com">
+                                    MiraiCesae
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-gray-400 text-sm mb-2">
+                                Morada:
+                            </p>
+                            <p className="text-white mb-2">
+                                Rua de Fundões 151, 3700-121 São João da Madeira
+                            </p>
+                            <p className="text-white mb-4">
+                                (+351) 256 123 456
+                            </p>
+                            <p className="text-gray-400 text-sm">
+                                Mirai © 2026 Cesae Digital
+                            </p>
+                        </div>
                     </div>
                 </div>
             </footer>

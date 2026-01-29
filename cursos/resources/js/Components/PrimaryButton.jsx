@@ -1,5 +1,3 @@
-import '../Components/css/PrimaryButton.css';
-
 export default function PrimaryButton({
     className = "",
     disabled,
@@ -9,7 +7,7 @@ export default function PrimaryButton({
     return (
         <button
             {...props}
-            className={`pink-button ${disabled && 'disabled'} ${className}`}
+            className={`primary-button ${disabled && "disabled"} ${className}`}
             disabled={disabled}
         >
             {children}

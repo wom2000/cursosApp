@@ -32,7 +32,7 @@ export default function Login({ status, canResetPassword }) {
             )}
 
             <div>
-                <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700 overflow-hidden login-form-container">
+                <div className="overflow-hidden login-form-container">
                     <form className="login-form" onSubmit={submit}>
                         <div>
                             <InputLabel
@@ -123,7 +123,7 @@ export default function Login({ status, canResetPassword }) {
                     <h3 className="cta-title">ENTRA NA COMUNIDADE MIRAI</h3>
                     <Link
                         href={route("register")}
-                        className="subscribe-button cta-button"
+                        className="primary-button cta-button"
                     >
                         INSCREVE-TE
                     </Link>
