@@ -16,7 +16,7 @@ class SubscricaoController extends Controller
 
         $subscricoes = $user->subscricoes()
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get(); 
 
         return response()->json($subscricoes);
     }

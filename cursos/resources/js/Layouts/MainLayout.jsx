@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MenuIcon, XIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { Link } from "@inertiajs/react";
 
-export default function MainLayout({ header, children }) {
+export default function MainLayout({ header, user, children }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
 
@@ -12,8 +12,23 @@ export default function MainLayout({ header, children }) {
         { label: "CONTEÚDOS", routeName: "AllMaterials" },
         { label: "PROGRESSO", routeName: "home" },
     ];
+
+    const getDashboardRoute = () => {
+        if (!user) return "dashboard";
+
+        if (user.role === "formador") {
+            return "dashboard.formador";
+        } else if (user.role === "estudante") {
+            return "dashboard.estudante";
+        } else if (user.role === "admin") {
+            return "dashboard.admin";
+        }
+        return "dashboard";
+    };
+
     const profileLinks = [
         { label: "Perfil", routeName: "profile.edit" },
+        { label: "Dashboard", routeName: getDashboardRoute() },
         { label: "Sair", routeName: "logout" },
     ];
 
@@ -30,7 +45,7 @@ export default function MainLayout({ header, children }) {
                             </div>
                         </div>
                         {/* NAV LINKS LIST */}
-                        <div className="hidden md:flex justify-center nav-links ">
+                        <div className="hidden md:flex justify-center nav-links">
                             {links.map((link) => {
                                 return (
                                     <Link
@@ -57,16 +72,8 @@ export default function MainLayout({ header, children }) {
                                             <Link
                                                 key={link.label}
                                                 href={route(link.routeName)}
-                                                method={
-                                                    link.routeName === "logout"
-                                                        ? "post"
-                                                        : undefined
-                                                }
-                                                as={
-                                                    link.routeName === "logout"
-                                                        ? "button"
-                                                        : "a"
-                                                }
+                                                method={link.routeName === "logout" ? "post" : undefined}
+                                                as={link.routeName === "logout" ? "button" : "a"}
                                                 className={`dropdown-perfil-link ${route().current(link.routeName) ? "active-link" : ""}`}
                                             >
                                                 {link.label}
@@ -122,6 +129,8 @@ export default function MainLayout({ header, children }) {
                                         <Link
                                             key={link.label}
                                             href={route(link.routeName)}
+                                            method={link.routeName === "logout" ? "post" : undefined}
+                                            as={link.routeName === "logout" ? "button" : "a"}
                                             className="block mobile-profile-link"
                                         >
                                             {link.label}
