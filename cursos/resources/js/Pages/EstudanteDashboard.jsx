@@ -3,19 +3,6 @@ import { Head, Link } from "@inertiajs/react";
 import "./EstudanteDashboard.css";
 
 export default function EstudanteDashboard({ auth }) {
-    // info do calendario
-    const hoje = new Date();
-    const diaAtual = hoje.getDate();
-    const mesAtual = hoje.toLocaleString("pt-PT", { month: "long" });
-    const anoAtual = hoje.getFullYear();
-
-    const diasSemana = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
-
-    const totalDiasMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0).getDate();
-
-    let primeiroDiaSemana = new Date(hoje.getFullYear(), hoje.getMonth(), 1).getDay();
-    primeiroDiaSemana = primeiroDiaSemana === 0 ? 6 : primeiroDiaSemana - 1;
-
     return (
         //dashboard estudante autenticado com user
         <AuthenticatedLayout>
@@ -88,33 +75,13 @@ export default function EstudanteDashboard({ auth }) {
                             <p className="dashboard-subtitle">ESCOLHA UM MENU PARA MAIS INFORMAÇÕES</p>
                         </div>
 
-
-                        <div className="mini-calendar-card">
-                            <h3 className="mini-calendar-title">
-                                {mesAtual.charAt(0).toUpperCase() + mesAtual.slice(1)} {anoAtual}
-                            </h3>
-
-                            <div className="mini-calendar-grid">
-                                {diasSemana.map((d) => (
-                                    <div key={d} className="mini-calendar-dayname">
-                                        {d}
-                                    </div>
-                                ))}
-
-                                {Array.from({ length: primeiroDiaSemana }).map((_, i) => (
-                                    <div key={"vazio-" + i}></div>
-                                ))}
-
-                                {Array.from({ length: totalDiasMes }, (_, i) => i + 1).map((dia) => (
-                                    <div
-                                        key={dia}
-                                        className={`mini-calendar-day ${dia === diaAtual ? "mini-calendar-today" : ""
-                                            }`}
-                                    >
-                                        {dia}
-                                    </div>
-                                ))}
-                            </div>
+                        {/* pic */}
+                        <div className="card student-avatar-card">
+                            <img
+                                src="/images/Footer.svg"
+                                alt="Foto do estudante"
+                                className="student-avatar"
+                            />
                         </div>
 
                         {/* cards de tarefas e contactos */}

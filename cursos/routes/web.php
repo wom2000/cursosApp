@@ -71,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Subscriptions/ManageSubscription');
     })->name('subscriptions.progress');
 
-    // todas notificações
+    // todas notificaçoes
     Route::get('/notificacoes', function () {
         return Inertia::render('Notifications/AllNotifications');
     })->name('notifications.index');
