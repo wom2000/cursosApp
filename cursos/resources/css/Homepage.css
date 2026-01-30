@@ -170,6 +170,20 @@
     height: 1.25rem;
 }
 
+.community-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.community-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
 /* Responsive */
 @media (min-width: 1024px) {
     .skills-block {
@@ -182,6 +196,22 @@
 
     .skills-image-right {
         order: 2;
+    }
+
+    .community-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .community-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .community-cards-grid {
+        grid-template-columns: 1fr;
     }
 }
 
