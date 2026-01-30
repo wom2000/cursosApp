@@ -9,7 +9,7 @@ export default function MainLayout({ header, user, children }) {
     const links = [
         { label: "HOMEPAGE", routeName: "home" },
         { label: "CURSOS", routeName: "cursos.index" },
-        { label: "CONTEÚDOS", routeName: "AllMaterials" },
+        { label: "CATEGORIAS", routeName: "AllCategories" },
         { label: "PROGRESSO", routeName: "home" },
     ];
 
@@ -72,8 +72,16 @@ export default function MainLayout({ header, user, children }) {
                                             <Link
                                                 key={link.label}
                                                 href={route(link.routeName)}
-                                                method={link.routeName === "logout" ? "post" : undefined}
-                                                as={link.routeName === "logout" ? "button" : "a"}
+                                                method={
+                                                    link.routeName === "logout"
+                                                        ? "post"
+                                                        : undefined
+                                                }
+                                                as={
+                                                    link.routeName === "logout"
+                                                        ? "button"
+                                                        : "a"
+                                                }
                                                 className={`dropdown-perfil-link ${route().current(link.routeName) ? "active-link" : ""}`}
                                             >
                                                 {link.label}
@@ -129,9 +137,17 @@ export default function MainLayout({ header, user, children }) {
                                         <Link
                                             key={link.label}
                                             href={route(link.routeName)}
-                                            method={link.routeName === "logout" ? "post" : undefined}
-                                            as={link.routeName === "logout" ? "button" : "a"}
-                                            className="block mobile-profile-link"
+                                            method={
+                                                link.routeName === "logout"
+                                                    ? "post"
+                                                    : undefined
+                                            }
+                                            as={
+                                                link.routeName === "logout"
+                                                    ? "button"
+                                                    : "a"
+                                            }
+                                            className="mobile-profile-link"
                                         >
                                             {link.label}
                                         </Link>
