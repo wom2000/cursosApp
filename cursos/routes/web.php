@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/criar-curso', function () {
         return Inertia::render('Courses/CreateCourse', ['categorias' => Categoria::all()]);
-    })->name('CreateCourse');
+    })->name('CreateCourse')->middleware('can:criar-cursos');
     Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
 
     Route::get('/editar-curso/{id}', function ($id) {
