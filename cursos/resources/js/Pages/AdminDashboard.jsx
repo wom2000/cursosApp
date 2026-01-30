@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import "./AdminDashboard.css";
+import "../../css/AdminDashboard.css";
 
 export default function AdminDashboard({ auth }) {
     // info do calendario
@@ -11,14 +11,28 @@ export default function AdminDashboard({ auth }) {
 
     const diasSemana = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
-    const totalDiasMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0).getDate();
+    const totalDiasMes = new Date(
+        hoje.getFullYear(),
+        hoje.getMonth() + 1,
+        0,
+    ).getDate();
 
-    let primeiroDiaSemana = new Date(hoje.getFullYear(), hoje.getMonth(), 1).getDay();
+    let primeiroDiaSemana = new Date(
+        hoje.getFullYear(),
+        hoje.getMonth(),
+        1,
+    ).getDay();
     primeiroDiaSemana = primeiroDiaSemana === 0 ? 6 : primeiroDiaSemana - 1;
 
     return (
-        //dashboard admin autenticado com user
-        <AuthenticatedLayout>
+        <AuthenticatedLayout
+            header={
+                <h2 className="admin-title">
+                    Admin Dashboard | Bem vindo(a),{" "}
+                    <span style={{ color: "#CC0266" }}>{auth?.user?.name}</span>
+                </h2>
+            }
+        >
             <Head title="Dashboard" />
 
             <div className="topbar">
@@ -62,30 +76,45 @@ export default function AdminDashboard({ auth }) {
                     <div className="admin-container">
                         <div className="calendar-header">
                             <h3 className="calendar-title">DASHBOARD GERAL</h3>
-                            <p className="calendar-subtitle">ESCOLHA UM MENU PARA MAIS INFORMAÇÕES</p>
+                            <p className="calendar-subtitle">
+                                ESCOLHA UM MENU PARA MAIS INFORMAÇÕES
+                            </p>
                         </div>
 
                         <div className="mini-calendar-card">
                             <h3 className="mini-calendar-title">
-                                {mesAtual.charAt(0).toUpperCase() + mesAtual.slice(1)} {anoAtual}
+                                {mesAtual.charAt(0).toUpperCase() +
+                                    mesAtual.slice(1)}{" "}
+                                {anoAtual}
                             </h3>
 
                             <div className="mini-calendar-grid">
                                 {diasSemana.map((d) => (
-                                    <div key={d} className="mini-calendar-dayname">
+                                    <div
+                                        key={d}
+                                        className="mini-calendar-dayname"
+                                    >
                                         {d}
                                     </div>
                                 ))}
 
-                                {Array.from({ length: primeiroDiaSemana }).map((_, i) => (
-                                    <div key={"vazio-" + i}></div>
-                                ))}
+                                {Array.from({ length: primeiroDiaSemana }).map(
+                                    (_, i) => (
+                                        <div key={"vazio-" + i}></div>
+                                    ),
+                                )}
 
-                                {Array.from({ length: totalDiasMes }, (_, i) => i + 1).map((dia) => (
+                                {Array.from(
+                                    { length: totalDiasMes },
+                                    (_, i) => i + 1,
+                                ).map((dia) => (
                                     <div
                                         key={dia}
-                                        className={`mini-calendar-day ${dia === diaAtual ? "mini-calendar-today" : ""
-                                            }`}
+                                        className={`mini-calendar-day ${
+                                            dia === diaAtual
+                                                ? "mini-calendar-today"
+                                                : ""
+                                        }`}
                                     >
                                         {dia}
                                     </div>
@@ -102,29 +131,47 @@ export default function AdminDashboard({ auth }) {
 
                             <div className="tasks-grid">
                                 <div className="task-card">
-                                    <h4 className="task-title">NOVO CONTEÚDO</h4>
+                                    <h4 className="task-title">
+                                        NOVO CONTEÚDO
+                                    </h4>
                                     <p className="task-text">
-                                        Pedido para carregamento de conteúdo de formação...
+                                        Pedido para carregamento de conteúdo de
+                                        formação...
                                     </p>
                                     <p className="task-text">
-                                        <span className="label">Responsável:</span> José Felix
+                                        <span className="label">
+                                            Responsável:
+                                        </span>{" "}
+                                        José Felix
                                     </p>
                                     <p className="task-text">
-                                        <span className="label">Categoria:</span> React.js
+                                        <span className="label">
+                                            Categoria:
+                                        </span>{" "}
+                                        React.js
                                     </p>
                                     <p className="task-time">Há 3 horas</p>
                                 </div>
 
                                 <div className="task-card">
-                                    <h4 className="task-title ">ATUALIZAÇÃO PASS...</h4>
+                                    <h4 className="task-title ">
+                                        ATUALIZAÇÃO PASS...
+                                    </h4>
                                     <p className="task-text">
-                                        Pedido para alteração de password de acesso à plataforma...
+                                        Pedido para alteração de password de
+                                        acesso à plataforma...
                                     </p>
                                     <p className="task-text">
-                                        <span className="label">Responsável:</span> Abel Ferreira
+                                        <span className="label">
+                                            Responsável:
+                                        </span>{" "}
+                                        Abel Ferreira
                                     </p>
                                     <p className="task-text">
-                                        <span className="label">Categoria:</span> Password
+                                        <span className="label">
+                                            Categoria:
+                                        </span>{" "}
+                                        Password
                                     </p>
                                     <p className="task-time">Há 4 horas</p>
                                 </div>
@@ -146,14 +193,18 @@ export default function AdminDashboard({ auth }) {
                                     <strong>Facebook:</strong> MiraiCesae
                                 </li>
                                 <li>
-                                    <strong>Morada:</strong> R. de Fundões 151, 3700-121 São João da Madeira
+                                    <strong>Morada:</strong> R. de Fundões 151,
+                                    3700-121 São João da Madeira
                                 </li>
                                 <li>
-                                    <strong>Telefone:</strong> (+351) 256 123 456
+                                    <strong>Telefone:</strong> (+351) 256 123
+                                    456
                                 </li>
                             </ul>
 
-                            <p className="footer-text">Mirai © 2026 Cesae Digital</p>
+                            <p className="footer-text">
+                                Mirai © 2026 Cesae Digital
+                            </p>
                         </div>
                     </div>
                 </div>

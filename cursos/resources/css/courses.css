@@ -5,16 +5,70 @@
     align-items: center;
     padding: 2rem;
 }
-.course-card {
+.all-courses-title {
+    font-family: var(--title-font-family);
+    font-size: var(--title-size);
+    text-transform: var(--title-text-transform);
+    font-weight: var(--title-font-weight);
+    margin-bottom: var(--title-margin);
 }
-
-/* courses-cards-container
-course-card
-course-card-title
-tag nivel
-iniciante
-intermedio
-avancado
-tag duracao
-tag materials
-primary-button */
+.course-card {
+    position: relative;
+    padding: 1rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: white;
+    overflow: hidden;
+}
+.course-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+.course-card > * {
+    position: relative;
+    z-index: 1;
+}
+.course-card-title {
+    font-family: "Anek Tamil", sans-serif;
+    font-size: 2rem;
+}
+.course-card-description {
+    color: var(--main-font-color);
+    font-family: var(--text-font-family);
+    font-size: var(--text-size);
+    margin-bottom: 1rem;
+}
+.tag-nivel-iniciante,
+.tag-nivel-intermedio,
+.tag-nivel-avancado,
+.tag-duracao,
+.tag-materiais {
+    font-family: "Anek Tamil", sans-serif;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 25px;
+}
+.tag-nivel-iniciante {
+    background-color: var(--success-background-color);
+    color: var(--success-color);
+}
+.tag-nivel-intermedio {
+    background-color: var(--warning-background-color);
+    color: var(--warning-color);
+}
+.tag-nivel-avancado {
+    background-color: var(--danger-background-color);
+    color: var(--danger-color);
+}
+.tag-duracao {
+    background-color: var(--info-background-color);
+    color: var(--info-color);
+}
+.tag-materiais {
+    background-color: var(--tertiary-background-color);
+    color: var(--tertiary-color);
+}

@@ -11,7 +11,7 @@
 
 .section-title {
     font-size: 2.5rem;
-    font-family: 'Anek Tamil', sans-serif;
+    font-family: "Anek Tamil", sans-serif;
     font-weight: bold;
     text-align: center;
     color: white;
@@ -26,14 +26,14 @@
 }
 
 .no-categories-text {
-    color: #9CA3AF;
+    color: #9ca3af;
     font-size: 1.125rem;
 }
 
 .create-category-button {
     display: inline-block;
     margin-top: 1rem;
-    background-color: #DB2777;
+    background-color: #db2777;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
@@ -41,7 +41,7 @@
 }
 
 .create-category-button:hover {
-    background-color: #BE185D;
+    background-color: #be185d;
 }
 
 /* Secção de Skills */
@@ -51,6 +51,16 @@
 }
 
 .skills-container {
+    margin: 0;
+    padding: 0;
+}
+/* Secção Comunidade */
+.comunidade-section {
+    background-color: #000000;
+    padding: 4rem 0;
+}
+
+.comunidade-container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 1rem;
@@ -112,11 +122,11 @@
 }
 
 .gradient-cyan {
-    background: linear-gradient(to bottom right, #06B6D4, #2563EB);
+    background: linear-gradient(to bottom right, #06b6d4, #2563eb);
 }
 
 .gradient-purple {
-    background: linear-gradient(to bottom right, #3B82F6, #9333EA);
+    background: linear-gradient(to bottom right, #3b82f6, #9333ea);
 }
 
 .icon-large {
@@ -134,7 +144,7 @@
 }
 
 .skills-description {
-    color: #4B5563;
+    color: #4b5563;
     margin-bottom: 1.5rem;
     line-height: 1.75;
 }
@@ -142,13 +152,13 @@
 .skills-link {
     display: inline-flex;
     align-items: center;
-    color: #4F46E5;
+    color: #4f46e5;
     font-weight: 600;
     transition: color 0.3s;
 }
 
 .skills-link:hover {
-    color: #DB2777;
+    color: #db2777;
 }
 
 .skills-link-text {
