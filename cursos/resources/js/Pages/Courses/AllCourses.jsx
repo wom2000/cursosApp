@@ -1,6 +1,6 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import MainLayout from "@/Layouts/MainLayout";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -9,15 +9,22 @@ export default function AllCourses({ auth }) {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+
+    const { categorias = [] } = usePage().props;
 
     useEffect(() => {
         fetchCursos(currentPage);
     }, [currentPage]);
 
-    const fetchCursos = async (page = 1) => {
+    const fetchCursos = async (page = 1, area = selectedCategory) => {
         try {
             setLoading(true);
-            const response = await axios.get(`/api/cursos?page=${page}`);
+            const areaParam = area ? `&area=${area}` : "";
+
+            const response = await axios.get(
+                `/api/cursos?page=${page}${areaParam}`,
+            );
             const cursosArray = response.data.data;
             setCursos(cursosArray);
             setCurrentPage(response.data.current_page);
@@ -36,12 +43,38 @@ export default function AllCourses({ auth }) {
         }
     };
 
+    const handleSelectCategory = (id) => {
+        setSelectedCategory(id);
+        setCurrentPage(1);
+        fetchCursos(1, id);
+    };
+
     const Layout = auth.user ? MainLayout : GuestLayout;
 
     return (
         <Layout>
             <Head title="Cursos" />
-            <div className="categories-container">Categorias</div>
+            <div className="categories-container">
+                <button
+                    onClick={() => handleSelectCategory(null)}
+                    className={selectedCategory === null ? "active" : ""}
+                >
+                    Todas
+                </button>
+                {categorias && categorias.length > 0 ? (
+                    categorias.map((categoria) => (
+                        <button
+                            className={`categories-button ${selectedCategory === categoria.id ? "active" : ""}`}
+                            key={categoria.id}
+                            onClick={() => handleSelectCategory(categoria.id)}
+                        >
+                            {categoria.nome}
+                        </button>
+                    ))
+                ) : (
+                    <p> Nenhuma categoria encontrada</p>
+                )}
+            </div>
             <div className="all-courses-container">
                 <h2 className="all-courses-title">OS NOSSOS CURSOS</h2>
                 <div className="courses-cards-container">

@@ -12,6 +12,7 @@ export default function Homepage({ auth, cursosDestaque, categorias }) {
     const Layout = auth.user ? MainLayout : GuestLayout;
     return (
         <Layout>
+            <Head title="Homepage" />
             <div>
                 <CarouselBanner />
             </div>

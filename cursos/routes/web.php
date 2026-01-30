@@ -13,7 +13,7 @@ require __DIR__ . '/auth.php';
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/cursos', function () {
-    return Inertia::render('Courses/AllCourses');
+    return Inertia::render('Courses/AllCourses', ['categorias' => Categoria::all()]);
 })->name('cursos.index');
 Route::get('/categorias', function () {
     return Inertia::render('Categories/AllCategories');
