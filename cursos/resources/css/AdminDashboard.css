@@ -1,222 +1,44 @@
-.admin-wrapper {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    background-color: #1a1a1a;
-    display: flex;
-}
-
-.sidebar {
-    width: 220px;
-    background-color: #1a1a1a;
-    color: #f9fafb;
-    padding: 1.5rem 1rem;
-    border-right: 2px solid #f9fafb;
-}
-
-.sidebar-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #f9fafb;
-}
-
-.sidebar-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar-list li {
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-}
-
-.main-content {
-    flex: 1;
-}
-
-.admin-container {
-    max-width: 1120px;
+.admin-dashboard {
+    max-width: 1400px;
     margin: 0 auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    padding: 3rem 1.5rem;
+    background: #000000;
+    min-height: 100vh;
 }
 
-.card {
-    background: #1a1a1a;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    color: #f9fafb;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 4rem;
 }
 
-.card-title {
+.dashboard-title {
+    font-size: 3rem;
+    font-weight: bold;
     color: white;
+    font-family: 'Anek Tamil', sans-serif;
+    text-transform: uppercase;
 }
 
-.tasks-grid {
+.dashboard-subtitle {
+    font-size: 1.25rem;
+    color: #9CA3AF;
+    font-weight: 300;
+}
+
+.dashboard-cards-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2.5rem;
 }
 
-@media (min-width: 768px) {
-    .tasks-grid {
+@media (min-width: 640px) {
+    .dashboard-cards-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-.task-card {
-    background: #f9fafb;
-    border: 3px solid #CC0266;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    color: #1a1a1a;
-}
-
-.task-title {
-    font-weight: 600;
-    color: #CC0266;
-}
-
-.task-text {
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
-
-.label {
-    font-weight: 500;
-}
-
-.task-time {
-    font-size: 0.75rem;
-    color: #1a1a1a;
-    margin-top: 0.25rem;
-}
-
-.contacts-list {
-    font-size: 0.875rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.contacts-list li {
-    margin-bottom: 0.25rem;
-}
-
-.footer-text {
-    font-size: 0.75rem;
-    color: #f9fafb;
-    margin-top: 1rem;
-}
-
-.mini-calendar-card {
-    background: #CC0266;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    width: 260px;
-    margin-left: 1.5rem;
-}
-
-.mini-calendar-title {
-    text-align: center;
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-    text-transform: capitalize;
-}
-
-.mini-calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.25rem;
-}
-
-.mini-calendar-dayname {
-    text-align: center;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.mini-calendar-day {
-    text-align: center;
-    padding: 0.4rem 0;
-    background: #f3f4f6;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    color: #1f2937;
-}
-
-.mini-calendar-today {
-    background: #2563eb;
-    color: white;
-    font-weight: 700;
-}
-
-.topbar {
-    background-color: #000000;
-    padding: 1rem 2rem;
-    border-bottom: 2px solid #CC0266;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.logo {
-    font-weight: 700;
-    font-size: 1rem;
-    color: #CC0266;
-}
-
-.welcome {
-    font-size: 0.875rem;
-    color: #f9fafb;
-    font-weight: 500;
-}
-
-.highlight {
-    color: #CC0266;
-}
-
-.topbar-right {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.topbar-right li {
-    color: #f9fafb;
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 0.4rem 0.6rem;
-    transition: all 0.2s ease;
-}
-
-.divider {
-    border-left: 1px solid #f9fafb;
-    height: 20px;
-}
-
-.perfil {
-    border: 2px solid #CC0266;
-}
-
-.logout {
-    background-color: #CC0266;
-    color: white;
+@media (min-width: 1024px) {
+    .dashboard-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }

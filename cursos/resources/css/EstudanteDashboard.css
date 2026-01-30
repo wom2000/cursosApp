@@ -1,0 +1,103 @@
+.estudante-dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    background: #000000;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+}
+
+.dashboard-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    font-family: 'Anek Tamil', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.dashboard-subtitle {
+    font-size: 1.25rem;
+    color: #9CA3AF;
+    font-weight: 300;
+}
+
+.dashboard-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+}
+
+@media (min-width: 640px) {
+    .dashboard-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .dashboard-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .dashboard-title {
+        font-size: 3.5rem;
+    }
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.task-card {
+    background: #f9fafb;
+    border: 3px solid #CC0266;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    color: #1a1a1a;
+}
+
+.task-title {
+    font-weight: 600;
+    color: #CC0266;
+}
+
+.task-text {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.label {
+    font-weight: 500;
+}
+
+.task-time {
+    font-size: 0.75rem;
+    color: #1a1a1a;
+    margin-top: 0.25rem;
+}
+
+.contacts-list {
+    font-size: 0.875rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contacts-list li {
+    margin-bottom: 0.25rem;
+}
+
+.footer-text {
+    font-size: 0.75rem;
+    color: #f9fafb;
+    margin-top: 1rem;
+}

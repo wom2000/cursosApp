@@ -1,154 +1,90 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import MainLayout from "@/Layouts/MainLayout";
+import DashboardCard from "@/Components/DashboardCard";
 import { Head, Link } from "@inertiajs/react";
-import "./EstudanteDashboard.css";
+import "../../css/EstudanteDashboard.css";
 
 export default function EstudanteDashboard({ auth }) {
     return (
-        //dashboard estudante autenticado com user
-        <AuthenticatedLayout>
-            <Head title="Aluno Dashboard" />
+        <MainLayout user={auth.user}>
+            <Head title="Dashboard Estudante" />
 
-            <div className="topbar">
-                <div className="topbar-left">
-                    <span className="logo">MIRAI</span>
-                    <span className="welcome">
-                        ALUNO DASHBOARD | Bem vindo(a),{" "}
-                        <span className="highlight">{auth?.user?.name}</span>
-                    </span>
+            <div className="estudante-dashboard">
+                <div className="dashboard-header">
+                    <h1 className="dashboard-title">Painel do Estudante</h1>
+                    <p className="dashboard-subtitle">
+                        Veja os cursos disponíveis, acompanhe o seu progresso e aceda aos seus conteúdos.
+                    </p>
                 </div>
 
-                <ul className="topbar-right">
-                    {/* notificacoes*/}
-                    <li>
-                        <Link href="/notificacoes">NOTIFICAÇÕES</Link>
-                    </li>
-                    <li className="divider"></li>
+                <div className="dashboard-cards-grid">
 
-                    {/* conteudos */}
-                    <li>
-                        <Link href="/conteudos">CONTEÚDOS</Link>
-                    </li>
-                    <li className="divider"></li>
+                    {/* card cursos */}
+                    <DashboardCard
+                        icon={
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
+                            </svg>
+                        }
+                        title="Cursos Disponíveis"
+                        description="Veja todos os cursos que pode frequentar."
+                        href="/cursos"
+                    />
 
-                    {/* cursos disponiveis*/}
-                    <li>
-                        <Link href="/cursos">CURSOS</Link>
-                    </li>
-                    <li className="divider"></li>
+                    {/* card subs */}
+                    <DashboardCard
+                        icon={
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                        }
+                        title="Subscrições"
+                        description="Aceda aos conteúdos que subscreveu."
+                        href="/subscrever"
+                    />
 
-                    {/* perfil user */}
-                    <li className="perfil">
-                        <Link href="/profile">PERFIL</Link>
-                    </li>
+                    {/* card progresso */}
+                    <DashboardCard
+                        icon={
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 20l9-5-9-5-9 5 9 5z" />
+                            </svg>
+                        }
+                        title="Progresso"
+                        description="Veja o seu progresso nos cursos."
+                        href="/progresso"
+                    />
 
-                    {/* logout */}
-                    <li className="logout">
-                        <Link href="/logout" method="post" as="button">
-                            LOG OUT
-                        </Link>
-                    </li>
-                </ul>
-            </div>
+                    {/* card notificacoes */}
+                    <DashboardCard
+                        icon={
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        }
+                        title="Notificações"
+                        description="Veja as suas últimas atualizações."
+                        href="/notificacoes"
+                    />
 
-            <div className="estudante-wrapper">
-                {/* barra lateral */}
-                <div className="sidebar">
-                    <h2 className="sidebar-title">MENU</h2>
-                    <ul className="sidebar-list">
-                        {/* progresso atual*/}
-                        <li>
-                            <Link href="/progresso">Progresso</Link>
-                        </li>
+                    {/* card inserir conteudo — AGORA DENTRO DA GRID */}
+                    <DashboardCard
+                        icon={
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v8m0-8l-3 3m3-3l3 3M4 4h16v8H4z"
+                                />
+                            </svg>
+                        }
+                        title="Carregar Conteúdos"
+                        description="Envie vídeos, PDFs e materiais para os seus cursos."
+                        href={route("UploadMaterials")}
+                    />
 
-                        {/* subscricoes efetuadas */}
-                        <li>
-                            <Link href="/subscrever">Subscrições</Link>
-                        </li>
-                    </ul>
-                </div>
-
-                {/* dashboard de view geral */}
-                <div className="main-content">
-                    <div className="estudante-container">
-                        <div className="card dashboard-header-card">
-                            <h3 className="card-title">DASHBOARD GERAL</h3>
-                            <p className="dashboard-subtitle">ESCOLHA UM MENU PARA MAIS INFORMAÇÕES</p>
-                        </div>
-
-                        {/* pic */}
-                        <div className="card student-avatar-card">
-                            <img
-                                src="/images/Footer.svg"
-                                alt="Foto do estudante"
-                                className="student-avatar"
-                            />
-                        </div>
-
-                        {/* cards de tarefas e contactos */}
-                        <div className="card">
-                            <h3 className="card-title">
-                                Últimas Tarefas <br />
-                                <Link href="/notificacoes">ver mais</Link>
-                            </h3>
-
-                            <div className="tasks-grid">
-                                <div className="task-card">
-                                    <h4 className="task-title">SUBSCRIÇÃO EFETUADA</h4>
-                                    <p className="task-text">
-                                        Conteúdo subscrito e disponível para visualização
-                                    </p>
-                                    <p className="task-text">
-                                        <span className="label">Responsável:</span> Admin
-                                    </p>
-                                    <p className="task-text">
-                                        <span className="label">Categoria:</span> React.js
-                                    </p>
-                                    <p className="task-time">Há 1 hora</p>
-                                </div>
-
-                                <div className="task-card">
-                                    <h4 className="task-title ">SUBSCRIÇÃO EFETUADA</h4>
-                                    <p className="task-text">
-                                        Conteúdo subscrito e disponível para visualização
-                                    </p>
-                                    <p className="task-text">
-                                        <span className="label">Responsável:</span> Admin
-                                    </p>
-                                    <p className="task-text">
-                                        <span className="label">Categoria:</span> Java
-                                    </p>
-                                    <p className="task-time">Há 2 dias</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* // footer  */}
-                        <div className="card">
-                            <h3 className="card-title">Contactos</h3>
-
-                            <ul className="contacts-list">
-                                <li>
-                                    <strong>Email:</strong> hello@mirai.com
-                                </li>
-                                <li>
-                                    <strong>Instagram:</strong> @mirai.cesae
-                                </li>
-                                <li>
-                                    <strong>Facebook:</strong> MiraiCesae
-                                </li>
-                                <li>
-                                    <strong>Morada:</strong> R. de Fundões 151, 3700-121 São João da Madeira
-                                </li>
-                                <li>
-                                    <strong>Telefone:</strong> (+351) 256 123 456
-                                </li>
-                            </ul>
-
-                            <p className="footer-text">Mirai © 2026 Cesae Digital</p>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </MainLayout>
     );
 }
