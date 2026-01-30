@@ -4,6 +4,12 @@
     display: flex;
     justify-content: center;
     height: fit-content;
+    background-image: linear-gradient(
+        to bottom right,
+        #3832aa,
+        #5a28b0,
+        #4f1ba1
+    );
 }
 .login-form,
 .register-form {
@@ -21,7 +27,8 @@
     color: var(--main-color);
     font-size: var(--text-size);
 }
-.login-form .form-input {
+.login-form .form-input,
+.register-form .form-input {
     color: var(--main-background-color);
     border-radius: 0;
 }
@@ -44,12 +51,14 @@
     padding: 4rem;
 }
 .cta-title {
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
-    font-weight: bold;
+    margin-bottom: var(--title-margin);
+    font-size: var(--title-size);
+    font-family: var(--title-font-family);
+    font-weight: var(--title-font-weight);
+    text-transform: var(--title-text-transform);
 }
 .cta-button {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 @media screen and (min-width: 768px) {

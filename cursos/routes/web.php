@@ -1,20 +1,23 @@
 <?php
 
 use Inertia\Inertia;
+use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
+
 require __DIR__ . '/auth.php';
 
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
-    Route::get('/cursos', function () {
-        return Inertia::render('Courses/AllCourses');
-    })->name('cursos.index');
-     Route::get('/categorias', function () {
-        return Inertia::render('Categories/AllCategories');
-    })->name('AllCategories');
+Route::get('/cursos', function () {
+    return Inertia::render('Courses/AllCourses');
+})->name('cursos.index');
+Route::get('/categorias', function () {
+    return Inertia::render('Categories/AllCategories');
+})->name('AllCategories');
 
 
 
@@ -28,16 +31,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
 
     // Cursos
-
-
-
     Route::get('/curso/{id}', function ($id) {
         return Inertia::render('Courses/ShowCourse', ['id' => $id]);
     })->name('ShowCourse');
 
     Route::get('/criar-curso', function () {
-        return Inertia::render('Courses/CreateCourse');
+        return Inertia::render('Courses/CreateCourse', ['categorias' => Categoria::all()]);
     })->name('CreateCourse');
+    Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
 
     Route::get('/editar-curso/{id}', function ($id) {
         return Inertia::render('Courses/EditCourse', ['id' => $id]);

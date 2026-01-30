@@ -40,16 +40,16 @@ export default function MainLayout({ header, children }) {
                         </div>
                         {/* NAV BUTTONS */}
                         <div className="flex justify-end items-center">
-                            <div className="hidden lg:flex items-center gap-4">
+                            <div className="hidden lg:flex items-center gap-2">
                                 <Link
                                     href={route("login")}
-                                    className="login-button"
+                                    className="secondary-button"
                                 >
                                     ENTRAR
                                 </Link>
                                 <Link
                                     href={route("CreateSubscription")}
-                                    className="subscribe-button"
+                                    className="primary-button"
                                 >
                                     SUBSCREVER
                                 </Link>
@@ -88,13 +88,13 @@ export default function MainLayout({ header, children }) {
                         <div className="flex nav-links">
                             <Link
                                 href={route("login")}
-                                className="login-button"
+                                className="secondary-button"
                             >
-                                ENTRAR{" "}
+                                ENTRAR
                             </Link>
                             <Link
                                 href={route("CreateSubscription")}
-                                className="subscribe-button"
+                                className="primary-button"
                             >
                                 SUBSCREVER
                             </Link>
