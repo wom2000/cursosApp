@@ -1,0 +1,31 @@
+.create-course-form-container {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    height: fit-content;
+    background-image: linear-gradient(
+        to bottom right,
+        #3832aa,
+        #5a28b0,
+        #4f1ba1
+    );
+}
+.create-course-form {
+    background-color: var(--main-background-color);
+    color: var(--main-background-color);
+    width: 70%;
+    padding: 1rem;
+}
+.create-course-form .form-label {
+    color: var(--main-color);
+    font-size: var(--text-size);
+    margin-bottom: 0.7rem;
+}
+.create-course-form .form-checkbox-label {
+    color: var(--main-color);
+    font-size: var(--text-size);
+}
+.create-course-form .form-input {
+    color: var(--main-background-color);
+    border-radius: 0;
+}

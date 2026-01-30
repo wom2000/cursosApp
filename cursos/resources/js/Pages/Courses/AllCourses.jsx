@@ -1,9 +1,10 @@
 import GuestLayout from "@/Layouts/GuestLayout";
+import MainLayout from "@/Layouts/MainLayout";
 import { Head } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function AllCourses() {
+export default function AllCourses({ auth }) {
     const [cursos, setCursos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -35,12 +36,14 @@ export default function AllCourses() {
         }
     };
 
+    const Layout = auth.user ? MainLayout : GuestLayout;
+
     return (
-        <GuestLayout>
+        <Layout>
             <Head title="Cursos" />
             <div className="categories-container">Categorias</div>
             <div className="all-courses-container">
-                <h2 className="text-2xl font-bold mb-6">OS NOSSOS CURSOS</h2>
+                <h2 className="all-courses-title">OS NOSSOS CURSOS</h2>
                 <div className="courses-cards-container">
                     {loading ? (
                         <p>A carregar cursos...</p>
@@ -59,42 +62,50 @@ export default function AllCourses() {
                                             key={curso.id}
                                             className="course-card"
                                             style={{
-                                                backgroundImage: `url(/${curso.imagem_curso || "/images/imagensCursos/placeholder.png"})`,
+                                                backgroundImage: `url(${
+                                                    curso.imagem_curso
+                                                        ? curso.imagem_curso.startsWith(
+                                                              "images/",
+                                                          )
+                                                            ? `/${curso.imagem_curso}`
+                                                            : `/storage/${curso.imagem_curso}`
+                                                        : "/images/imagensCursos/placeholder.png"
+                                                })`,
                                             }}
                                         >
                                             <h3 className="course-card-title">
                                                 {curso.nome}
                                             </h3>
 
-                                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                                            <p className="course-card-description">
                                                 {curso.descricao ||
                                                     "Sem descrição"}
                                             </p>
 
                                             <div className="flex flex-wrap gap-2 mb-4">
                                                 <span
-                                                    className={`tag nivel ${
+                                                    className={`tag-nivel ${
                                                         curso.nivel ===
                                                         "iniciante"
-                                                            ? "iniciante"
+                                                            ? "tag-nivel-iniciante"
                                                             : curso.nivel ===
                                                                 "intermedio"
-                                                              ? "intermedio"
-                                                              : "avancado"
+                                                              ? "tag-nivel-intermedio"
+                                                              : "tag-nivel-avancado"
                                                     }`}
                                                 >
                                                     {curso.nivel}
                                                 </span>
 
                                                 {curso.duracao && (
-                                                    <span className="tag duracao">
+                                                    <span className="tag-duracao">
                                                         {curso.duracao}
                                                     </span>
                                                 )}
 
                                                 {curso.materiais_count !==
                                                     undefined && (
-                                                    <span className="tag materials">
+                                                    <span className="tag-materiais">
                                                         {curso.materiais_count}{" "}
                                                         materiais
                                                     </span>
@@ -151,6 +162,6 @@ export default function AllCourses() {
                     )}
                 </div>
             </div>
-        </GuestLayout>
+        </Layout>
     );
 }
