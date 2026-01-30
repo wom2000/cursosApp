@@ -12,17 +12,17 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     public function index()
-    {
-        $user = auth()->user();
+{
+    $user = auth()->user();
 
-        if ($user->isAdmin()) {
-            return redirect()->route('dashboard.admin');
-        } elseif ($user->isFormador()) {
-            return redirect()->route('dashboard.formador');
-        } else {
-            return redirect()->route('dashboard.estudante');
-        }
+    if ($user->isAdmin()) {
+        return redirect()->route('dashboard.admin');
+    } elseif ($user->isFormador()) {
+        return redirect()->route('dashboard.formador');
+    } else {
+        return redirect()->route('dashboard.estudante');
     }
+}
 
     public function estudante()
     {
