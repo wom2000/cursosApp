@@ -3,7 +3,7 @@ import DashboardCard from "@/Components/DashboardCard";
 import { Head } from "@inertiajs/react";
 import "../../css/FormadorDashboard.css";
 
-export default function FormadorDashboard({ auth, pendingApprovals }) {
+export default function FormadorDashboard({ auth, pendingApprovals, cursos_recentes }) {
     return (
         <MainLayout user={auth.user}>
             <Head title="Dashboard Formador" />
@@ -54,7 +54,7 @@ export default function FormadorDashboard({ auth, pendingApprovals }) {
                         }
                         title="Atualizar Curso"
                         description="Edite informações, adicione materiais e atualize o conteúdo dos seus cursos."
-                        href={route("cursos.index")}
+                        href={route("EditCourse")}
                     />
 
                     <DashboardCard
@@ -94,7 +94,7 @@ export default function FormadorDashboard({ auth, pendingApprovals }) {
                         }
                         title="Aprovar Materiais"
                         description="Aprove materiais enviados pelos alunos deste curso."
-                        href={route("AllMaterials")}
+                        href={route("PendingMaterials")}
                         badge={pendingApprovals > 0 ? pendingApprovals : null}
                     />
                     {/*
