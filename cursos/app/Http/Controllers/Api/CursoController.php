@@ -30,6 +30,38 @@ class CursoController extends Controller
     }
 
     /**
+     * Get cursos for editing (formador's courses or all if admin)
+     */
+    public function meusCursos()
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            // Debug: return info about why auth failed
+            return response()->json([
+                'error' => 'Não autenticado',
+                'message' => 'Você precisa estar autenticado para acessar seus cursos',
+                'auth_check' => auth()->check(),
+            ], 401);
+        }
+
+        if (!$user->isAdmin() && !$user->isFormador()) {
+            return response()->json([
+                'error' => 'Permissão negada',
+                'message' => 'Você não tem permissão para editar cursos'
+            ], 403);
+        }
+
+        if ($user->isAdmin()) {
+            $cursos = Curso::with('categoria')->latest()->get();
+        } else {
+            $cursos = $user->cursosLecionados()->with('categoria')->latest()->get();
+        }
+
+        return response()->json($cursos);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

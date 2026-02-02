@@ -15,21 +15,21 @@ class ImagensCursosSeeder extends Seeder
     {
         //
         DB::table('cursos')->where('id', 1)->update([
-            'imagem_curso' => 'images/imagensCursos/react.png'
+            'imagem_curso' => 'imagensCursos/react.png'
         ]);
 
         DB::table('cursos')->where('id', 2)->update([
-            'imagem_curso' => 'images/imagensCursos/laravel.png'
+            'imagem_curso' => 'imagensCursos/laravel.png'
         ]);
 
         DB::table('cursos')->where('id', 3)->update([
-            'imagem_curso' => 'images/imagensCursos/coordenador_formacao.png'
+            'imagem_curso' => 'imagensCursos/coordenador_formacao.png'
         ]);
         DB::table('cursos')->where('id', 4)->update([
-            'imagem_curso' => 'images/imagensCursos/e_formador.png'
+            'imagem_curso' => 'imagensCursos/e_formador.png'
         ]);
         DB::table('cursos')->where('id', 5)->update([
-            'imagem_curso' => 'images/imagensCursos/uiux.png'
+            'imagem_curso' => 'imagensCursos/uiux.png'
         ]);
     }
 }

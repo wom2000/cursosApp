@@ -1,7 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
-import "../../../css/UploadMaterial.css";
+import '../../../css/UploadMaterial.css'
 
 export default function UploadMaterials() {
     const { auth } = usePage().props;
@@ -18,7 +18,6 @@ export default function UploadMaterials() {
     useEffect(() => {
         fetch('/api/cursos', {
             headers: {
-                'Authorization': `Bearer ${auth.token}`,
                 'Accept': 'application/json',
             }
         })
@@ -36,13 +35,7 @@ export default function UploadMaterials() {
     const submit = (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('nome', data.nome);
-        formData.append('id_curso', data.id_curso);
-        formData.append('ficheiro', data.ficheiro);
-
-        post('/api/materiais-criar', {
-            data: formData,
+        post(route('materiais.store'), {
             preserveScroll: true,
             forceFormData: true,
             onSuccess: () => {
