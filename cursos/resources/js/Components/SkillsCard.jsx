@@ -11,7 +11,7 @@ export default function SkillCard({ curso, imagePosition = 'left' }) {
                     <div className="skills-image-left">
                         <div className="image-container">
                             <img
-                                src={curso.imagem_curso || '/images/placeholder.png'}
+                                src={curso.imagem_curso ? `/storage/${curso.imagem_curso}` : '/images/placeholder.png'}
                                 alt={curso.nome}
                                 className="course-image"
                             />
