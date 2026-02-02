@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\Api\CursoController;
+use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\DashboardController;
 
 require __DIR__ . '/auth.php';
@@ -52,6 +53,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/carregar-conteudo', function () {
         return Inertia::render('Materials/UploadMaterials');
     })->name('UploadMaterials');
+    Route::post('/carregar-conteudo', [MaterialController::class, 'store'])->name('materiais.store');
+
 
     Route::get('/editar-conteudo/{id}', function ($id) {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);

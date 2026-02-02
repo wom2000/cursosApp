@@ -3,6 +3,7 @@ import MainLayout from "@/Layouts/MainLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "../../../css/courses.css";
 
 export default function AllCourses({ auth }) {
     const [cursos, setCursos] = useState([]);
@@ -57,14 +58,14 @@ export default function AllCourses({ auth }) {
             <div className="categories-container">
                 <button
                     onClick={() => handleSelectCategory(null)}
-                    className={selectedCategory === null ? "active" : ""}
+                    className={`cursos-button secondary-button ${selectedCategory === null ? "active-secondary-button" : ""}`}
                 >
                     Todas
                 </button>
                 {categorias && categorias.length > 0 ? (
                     categorias.map((categoria) => (
                         <button
-                            className={`categories-button ${selectedCategory === categoria.id ? "active" : ""}`}
+                            className={`cursos-button secondary-button ${selectedCategory === categoria.id ? "active-secondary-button" : ""}`}
                             key={categoria.id}
                             onClick={() => handleSelectCategory(categoria.id)}
                         >
