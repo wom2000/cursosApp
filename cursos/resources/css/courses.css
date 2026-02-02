@@ -1,3 +1,19 @@
+.categories-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem;
+}
+.cursos-button {
+    margin-top: 1rem;
+}
+.active-secondary-button {
+    background-color: var(--main-color);
+}
+.active-secondary-button:hover {
+    transform: translateY(0) !important;
+}
 .all-courses-container {
     display: flex;
     flex-direction: column;

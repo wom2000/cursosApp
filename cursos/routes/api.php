@@ -42,7 +42,7 @@ Route::delete('/cursos/{curso}', [CursoController::class, 'destroy'])->name('cur
 
 // Materiais
 Route::get('/materiais', [MaterialController::class, 'index'])->name('api.materiais.index')->middleware('auth:sanctum');
-Route::post('/materiais-criar', [MaterialController::class, 'store'])->name('materiais.store')->middleware('auth:sanctum');
+Route::post('/materiais-criar', [MaterialController::class, 'store'])->name('api.materiais.store')->middleware('auth:sanctum');
 Route::get('/materiais/pendentes', [MaterialController::class, 'pendentes'])->name('materiais.pendentes')->middleware('auth:sanctum');
 Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show')->middleware('auth:sanctum');
 Route::patch('/materiais/{material}/status', [MaterialController::class, 'updateStatus'])->name('materiais.updateStatus')->middleware('auth:sanctum');
