@@ -42,12 +42,12 @@ Route::put('/cursos/{curso}', [CursoController::class, 'update'])->name('cursos.
 Route::delete('/cursos/{curso}', [CursoController::class, 'destroy'])->name('cursos.destroy')->middleware('web');
 
 // Materiais
-Route::get('/materiais', [MaterialController::class, 'index'])->name('api.materiais.index')->middleware('auth');
-Route::post('/materiais-criar', [MaterialController::class, 'store'])->name('api.materiais.store')->middleware('auth');
-Route::get('/materiais/pendentes', [MaterialController::class, 'pendentes'])->name('materiais.pendentes')->middleware('auth');
-Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show')->middleware('auth');
-Route::patch('/materiais/{material}/status', [MaterialController::class, 'updateStatus'])->name('materiais.updateStatus')->middleware('auth');
-Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('materiais.destroy')->middleware('auth');
+Route::get('/materiais', [MaterialController::class, 'index'])->name('api.materiais.index')->middleware('auth:sanctum');
+Route::post('/materiais-criar', [MaterialController::class, 'store'])->name('api.materiais.store')->middleware('auth:sanctum');
+Route::get('/materiais/pendentes', [MaterialController::class, 'pendentes'])->name('materiais.pendentes')->middleware('auth:sanctum');
+Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materiais.show')->middleware('auth:sanctum');
+Route::patch('/materiais/{material}/status', [MaterialController::class, 'updateStatus'])->name('materiais.updateStatus')->middleware('auth:sanctum');
+Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('materiais.destroy')->middleware('auth:sanctum');
 
 // Progressos
 Route::get('/progressos', [ProgressoController::class, 'index'])->name('progressos.index')->middleware('auth');
