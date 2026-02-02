@@ -120,9 +120,13 @@ body {
     z-index: 2;
 }
 .dropdown-perfil-link {
-    display: block;
-    font-size: var(--links-size);
-    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: var(--links-font-size);
+    padding: 0.45rem 0.6rem;
+    border-radius: 0.2rem;
+    text-align: left;
 }
 .dropdown-perfil-link:hover {
     background-color: #e6e6e6;
