@@ -1,0 +1,56 @@
+.create-category-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.create-category-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+.create-category-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.create-category-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.create-category-input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.create-category-button {
+    padding: 0.6rem;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.create-category-button:hover {
+    background-color: #4338ca;
+}
+
+.create-category-message {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #2d6a4f;
+    text-align: center;
+}

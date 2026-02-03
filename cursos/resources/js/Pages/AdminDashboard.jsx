@@ -32,7 +32,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Utilizadores"
                         description="Administre contas e permissões."
-                        href="/admin"
+                        href="/utilizadores"
                     />
 
                     {/* card gerir cursos */}
@@ -100,7 +100,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Criar Categoria"
                         description="Adicione novas categorias à plataforma."
-                        href="/categorias"   
+                        href="/categorias/criar"
                     />
 
                     {/* card gerir subs */}
@@ -117,7 +117,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Subscrições"
                         description="Acompanhe e administre subscrições."
-                        href="/subscrever"
+                        href="/subscricoes"
                     />
                 </div>
             </div>

@@ -1,15 +1,14 @@
 <?php
 
-use Inertia\Inertia;
-use App\Models\Categoria;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Categoria;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-require __DIR__ . '/auth.php';
-
+require __DIR__.'/auth.php';
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/cursos', function () {
@@ -19,8 +18,6 @@ Route::get('/categorias', function () {
     return Inertia::render('Categories/AllCategories');
 })->name('AllCategories');
 
-
-
 // Rotas autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -29,6 +26,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/estudante', [DashboardController::class, 'estudante'])->name('dashboard.estudante');
     Route::get('/dashboard/formador', [DashboardController::class, 'formador'])->name('dashboard.formador');
     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
+
+    // formador
+    Route::get('/dashboard/formador/cursos', function () {
+        return Inertia::render('Courses/AllCourses');
+    })->name('formador.courses');
+    
+    Route::get('/dashboard/formador/aprovar-materiais', function () {
+        return Inertia::render('Materials/AllMaterials');
+    })->name('formador.approve-materials');
 
     // Cursos
     Route::get('/curso/{id}', function ($id) {
@@ -44,6 +50,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Courses/EditCourse', ['id' => $id]);
     })->name('EditCourse');
 
+    Route::get('/categorias/criar', function () {
+        return Inertia::render('Categories/CreateCategory');
+    })->name('CreateCategory');
+
     // Materiais
     Route::get('/conteudos', function () {
         return Inertia::render('Materials/AllMaterials');
@@ -56,7 +66,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/editar-conteudo/{id}', function ($id) {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);
     })->name('EditMaterials');
-
 
     // Subscrições
     Route::get('/subscrever', function () {
@@ -71,9 +80,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Subscriptions/ManageSubscription');
     })->name('subscriptions.progress');
 
+    Route::get('/subscricoes', function () {
+        return Inertia::render('Subscriptions/AllSubscriptions');
+    })->name('AllSubscriptions');
+
+    Route::get('/utilizadores', function () {
+        return Inertia::render('Users/AllUsers');
+    })->name('AllUsers');
+
     // todas notificaçoes
     Route::get('/notificacoes', function () {
-        return Inertia::render('Notifications/AllNotifications');
+        return Inertia::render('Notifications/AllNotifications', [
+            'auth' => Auth::user(),
+            'notifications' => Auth::user()->notifications ?? [],
+        ]);
     })->name('notifications.index');
 
     // Profile
