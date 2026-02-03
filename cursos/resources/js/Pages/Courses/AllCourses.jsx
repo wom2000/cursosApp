@@ -15,7 +15,15 @@ export default function AllCourses({ auth }) {
     const { categorias = [] } = usePage().props;
 
     useEffect(() => {
-        fetchCursos(currentPage);
+        const params = new URLSearchParams(window.location.search);
+        const area = params.get("area");
+
+        if (area) {
+            setSelectedCategory(Number(area));
+            fetchCursos(currentPage, Number(area));
+        } else {
+            fetchCursos(currentPage);
+        }
     }, [currentPage]);
 
     const fetchCursos = async (page = 1, area = selectedCategory) => {
@@ -60,7 +68,7 @@ export default function AllCourses({ auth }) {
                     onClick={() => handleSelectCategory(null)}
                     className={`cursos-button secondary-button ${selectedCategory === null ? "active-secondary-button" : ""}`}
                 >
-                    Todas
+                    Todos
                 </button>
                 {categorias && categorias.length > 0 ? (
                     categorias.map((categoria) => (
@@ -162,7 +170,7 @@ export default function AllCourses({ auth }) {
                                             goToPage(currentPage - 1)
                                         }
                                         disabled={currentPage === 1}
-                                        className="px-3 py-1 border rounded disabled:opacity-50"
+                                        className="navegacao-paginas"
                                     >
                                         &lt; Anterior
                                     </button>
@@ -171,9 +179,9 @@ export default function AllCourses({ auth }) {
                                         <button
                                             key={i + 1}
                                             onClick={() => goToPage(i + 1)}
-                                            className={`px-3 py-1 border rounded ${
+                                            className={`navegacao-paginas ${
                                                 currentPage === i + 1
-                                                    ? "bg-blue-600 text-white"
+                                                    ? "navegacao-paginas-ativo"
                                                     : ""
                                             }`}
                                         >
@@ -186,7 +194,7 @@ export default function AllCourses({ auth }) {
                                             goToPage(currentPage + 1)
                                         }
                                         disabled={currentPage === lastPage}
-                                        className="px-3 py-1 border rounded disabled:opacity-50"
+                                        className="navegacao-paginas"
                                     >
                                         Próximo &gt;
                                     </button>

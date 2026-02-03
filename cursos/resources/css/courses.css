@@ -27,6 +27,7 @@
     text-transform: var(--title-text-transform);
     font-weight: var(--title-font-weight);
     margin-bottom: var(--title-margin);
+    text-align: center;
 }
 .course-card {
     position: relative;
@@ -87,4 +88,13 @@
 .tag-materiais {
     background-color: var(--tertiary-background-color);
     color: var(--tertiary-color);
+}
+.navegacao-paginas {
+    border: var(--main-color) 1px solid;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+}
+.navegacao-paginas-ativo {
+    background-color: var(--accent-color);
+    border: var(--accent-color) 1px solid;
 }
