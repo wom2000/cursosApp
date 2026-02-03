@@ -29,7 +29,7 @@ class CategoriaController extends Controller
             'nome' => 'required|string|max:125|unique:categorias',
             'descricao' => 'nullable|string',
         ]));
-        return response()->json($categoria, 201);
+        return redirect()->route('AllCategories')->with('success', 'Categoria criada com sucesso!');
     }
 
     /**

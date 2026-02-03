@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\Api\CursoController;
-use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\CategoriaController;
 
 require __DIR__ . '/auth.php';
 
@@ -24,6 +25,14 @@ Route::get('/categorias', function () {
     return Inertia::render('Categories/AllCategories');
 })->name('AllCategories');
 
+Route::get('/criar-categoria', function () {
+    return Inertia::render('Categories/CreateCategory');
+})->name('CreateCategory')->middleware(['auth', 'verified', 'can:criar-categorias']);
+Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+
+Route::get('/editar-categoria/{id?}', function ($id = null) {
+    return Inertia::render('Categories/EditCategory', ['id' => $id]);
+})->name('EditCategory')->middleware(['auth', 'verified']);
 
 
 // Rotas autenticadas
@@ -109,7 +118,7 @@ Route::get('/materiais-pendentes', function () {
         }
     }
 
-    $materiais = $query->latest()->get();
+$materiais = $query->with(['materialCurso', 'materialUser'])->latest()->get();
 
     return Inertia::render('Materials/PendingMaterials', [
         'materiais' => $materiais,
