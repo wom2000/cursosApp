@@ -25,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('criar-cursos', function ($user) {
             return $user->role === 'admin' || $user->role === 'formador';
         });
+Gate::define('criar-categorias', function ($user) {
+    return $user->role === 'admin';
+});
 
     }
 }

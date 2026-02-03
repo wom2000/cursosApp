@@ -14,20 +14,22 @@ export default function PendingMaterials() {
         setProcessing(materialId);
 
         try {
-            const response = await fetch(`/materiais/${materialId}/status`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ status: 'aprovado' })
-            });
+          const response = await fetch(`/materiais/${materialId}/status`, {
+    method: 'PATCH',
+    credentials: 'same-origin',  // ADICIONAR ESTA LINHA
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+    },
+    body: JSON.stringify({ status: 'aprovado' })
+});
 
             if (response.ok) {
-                setMateriais(materiais.filter(m => m.id !== materialId));
-                alert('Material aprovado com sucesso!');
-            } else {
+    setMateriais(materiais.filter(m => m.id !== materialId));
+    alert('Material aprovado com sucesso!');
+    window.location.reload();
+} else {
                 const error = await response.json();
                 alert(error.message || 'Erro ao aprovar material');
             }
@@ -46,14 +48,15 @@ export default function PendingMaterials() {
 
         try {
             const response = await fetch(`/materiais/${materialId}/status`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ status: 'rejeitado' })
-            });
+    method: 'PATCH',
+    credentials: 'same-origin',  // ADICIONAR ESTA LINHA
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+    },
+    body: JSON.stringify({ status: 'aprovado' })
+});
 
             if (response.ok) {
                 setMateriais(materiais.filter(m => m.id !== materialId));

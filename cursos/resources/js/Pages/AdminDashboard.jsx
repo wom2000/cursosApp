@@ -15,8 +15,7 @@ export default function AdminDashboard({ auth }) {
                         Faça a gestão dos utilizadores, cursos, materiais e subscrições da plataforma.
                     </p>
                 </div>
-
-
+                <div className="dashboard-cards-grid">
                 {/* Card gerir utilizadores */}
                 <DashboardCard
                     icon={
@@ -65,7 +64,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Materiais"
                         description="Aceda a todos os materiais enviados."
-                        href="/editar-conteudo"
+                        href={route("PendingMaterials")}
                     />
 
                     {/* card gerir categoria */}
@@ -99,7 +98,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Criar Categoria"
                         description="Adicione novas categorias à plataforma."
-                        href="/categorias"
+                        href="/criar-categoria"
                     />
 
                     {/* card gerir subs */}
@@ -118,6 +117,7 @@ export default function AdminDashboard({ auth }) {
                         description="Acompanhe e administre subscrições."
                         href="/subscrever"
                     />
+                    </div>
                 </div>
                  </MainLayout>
 

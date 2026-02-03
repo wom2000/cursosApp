@@ -60,7 +60,7 @@ class MaterialController extends Controller
         }
         $material = Material::create($validated);
         $material->load(['materialCurso', 'materialUser', 'aprovadoPor']);
-        return response()->json($material, 201);
+return redirect()->route('UploadMaterials')->with('success', 'Material enviado com sucesso!');
     }
 
     /**
