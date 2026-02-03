@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\ProgressoController;
 use App\Http\Controllers\Api\SubscricaoController;
+use App\Http\Controllers\Api\UserController;
 
 // Ping
 Route::get('/ping', function () {
@@ -28,10 +29,10 @@ Route::get('/user', function (Request $request) {
 
 // Categorias
 Route::get('/categorias', [CategoriaController::class, 'index']);
-Route::post('/categorias-criar', [CategoriaController::class, 'store'])->name('categorias.store')->middleware('auth');
-Route::get('/categorias/{categoria}', [CategoriaController::class, 'show'])->name('categorias.show')->middleware('auth');
-Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update')->middleware('auth');
-Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy')->middleware('auth');
+Route::post('/categorias-criar', [CategoriaController::class, 'store'])->name('categorias.store')->middleware('web');
+Route::get('/categorias/{categoria}', [CategoriaController::class, 'show'])->name('categorias.show');
+Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update')->middleware('web');
+Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy')->middleware('web');
 
 // Cursos
 Route::get('/cursos/meus-cursos', [CursoController::class, 'meusCursos'])->name('api.meusCursos')->middleware('web');
@@ -65,3 +66,5 @@ Route::get('/subscricoes/{subscricao}', [SubscricaoController::class, 'show'])->
 Route::put('/subscricoes/{subscricao}', [SubscricaoController::class, 'update'])->name('subscricoes.update')->middleware('auth');
 Route::patch('/subscricoes/{subscricao}/cancelar', [SubscricaoController::class, 'cancelar'])->name('subscricoes.cancelar')->middleware('auth');
 Route::post('/subscricoes/{subscricao}/renovar', [SubscricaoController::class, 'renovar'])->name('subscricoes.renovar')->middleware('auth');
+Route::get('/users', [UserController::class, 'index'])->middleware('web');
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('web');
