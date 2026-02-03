@@ -1,3 +1,4 @@
+
 import MainLayout from "@/Layouts/MainLayout";
 import DashboardCard from "@/Components/DashboardCard";
 import { Head } from "@inertiajs/react";
@@ -7,7 +8,6 @@ export default function AdminDashboard({ auth }) {
     return (
         <MainLayout user={auth.user}>
             <Head title="Dashboard Admin" />
-
             <div className="admin-dashboard">
                 <div className="dashboard-header">
                     <h1 className="dashboard-title">Painel do Administrador</h1>
@@ -16,24 +16,23 @@ export default function AdminDashboard({ auth }) {
                     </p>
                 </div>
 
-                <div className="dashboard-cards-grid">
 
-                    {/* gerir users */}
-                    <DashboardCard
-                        icon={
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M17 20h5v-2a4 4 0 00-4-4h-1m-6 6H2v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 0a4 4 0 11-8 0 4 4 0 018 0z"
-                                />
-                            </svg>
-                        }
-                        title="Gerir Utilizadores"
-                        description="Administre contas e permissões."
-                        href="/admin"
-                    />
+                {/* Card gerir utilizadores */}
+                <DashboardCard
+                    icon={
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17 20h5v-2a4 4 0 00-4-4h-1m-6 6H2v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 0a4 4 0 11-8 0 4 4 0 018 0z"
+                            />
+                        </svg>
+                    }
+                    title="Gerir Utilizadores"
+                    description="Administre contas e permissões."
+                    href="/admin/users"
+                />
 
                     {/* card gerir cursos */}
                     <DashboardCard
@@ -49,7 +48,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Cursos"
                         description="Consulte e administre todos os cursos."
-                        href="/cursos"
+                        href="/editar-curso"
                     />
 
                     {/* carg gerir materiais */}
@@ -66,7 +65,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Materiais"
                         description="Aceda a todos os materiais enviados."
-                        href="/conteudos"
+                        href="/editar-conteudo"
                     />
 
                     {/* card gerir categoria */}
@@ -83,7 +82,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Categorias"
                         description="Veja todas as categorias disponíveis."
-                        href="/categorias"
+                        href="/editar-categoria"
                     />
 
                     {/* card criar categoria */}
@@ -100,7 +99,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Criar Categoria"
                         description="Adicione novas categorias à plataforma."
-                        href="/categorias"   
+                        href="/categorias"
                     />
 
                     {/* card gerir subs */}
@@ -120,9 +119,9 @@ export default function AdminDashboard({ auth }) {
                         href="/subscrever"
                     />
                 </div>
-            </div>
+                 </MainLayout>
 
 
-        </MainLayout>
+
     );
 }

@@ -1,3 +1,4 @@
+
 <?php
 
 use Inertia\Inertia;
@@ -11,7 +12,6 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Api\MaterialController;
 
 require __DIR__ . '/auth.php';
 
@@ -169,3 +169,10 @@ Route::patch('/materiais/{material}/status', function (Request $request, Materia
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+    Route::get('/admin/users', function () {
+        return Inertia::render('UsersAdmin');
+    })->name('admin.users')->middleware(['auth', 'verified']);
+        Route::get('/editar-categoria', function () {
+        return Inertia::render('Categories/EditCategory');
+    })->name('EditCategory')->middleware(['auth', 'verified']);
