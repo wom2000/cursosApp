@@ -12,7 +12,6 @@ export default function EstudanteDashboard({ auth }) {
             const msg = params.get("success");
             if (msg) setSuccessMessage(msg);
         } catch (e) {
-            // nada acontece
         }
     }, []);
     return (
@@ -74,7 +73,7 @@ export default function EstudanteDashboard({ auth }) {
                         }
                         title="Subscrições"
                         description="Aceda aos conteúdos que subscreveu."
-                        href="/subscricoes"
+                        href="/gerir-subscricao/{id}"
                     />
 
                     <DashboardCard

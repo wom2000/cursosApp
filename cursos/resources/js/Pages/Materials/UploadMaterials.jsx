@@ -15,6 +15,9 @@ export default function UploadMaterials() {
     });
 
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const cursoParam = params.get("curso");
+
         fetch('/api/cursos', {
             headers: {
                 'Accept': 'application/json',
@@ -22,7 +25,16 @@ export default function UploadMaterials() {
         })
             .then(res => res.json())
             .then(data => {
-                setCursos(data.data || []);
+                const lista = data.data || [];
+                setCursos(lista);
+                if (cursoParam) {
+                    const exists = lista.some(
+                        (curso) => String(curso.id) === String(cursoParam),
+                    );
+                    if (exists) {
+                        setData("id_curso", String(cursoParam));
+                    }
+                }
                 setLoading(false);
             })
             .catch(error => {

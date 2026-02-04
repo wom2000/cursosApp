@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\MaterialController;
@@ -108,6 +109,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return response()->json($curso, 200);
     })->name('cursos.update.web');
+        Route::get('/notificacoes', function () {
+        return Inertia::render('Notifications/AllNotifications', [
+            'auth' => Auth::user(),
+            'notifications' => Auth::user()->notifications ?? [],
+        ]);
+    })->name('notifications.index');
 
     // Materiais
     Route::get('/conteudos', function () {

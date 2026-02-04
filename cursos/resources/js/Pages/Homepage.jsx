@@ -71,7 +71,9 @@ export default function Homepage({ auth, cursosDestaque, categorias }) {
                     <h2 className="section-title">Entra na comunidade mirai</h2>
 
                     <div className="community-button-wrapper">
-                        <PrimaryButton>SUBSCREVE JÁ</PrimaryButton>
+                        <Link href="/subscrever">
+                            <PrimaryButton>SUBSCREVE JÁ</PrimaryButton>
+                        </Link>
                     </div>
 
                     <div className="community-cards-grid">
