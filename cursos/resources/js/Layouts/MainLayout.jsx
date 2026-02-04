@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { MenuIcon, XIcon, UserCircleIcon } from "@heroicons/react/outline";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
-export default function MainLayout({ header, user, children }) {
+export default function MainLayout({ header, children }) {
+    const { auth, subscricao } = usePage().props;
+    const user = auth?.user;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
 
@@ -18,17 +20,33 @@ export default function MainLayout({ header, user, children }) {
 
         if (user.role === "formador") {
             return "dashboard.formador";
-        } else if (user.role === "estudante") {
-            return "dashboard.estudante";
         } else if (user.role === "admin") {
             return "dashboard.admin";
+        } else if (user.role === "estudante") {
+            const hasAccess = user.cesae_student || subscricao;
+            return hasAccess ? "dashboard.estudante" : "CreateSubscription";
         }
         return "dashboard";
     };
 
+    const getProfileLinkLabel = () => {
+        if (!user) return "Dashboard cu";
+
+        if (user.role === "formador" || user.role === "admin") {
+            return "Dashboard";
+        } else if (user.role === "estudante") {
+            const hasAccess = user.cesae_student || subscricao;
+            return hasAccess ? "Dashboard" : "Subscrever";
+        }
+        return "Dashboard";
+    };
+
     const profileLinks = [
         { label: "Perfil", routeName: "profile.edit" },
-        { label: "Dashboard", routeName: getDashboardRoute() },
+        {
+            label: getProfileLinkLabel(),
+            routeName: getDashboardRoute(),
+        },
         { label: "Sair", routeName: "logout" },
     ];
 

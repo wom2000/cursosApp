@@ -12,24 +12,28 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     public function index()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    if ($user->isAdmin()) {
-        return redirect()->route('dashboard.admin');
-    } elseif ($user->isFormador()) {
-        return redirect()->route('dashboard.formador');
-    } else {
-        return redirect()->route('dashboard.estudante');
+        if ($user->isAdmin()) {
+            return redirect()->route('dashboard.admin');
+        } elseif ($user->isFormador()) {
+            return redirect()->route('dashboard.formador');
+        } elseif ($user->isEstudante()) {
+            if ($user->hasAcessoCursos()) {
+                return redirect()->route('dashboard.estudante');
+            }
+            return redirect()->route('CreateSubscription');
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
-}
 
 
     public function estudante()
     {
         $user = auth()->user();
-
-        if (!$user->isEstudante()) {
+        if (!$user->isEstudante() || !$user->hasAcessoCursos()) {
             abort(403, 'Acesso negado');
         }
         $totalProgressos = $user->progressos()->count();
@@ -39,7 +43,6 @@ class DashboardController extends Controller
             ->distinct('id_material')
             ->count();
 
-        // Fix: Use 'user_id' instead of 'id_user' which does not exist in subscricoes table
         $subscricao = $user->subscricao()->where('status', 'ativa')->first();
         $hasAccess = $user->isCesaeStudent() || $subscricao !== null;
         $ultimosMateriais = $user->progressos()

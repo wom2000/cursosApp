@@ -24,7 +24,6 @@ export default function CreateSubscription() {
             })
             .catch((err) => {
                 console.error("Subscription error:", err);
-                // Optionally show an error to the user
             })
             .finally(() => setProcessing(false));
     };
