@@ -39,7 +39,7 @@ export default function EstudanteDashboard({ auth }) {
                         }
                         title="Subscrições"
                         description="Aceda aos conteúdos que subscreveu."
-                        href="/subscrever"
+                        href="/subscricoes"
                     />
 
                     {/* card progresso */}

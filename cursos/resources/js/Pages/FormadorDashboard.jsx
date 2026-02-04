@@ -54,7 +54,7 @@ export default function FormadorDashboard({ auth, pendingApprovals, cursos_recen
                         }
                         title="Atualizar Curso"
                         description="Edite informações, adicione materiais e atualize o conteúdo dos seus cursos."
-                        href={route("EditCourse")}
+                        href={route("formador.courses")}
                     />
 
                     <DashboardCard
@@ -94,7 +94,7 @@ export default function FormadorDashboard({ auth, pendingApprovals, cursos_recen
                         }
                         title="Aprovar Materiais"
                         description="Aprove materiais enviados pelos alunos deste curso."
-                        href={route("PendingMaterials")}
+                        href={route("formador.approve-materials")}
                         badge={pendingApprovals > 0 ? pendingApprovals : null}
                     />
                     {/*
