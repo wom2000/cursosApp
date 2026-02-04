@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use App\Models\Subscricao;
 use Illuminate\Http\Request;
@@ -12,11 +13,11 @@ class SubscricaoController extends Controller
      */
     public function index()
     {
-         $user = auth()->user();
+        $user = auth()->user();
 
         $subscricoes = $user->subscricoes()
             ->orderBy('created_at', 'desc')
-            ->get(); 
+            ->get();
 
         return response()->json($subscricoes);
     }
@@ -27,10 +28,10 @@ class SubscricaoController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-        if($user->isCesaeStudent()){
+        if ($user->isCesaeStudent()) {
             return response()->json("os alunos CESAE têm subscrição gratuita", 400);
         }
-        if($user->temSubscricaoAtiva()){
+        if ($user->temSubscricaoAtiva()) {
             return response()->json("a subscrição está ativa", 400);
         }
         $validated = $request->validate([
@@ -81,7 +82,7 @@ class SubscricaoController extends Controller
         if ($subscricao->user_id !== $user->id && !$user->isAdmin()) {
             return response()->json('Não tens permissão para cancelar esta subscrição', 403);
         }
-        $subscricao->update(['status' => 'cancelada']);
+        $subscricao->update(['status' => 'expirada']);
         return response()->json($subscricao);
     }
 

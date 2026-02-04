@@ -4,7 +4,6 @@ use Inertia\Inertia;
 use App\Models\Categoria;
 use App\Models\Curso;
 use App\Models\Material;
-use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -189,13 +188,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/subscrever', [SubscriptionController::class, 'store'])->name('subscricoes.store');
 
-    Route::get('/gerir-subscricao/{id}', function ($id) {
-        return Inertia::render('Subscriptions/ManageSubscription', ['id' => $id]);
-    })->name('ManageSubscription');
+    Route::get('/gerir-subscricao/{id}', [SubscriptionController::class, 'manage'])->name('ManageSubscription');
+    Route::patch('/subscricao/{id}/cancelar', [SubscriptionController::class, 'cancelar'])->name('subscricoes.cancelar.web');
 
-    Route::get('/progresso', function () {
-        return Inertia::render('Progress/Progress');
-    })->name('subscriptions.progress');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

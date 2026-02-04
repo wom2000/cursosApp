@@ -72,9 +72,9 @@ export default function EstudanteDashboard({ auth }) {
                                 />
                             </svg>
                         }
-                        title="Subscrições"
-                        description="Aceda aos conteúdos que subscreveu."
-                        href="/subscricoes"
+                            title="Subscrições"
+                            description="Aceda aos conteúdos que subscreveu."
+                            href={route('ManageSubscription', auth.user.id)}
                     />
 
                     <DashboardCard
