@@ -1,9 +1,9 @@
 <?php
 
 use Inertia\Inertia;
-use App\Models\Categoria;
 use App\Models\Curso;
 use App\Models\Material;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +11,7 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProgressoController;
 
