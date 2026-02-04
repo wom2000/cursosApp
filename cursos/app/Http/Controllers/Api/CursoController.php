@@ -37,7 +37,6 @@ class CursoController extends Controller
         $user = auth()->user();
 
         if (!$user) {
-            // Debug: return info about why auth failed
             return response()->json([
                 'error' => 'Não autenticado',
                 'message' => 'Você precisa estar autenticado para acessar seus cursos',
@@ -168,3 +167,5 @@ class CursoController extends Controller
         return response()->json("curso eliminado", 200);
     }
 }
+
+// Resumo: CRUD de cursos e listagens (inclui filtros e cursos do utilizador).

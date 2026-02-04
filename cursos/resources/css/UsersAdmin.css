@@ -61,7 +61,6 @@
     cursor: default;
 }
 
-/* Tabela Container */
 .table-container {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
@@ -71,7 +70,6 @@
     overflow-x: auto;
 }
 
-/* Tabela */
 .users-table {
     width: 100%;
     border-collapse: separate;
@@ -119,7 +117,6 @@
     border-bottom: none;
 }
 
-/* ID Badge */
 .user-id {
     display: inline-block;
     background: rgba(233, 30, 99, 0.2);
@@ -130,7 +127,6 @@
     font-size: 0.875rem;
 }
 
-/* Role Badge */
 .user-role {
     display: inline-block;
     padding: 0.35rem 0.85rem;
@@ -186,7 +182,6 @@
     height: 1rem;
 }
 
-/* Loading & Erro */
 .loading-message,
 .error-message {
     text-align: center;
@@ -205,7 +200,6 @@
     border-radius: 1rem;
 }
 
-/* Stats Cards */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -255,7 +249,6 @@
     }
 }
 
-/* Sem utilizadores */
 .no-users {
     text-align: center;
     padding: 4rem 2rem;

@@ -79,3 +79,5 @@ class ApiAuthController extends Controller
         ]);
     }
 }
+
+// Resumo: Faz login, registo e logout via API e devolve o utilizador autenticado.

@@ -54,7 +54,7 @@ export default function FormadorDashboard({ auth, pendingApprovals, cursos_recen
                         }
                         title="Atualizar Curso"
                         description="Edite informações, adicione materiais e atualize o conteúdo dos seus cursos."
-                        href={route("formador.courses")}
+                        href={route("EditCourse")}
                     />
 
                     <DashboardCard
@@ -94,7 +94,7 @@ export default function FormadorDashboard({ auth, pendingApprovals, cursos_recen
                         }
                         title="Aprovar Materiais"
                         description="Aprove materiais enviados pelos alunos deste curso."
-                        href={route("formador.approve-materials")}
+                        href={route("PendingMaterials")}
                         badge={pendingApprovals > 0 ? pendingApprovals : null}
                     />
                     {/*
@@ -113,3 +113,5 @@ export default function FormadorDashboard({ auth, pendingApprovals, cursos_recen
         </MainLayout>
     );
 }
+
+// React: componente simples com props e sem estado local.

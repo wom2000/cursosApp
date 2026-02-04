@@ -43,3 +43,5 @@ class Curso extends Model
         );
     }
 }
+
+// Resumo: Guarda dados do curso e liga a categoria, formador, materiais do curso e progressos associados.

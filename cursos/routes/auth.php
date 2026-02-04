@@ -61,27 +61,25 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard
+
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // CURSOS - ADICIONA AQUI
     Route::get('/cursos', function () {
         return Inertia::render('Courses/AllCourses');
     })->name('cursos.index');
 
-    // CATEGORIAS
+
     Route::get('/categorias', function () {
         return Inertia::render('Categorias/Index');
     })->name('categorias.index');
 
-    // MATERIAIS
+
     Route::get('/materiais', function () {
         return Inertia::render('Materiais/Index');
     })->name('materiais.index');

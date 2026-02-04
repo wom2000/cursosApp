@@ -92,8 +92,6 @@ export default function AllCategories({ auth }) {
                                         ))}
                                     </div>
                                 )}
-
-                                {/* Paginação */}
                                 {lastPage > 1 && (
                                     <div className="flex justify-center mt-6 gap-2">
                                         <button
@@ -110,11 +108,10 @@ export default function AllCategories({ auth }) {
                                             <button
                                                 key={i + 1}
                                                 onClick={() => goToPage(i + 1)}
-                                                className={`navegacao-paginas ${
-                                                    currentPage === i + 1
+                                                className={`navegacao-paginas ${currentPage === i + 1
                                                         ? "navegacao-paginas-ativo"
                                                         : ""
-                                                }`}
+                                                    }`}
                                             >
                                                 {i + 1}
                                             </button>

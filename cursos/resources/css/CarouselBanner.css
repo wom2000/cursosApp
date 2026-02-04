@@ -22,7 +22,6 @@
     margin-bottom: 1.5rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .carousel-image {
         height: 400px;

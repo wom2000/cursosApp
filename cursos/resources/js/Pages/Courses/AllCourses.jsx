@@ -161,8 +161,6 @@ export default function AllCourses({ auth }) {
                                     ))}
                                 </div>
                             )}
-
-                            {/* Paginação */}
                             {lastPage > 1 && (
                                 <div className="flex justify-center mt-6 gap-2">
                                     <button
@@ -207,3 +205,5 @@ export default function AllCourses({ auth }) {
         </Layout>
     );
 }
+
+// React: useState/useEffect para lista e paginacao, usePage para props.
