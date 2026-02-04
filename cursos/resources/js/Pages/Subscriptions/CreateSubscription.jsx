@@ -2,11 +2,33 @@ import { useState } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import MainLayout from "@/Layouts/MainLayout";
 import { Head } from "@inertiajs/react";
+import axios from "axios";
 import "../../../css/Subscription.css";
-import "../../../css/CommunityCard.css";
 
 export default function CreateSubscription() {
     const [plan, setPlan] = useState("anual");
+    const [processing, setProcessing] = useState(false);
+
+    const handleSubscribe = (selectedPlan) => {
+        setProcessing(true);
+        axios
+            .post(route("subscricoes.store"), { plan: selectedPlan })
+            .then(() => {
+                const msg =
+                    selectedPlan === "anual"
+                        ? "Subscrito por um ano"
+                        : "Subscrito por um mês";
+                window.location.href =
+                    route("dashboard.estudante") +
+                    `?success=${encodeURIComponent(msg)}`;
+            })
+            .catch((err) => {
+                console.error("Subscription error:", err);
+                // Optionally show an error to the user
+            })
+            .finally(() => setProcessing(false));
+    };
+
     return (
         <MainLayout
             header={
@@ -18,15 +40,15 @@ export default function CreateSubscription() {
             <Head title="Subscrever" />
             <>
                 <div className="subscription-page">
-                    <h4 className="subscription-pretitle">
-                        Aprofunda o conhecimento
-                    </h4>
-                    <h2 className="subscription-title">
-                        Desenvolve competências para a tranformação digital
-                    </h2>
-
                     <div className="row row-1">
                         <div>
+                            <h4 className="subscription-pretitle">
+                                Aprofunda o conhecimento
+                            </h4>
+                            <h2 className="subscription-title">
+                                Desenvolve competências para a tranformação
+                                digital
+                            </h2>
                             <div className="box-subscription">
                                 <div className="plan-toggle">
                                     <button
@@ -55,13 +77,20 @@ export default function CreateSubscription() {
                                                     <p className="monthly">
                                                         24.99€/mês
                                                     </p>
-                                                    <p className="annual-note">
+                                                    <label className="annual-note">
                                                         pagamento anual de
                                                         299.88€
-                                                    </p>
+                                                    </label>
                                                 </div>
                                                 <div className="action-right">
-                                                    <PrimaryButton>
+                                                    <PrimaryButton
+                                                        disabled={processing}
+                                                        onClick={() =>
+                                                            handleSubscribe(
+                                                                "anual",
+                                                            )
+                                                        }
+                                                    >
                                                         SUBSCREVER
                                                     </PrimaryButton>
                                                 </div>
@@ -73,9 +102,17 @@ export default function CreateSubscription() {
                                                 <p className="monthly">
                                                     49.99€/mês
                                                 </p>
+                                                <label className="monthly-note"></label>
                                             </div>
                                             <div className="action-right">
-                                                <PrimaryButton>
+                                                <PrimaryButton
+                                                    disabled={processing}
+                                                    onClick={() =>
+                                                        handleSubscribe(
+                                                            "mensal",
+                                                        )
+                                                    }
+                                                >
                                                     SUBSCREVER
                                                 </PrimaryButton>
                                             </div>
@@ -92,9 +129,9 @@ export default function CreateSubscription() {
                             </p>
                         </div>
 
-                        <div className="right-card-subscription">
-                            <div className="community-card centered">
-                                <div className="community-card-icon">
+                        <div className="subscription-card">
+                            <div className="centered">
+                                <div className="subscription-card-icon">
                                     <svg
                                         fill="none"
                                         stroke="currentColor"
@@ -108,10 +145,10 @@ export default function CreateSubscription() {
                                         />
                                     </svg>
                                 </div>
-                                <h3 className="community-card-title">
+                                <h3 className="subscription-card-title">
                                     Acesso a todos os cursos
                                 </h3>
-                                <p className="community-card-description">
+                                <p className="subscription-card-description">
                                     Cursos, formações e conteúdos exclusivos que
                                     te vão ajudar a aprimorar as suas skills
                                     principais.
@@ -121,8 +158,8 @@ export default function CreateSubscription() {
                     </div>
 
                     <div className="row row-2">
-                        <div className="community-card icon-left">
-                            <div className="community-card-icon">
+                        <div className="subscription-card">
+                            <div className="subscription-card-icon">
                                 <svg
                                     fill="none"
                                     stroke="currentColor"
@@ -136,11 +173,11 @@ export default function CreateSubscription() {
                                     />
                                 </svg>
                             </div>
-                            <div className="community-card-text">
-                                <h3 className="community-card-title">
+                            <div className="subscription-card-text">
+                                <h3 className="subscription-card-title">
                                     Certificados Reconhecidos
                                 </h3>
-                                <p className="community-card-description">
+                                <p className="subscription-card-description">
                                     A cada formação do curso concluída, ganhará
                                     um certificado validado pelas empresas do
                                     setor.
@@ -150,18 +187,8 @@ export default function CreateSubscription() {
                     </div>
 
                     <div className="row row-3">
-                        <div className="community-card icon-right">
-                            <div className="community-card-text">
-                                <h3 className="community-card-title">
-                                    A melhor didática
-                                </h3>
-                                <p className="community-card-description">
-                                    Desafios reais, projetos práticos e a melhor
-                                    didática, recomendado por quem estuda
-                                    connosco.
-                                </p>
-                            </div>
-                            <div className="community-card-icon">
+                        <div className="subscription-card">
+                            <div className="subscription-card-icon">
                                 <svg
                                     fill="none"
                                     stroke="currentColor"
@@ -174,6 +201,16 @@ export default function CreateSubscription() {
                                         d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                                     />
                                 </svg>
+                            </div>
+                            <div className="subscription-card-text">
+                                <h3 className="subscription-card-title">
+                                    A melhor didática
+                                </h3>
+                                <p className="subscription-card-description">
+                                    Desafios reais, projetos práticos e a melhor
+                                    didática, recomendado por quem estuda
+                                    connosco.
+                                </p>
                             </div>
                         </div>
                     </div>
