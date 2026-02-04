@@ -26,6 +26,7 @@ class CursoController extends Controller
             $query->where('nome', 'like', '%' . $request->search . '%');
         }
         $cursos = $query->paginate(12);
+        \Illuminate\Support\Facades\Log::info('API Cursos hit. Total: ' . $cursos->total());
         return response()->json($cursos);
     }
 
@@ -114,11 +115,14 @@ class CursoController extends Controller
             if ($user->isAdmin() || $user->isFormador()) {
                 $curso->load('materiais');
             } elseif ($user->hasAcessoCursos()) {
-                $curso->load(['materiais' => function ($query) {
-                    $query->where('status', 'aprovado');
-                }]);
+                $curso->load([
+                    'materiais' => function ($query) {
+                        $query->where('status', 'aprovado');
+                    }
+                ]);
             }
-        };
+        }
+        ;
         return response()->json([
             'curso' => $curso,
             'tem_acesso_materiais' => $user ? ($user->isAdmin() || $user->isFormador() || $user->hasAcessoCursos()) : false,

@@ -7,7 +7,7 @@ export default function SkillCard({ curso, imagePosition = 'left' }) {
     // ✅ Define o caminho da imagem uma única vez
     const imageSrc = curso.imagem_curso
         ? `/storage/${curso.imagem_curso}`
-        : '/images/placeholder.png';
+        : '/images/imagensCursos/placeholder.png';
 
     return (
         <div className="skills-block">

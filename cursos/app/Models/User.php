@@ -56,54 +56,67 @@ class User extends Authenticatable
         ];
     }
 
-    public function cursosLecionados(){
+    public function cursosLecionados()
+    {
         return $this->hasMany(Curso::class, 'formadores');
     }
 
-    public function materiais(){
+    public function materiais()
+    {
         return $this->hasMany(Material::class, 'id_user');
     }
 
-    public function materiaisAprovados(){
+    public function materiaisAprovados()
+    {
         return $this->hasMany(Material::class, 'aprovado_por');
     }
 
-    public function progressos(){
+    public function progressos()
+    {
         return $this->hasMany(Progresso::class, 'id_user');
     }
 
-    public function subscricao(){
-        return $this->hasOne(Subscricao::class, 'id_user');
+    public function subscricao()
+    {
+        return $this->hasOne(Subscricao::class);
     }
-    public function subscricoes(){
+    public function subscricoes()
+    {
         return $this->hasMany(Subscricao::class);
     }
 
-    public function isAdmin(): bool{
+    public function isAdmin(): bool
+    {
         return $this->role === self::ROLE_ADMIN;
     }
 
-    public function isFormador(): bool{
+    public function isFormador(): bool
+    {
         return $this->role === self::ROLE_FORMADOR;
     }
 
-    public function isEstudante(): bool{
+    public function isEstudante(): bool
+    {
         return $this->role === self::ROLE_ESTUDANTE;
     }
 
-    public function isCesaeStudent(): bool{
+    public function isCesaeStudent(): bool
+    {
         return $this->cesae_student;
     }
 
-    public function temSubscricaoAtiva():bool{
+    public function temSubscricaoAtiva(): bool
+    {
         return $this->subscricao()->where('status', 'ativa')->exists();
     }
 
-    public function hasAcessoCursos(): bool{
+    public function hasAcessoCursos(): bool
+    {
         return $this->isCesaeStudent() || $this->temSubscricaoAtiva();
     }
 
-    public function podeAprovarMateriais(): bool{
+    public function podeAprovarMateriais(): bool
+    {
         return $this->isAdmin() || $this->isFormador();
     }
 }
