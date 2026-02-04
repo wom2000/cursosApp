@@ -18,7 +18,6 @@ export default function EstudanteDashboard({ auth }) {
 
                 <div className="dashboard-cards-grid">
 
-                    {/* card cursos */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,7 +29,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/cursos"
                     />
 
-                    {/* card subs */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -42,7 +40,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/subscricoes"
                     />
 
-                    {/* card progresso */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,7 +51,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/progresso"
                     />
 
-                    {/* card notificacoes */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +62,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/notificacoes"
                     />
 
-                    {/* card inserir conteudo — AGORA DENTRO DA GRID */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,3 +83,5 @@ export default function EstudanteDashboard({ auth }) {
         </MainLayout>
     );
 }
+
+// React: componente simples, props via Inertia, sem estado local.

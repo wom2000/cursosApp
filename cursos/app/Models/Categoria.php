@@ -14,3 +14,5 @@ class Categoria extends Model
         return $this->hasMany(Curso::class,'area');
     }
 }
+
+// Resumo: Agrupa cursos por area.

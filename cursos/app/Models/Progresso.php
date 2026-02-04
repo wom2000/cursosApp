@@ -25,3 +25,5 @@ class Progresso extends Model
             'id', 'id','id_material', 'id_curso');
     }
 }
+
+// Resumo: Guarda o estado do aluno por material e liga ao utilizador, material e curso correspondente.

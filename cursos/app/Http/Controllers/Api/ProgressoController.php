@@ -28,6 +28,9 @@ class ProgressoController extends Controller
     public function store(Request $request)
     {
     $user = auth()->user();
+    if ($user->isAdmin() || $user->isFormador()) {
+        return response()->json('Não tens permissão para atualizar progresso', 403);
+    }
 
     $validated = $request->validate([
         'id_material' => 'required|exists:materiais,id',
@@ -39,6 +42,9 @@ class ProgressoController extends Controller
 
     if (!$material) {
         return response()->json('Material não encontrado ou não aprovado', 404);
+    }
+    if ($material->conta_progresso === false) {
+        return response()->json('Material de suporte não conta para progresso', 403);
     }
     if (!$user->hasAcessoCursos()) {
         return response()->json('Sem acesso aos cursos', 403);
@@ -79,12 +85,19 @@ class ProgressoController extends Controller
     public function update(Request $request, Progresso $progresso)
     {
         $user = auth()->user();
+        if ($user->isAdmin() || $user->isFormador()) {
+            return response()->json('Não tens permissão para atualizar progresso', 403);
+        }
         if ($progresso->id_user !== $user->id) {
             return response()->json('Não tens permissão', 403);
         }
         $validated = $request->validate([
             'status' => 'required|in:para_ver,a_ver,visto',
         ]);
+
+        if ($progresso->material && $progresso->material->conta_progresso === false) {
+            return response()->json('Material de suporte não conta para progresso', 403);
+        }
 
         $progresso->update([
             'status' => $validated['status'],
@@ -118,6 +131,7 @@ class ProgressoController extends Controller
     {
         $materiaisAprovados = Material::where('id_curso', $cursoId)
             ->where('status', 'aprovado')
+            ->where('conta_progresso', true)
             ->pluck('id');
 
         $totalMateriais = $materiaisAprovados->count();
@@ -176,3 +190,5 @@ class ProgressoController extends Controller
         return response()->json($cursos);
     }
 }
+
+// Resumo: Guarda e consulta o progresso dos alunos por material e calcula e cursos concluidos (apenas materiais que contam para progresso).

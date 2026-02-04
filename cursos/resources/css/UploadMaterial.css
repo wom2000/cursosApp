@@ -36,7 +36,6 @@
     padding: 2.5rem;
 }
 
-/* Upload de Ficheiro */
 .form-file-upload {
     margin-bottom: 2.5rem;
 }
@@ -143,7 +142,6 @@
     display: none;
 }
 
-/* Campos do Formulário */
 .form-fields {
     display: grid;
     gap: 1.5rem;
@@ -234,7 +232,6 @@
     line-height: 1.5;
 }
 
-/* Botões */
 .form-actions {
     display: flex;
     gap: 1rem;

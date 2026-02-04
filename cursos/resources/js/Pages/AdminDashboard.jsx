@@ -16,25 +16,21 @@ export default function AdminDashboard({ auth }) {
                     </p>
                 </div>
                 <div className="dashboard-cards-grid">
-
-                    {/* gerir users */}
-                    <DashboardCard
-                        icon={
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M17 20h5v-2a4 4 0 00-4-4h-1m-6 6H2v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 0a4 4 0 11-8 0 4 4 0 018 0z"
-                                />
-                            </svg>
-                        }
-                        title="Gerir Utilizadores"
-                        description="Administre contas e permissões."
-                        href="/utilizadores"
-                    />
-
-                    {/* card gerir cursos */}
+                <DashboardCard
+                    icon={
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17 20h5v-2a4 4 0 00-4-4h-1m-6 6H2v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 0a4 4 0 11-8 0 4 4 0 018 0z"
+                            />
+                        </svg>
+                    }
+                    title="Gerir Utilizadores"
+                    description="Administre contas e permissões."
+                    href="/admin/users"
+                />
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,8 +46,6 @@ export default function AdminDashboard({ auth }) {
                         description="Consulte e administre todos os cursos."
                         href="/editar-curso"
                     />
-
-                    {/* carg gerir materiais */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,7 +62,6 @@ export default function AdminDashboard({ auth }) {
                         href={route("PendingMaterials")}
                     />
 
-                    {/* card gerir categoria */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,7 +78,6 @@ export default function AdminDashboard({ auth }) {
                         href="/editar-categoria"
                     />
 
-                    {/* card criar categoria */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,10 +91,9 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Criar Categoria"
                         description="Adicione novas categorias à plataforma."
-                        href="/categorias/criar"
+                        href="/criar-categoria"
                     />
 
-                    {/* card gerir subs */}
                     <DashboardCard
                         icon={
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +107,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Subscrições"
                         description="Acompanhe e administre subscrições."
-                        href="/subscricoes"
+                        href="/subscrever"
                     />
                     </div>
                 </div>
@@ -126,3 +117,5 @@ export default function AdminDashboard({ auth }) {
 
     );
 }
+
+// React: componente simples com props e sem estado local. só mostram cards e textos, sem fetch nem estado.

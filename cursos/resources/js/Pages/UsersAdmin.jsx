@@ -11,7 +11,7 @@ export default function UsersAdmin({ auth }) {
 
     const fetchUsers = (tipo = 'todos') => {
         setLoading(true);
-        setErro(null); // Limpa erro anterior
+        setErro(null);
 
         let url = '/api/users';
         if (tipo !== 'todos') {
@@ -35,7 +35,7 @@ export default function UsersAdmin({ auth }) {
             .catch(err => {
                 setErro(err.message);
                 setLoading(false);
-                setUsers([]); // Limpa users em caso de erro
+                setUsers([]);
             });
     };
 
@@ -76,7 +76,6 @@ export default function UsersAdmin({ auth }) {
                     </p>
                 </div>
 
-                {/* Stats */}
                 {!loading && !erro && (
                     <div className="stats-grid">
                         <div className="stat-card">
@@ -104,7 +103,6 @@ export default function UsersAdmin({ auth }) {
                     </div>
                 )}
 
-                {/* Filtros */}
                 <div className="filter-buttons">
                     <button
                         onClick={() => setTipoFiltro('todos')}
@@ -136,7 +134,6 @@ export default function UsersAdmin({ auth }) {
                     </button>
                 </div>
 
-                {/* Tabela */}
                 <div className="table-container">
                     {loading ? (
                         <p className="loading-message">A carregar utilizadores...</p>

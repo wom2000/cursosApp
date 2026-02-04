@@ -27,8 +27,6 @@
     color: #9CA3AF;
     font-size: 1.125rem;
 }
-
-/* Loading & Erro */
 .loading-message,
 .error-message-box {
     text-align: center;
@@ -44,7 +42,6 @@
     border-radius: 1rem;
 }
 
-/* Grid de Categorias */
 .category-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -148,7 +145,6 @@
     min-height: 120px;
 }
 
-/* Botões */
 .form-actions {
     display: flex;
     gap: 1rem;
@@ -210,7 +206,6 @@
     height: 1.25rem;
 }
 
-/* Responsive */
 @media (max-width: 640px) {
     .form-actions {
         flex-direction: column;
