@@ -73,7 +73,7 @@ class User extends Authenticatable
     }
 
     public function subscricao(){
-        return $this->hasOne(Subscricao::class, 'id_user');
+        return $this->hasOne(Subscricao::class, 'user_id');
     }
     public function subscricoes(){
         return $this->hasMany(Subscricao::class);

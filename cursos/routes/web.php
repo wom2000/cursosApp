@@ -1,4 +1,3 @@
-
 <?php
 
 use Inertia\Inertia;
@@ -13,8 +12,10 @@ use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\SubscriptionController;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/cursos', function () {
@@ -23,6 +24,16 @@ Route::get('/cursos', function () {
 Route::get('/categorias', function () {
     return Inertia::render('Categories/AllCategories');
 })->name('AllCategories');
+
+Route::get('/criar-categoria', function () {
+    return Inertia::render('Categories/CreateCategory');
+})->name('CreateCategory')->middleware(['auth', 'verified', 'can:criar-categorias']);
+Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+
+Route::get('/editar-categoria/{id?}', function ($id = null) {
+    return Inertia::render('Categories/EditCategory', ['id' => $id]);
+})->name('EditCategory')->middleware(['auth', 'verified']);
+
 
 // Rotas autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -33,20 +44,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/formador', [DashboardController::class, 'formador'])->name('dashboard.formador');
     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
 
-    // formador
-    Route::get('/dashboard/formador/cursos', function () {
-        return Inertia::render('Courses/AllCourses');
-    })->name('formador.courses');
-    
-    Route::get('/dashboard/formador/aprovar-materiais', function () {
-        return Inertia::render('Materials/AllMaterials');
-    })->name('formador.approve-materials');
-
     // Cursos
     Route::get('/curso/{id}', function ($id) {
         return Inertia::render('Courses/ShowCourse', ['id' => $id]);
     })->name('ShowCourse');
-     Route::get('/api-web/cursos', [CursoController::class, 'index'])->name('cursos.list');
+    Route::get('/api-web/cursos', [CursoController::class, 'index'])->name('cursos.list');
 
     Route::get('/criar-curso', function () {
         return Inertia::render('Courses/CreateCourse', ['categorias' => Categoria::all()]);
@@ -57,9 +59,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Courses/EditCourse', ['id' => $id]);
     })->name('EditCourse');
 
-    Route::get('/categorias/criar', function () {
-        return Inertia::render('Categories/CreateCategory');
-    })->name('CreateCategory');
+    Route::post('/editar-curso/{id}', function ($id, Request $request) {
+        $curso = Curso::findOrFail($id);
+        $user = auth()->user();
+
+        if (!$user->isAdmin() && !$user->isFormador()) {
+            return response()->json('Não é autorizado a atualizar cursos', 403);
+        }
+
+        $validated = $request->validate([
+            'nome' => 'required|string|max:125|unique:cursos,nome,' . $curso->id,
+            'descricao' => 'nullable|string',
+            'area' => 'required|exists:categorias,id',
+            'duracao' => 'required|string',
+            'nivel' => 'required|in:iniciante,intermedio,avancado',
+        ]);
+
+        $curso->update($validated);
+
+        return response()->json($curso, 200);
+    })->name('cursos.update.web');
 
     // Materiais
     Route::get('/conteudos', function () {
@@ -76,10 +95,72 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);
     })->name('EditMaterials');
 
+    Route::get('/materiais-pendentes', function () {
+        $user = auth()->user();
+
+        // Verifica role diretamente
+        if ($user->role !== 'admin' && $user->role !== 'formador') {
+            abort(403, 'Não tens permissão');
+        }
+
+        $query = Material::where('status', 'pendente');
+
+        // Se for formador, filtra pelos seus cursos
+        if ($user->role === 'formador') {
+            // Busca cursos onde o user é formador
+            $cursoIds = Curso::where('formadores', $user->id)->pluck('id')->toArray();
+
+            if (count($cursoIds) > 0) {
+                $query->whereIn('id_curso', $cursoIds);
+            } else {
+                // Se não tem cursos, retorna vazio
+                $query->where('id', 0);
+            }
+        }
+
+        $materiais = $query->with(['materialCurso', 'materialUser'])->latest()->get();
+
+        return Inertia::render('Materials/PendingMaterials', [
+            'materiais' => $materiais,
+        ]);
+    })->name('PendingMaterials');
+    // Adiciona esta nova rota para atualizar status:
+    Route::patch('/materiais/{material}/status', function (Request $request, Material $material) {
+        $user = auth()->user();
+
+        if (!$user->isAdmin() && !$user->isFormador()) {
+            return response()->json(['message' => 'Não tens permissão'], 403);
+        }
+
+        if ($user->isFormador()) {
+            $cursoIds = $user->cursosLecionados()->pluck('id');
+            if (!$cursoIds->contains($material->id_curso)) {
+                return response()->json(['message' => 'Não tens permissão para este curso'], 403);
+            }
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:aprovado,rejeitado',
+        ]);
+
+        $material->update([
+            'status' => $validated['status'],
+            'aprovado_por' => $user->id,
+            'data_aprovacao' => now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Material atualizado com sucesso',
+            'material' => $material
+        ]);
+    })->name('materiais.updateStatus');
+
     // Subscrições
     Route::get('/subscrever', function () {
         return Inertia::render('Subscriptions/CreateSubscription');
     })->name('CreateSubscription');
+
+    Route::post('/subscrever', [SubscriptionController::class, 'store'])->name('subscricoes.store');
 
     Route::get('/gerir-subscricao/{id}', function ($id) {
         return Inertia::render('Subscriptions/ManageSubscription', ['id' => $id]);
@@ -89,20 +170,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Subscriptions/ManageSubscription');
     })->name('subscriptions.progress');
 
-    Route::get('/subscricoes', function () {
-        return Inertia::render('Subscriptions/AllSubscriptions');
-    })->name('AllSubscriptions');
-
-    Route::get('/utilizadores', function () {
-        return Inertia::render('Users/AllUsers');
-    })->name('AllUsers');
-
     // todas notificaçoes
     Route::get('/notificacoes', function () {
-        return Inertia::render('Notifications/AllNotifications', [
-            'auth' => Auth::user(),
-            'notifications' => Auth::user()->notifications ?? [],
-        ]);
+        return Inertia::render('Notifications/AllNotifications');
     })->name('notifications.index');
 
     // Profile
@@ -111,9 +181,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-    Route::get('/admin/users', function () {
-        return Inertia::render('UsersAdmin');
-    })->name('admin.users')->middleware(['auth', 'verified']);
-        Route::get('/editar-categoria', function () {
-        return Inertia::render('Categories/EditCategory');
-    })->name('EditCategory')->middleware(['auth', 'verified']);
+Route::get('/admin/users', function () {
+    return Inertia::render('UsersAdmin');
+})->name('admin.users')->middleware(['auth', 'verified']);

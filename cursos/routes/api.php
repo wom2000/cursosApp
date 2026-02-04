@@ -60,7 +60,7 @@ Route::delete('/progressos/{progresso}', [ProgressoController::class, 'destroy']
 
 // Subscrições
 Route::get('/subscricoes', [SubscricaoController::class, 'index'])->name('subscricoes.index')->middleware('auth');
-Route::post('/subscricoes-criar', [SubscricaoController::class, 'store'])->name('subscricoes.store')->middleware('auth');
+Route::post('/subscricoes-criar', [SubscricaoController::class, 'store'])->name('api.subscricoes.store')->middleware('auth');
 Route::get('/subscricoes/todas', [SubscricaoController::class, 'todas'])->name('subscricoes.todas')->middleware('auth');
 Route::get('/subscricoes/{subscricao}', [SubscricaoController::class, 'show'])->name('subscricoes.show')->middleware('auth');
 Route::put('/subscricoes/{subscricao}', [SubscricaoController::class, 'update'])->name('subscricoes.update')->middleware('auth');
