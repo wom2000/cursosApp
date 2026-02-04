@@ -60,11 +60,8 @@ class User extends Authenticatable
         return $this->hasMany(Progresso::class, 'id_user');
     }
 
-
     public function subscricao()
     {
-        return $this->hasOne(Subscricao::class);
-    public function subscricao(){
         return $this->hasOne(Subscricao::class, 'user_id');
     }
     public function subscricoes()

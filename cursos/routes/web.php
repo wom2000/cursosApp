@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use App\Models\Categoria;
 use App\Models\Curso;
 use App\Models\Material;
 use App\Models\Categoria;
