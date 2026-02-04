@@ -53,10 +53,12 @@ class MaterialController extends Controller
             $validated['status'] = 'aprovado';
             $validated['aprovado_por'] = $user->id;
             $validated['data_aprovacao'] = now();
+            $validated['conta_progresso'] = true;
         } else {
             $validated['status'] = 'pendente';
             $validated['aprovado_por'] = null;
             $validated['data_aprovacao'] = null;
+            $validated['conta_progresso'] = false;
         }
         $material = Material::create($validated);
         $material->load(['materialCurso', 'materialUser', 'aprovadoPor']);
@@ -105,16 +107,37 @@ return redirect()->route('UploadMaterials')->with('success', 'Material enviado c
         return response()->json($material);
     }
 
+    public function updateContaProgresso(Request $request, Material $material)
+    {
+        $user = auth()->user();
+        if (!$user->isAdmin() && !$user->isFormador()) {
+            return response()->json('Não tens permissão', 403);
+        }
+        if ($user->isFormador()) {
+            $cursoIds = $user->cursosLecionados()->pluck('id');
+            if (!$cursoIds->contains($material->id_curso)) {
+                return response()->json('Não tens permissão para este curso', 403);
+            }
+        }
+        $validated = $request->validate([
+            'conta_progresso' => 'required|boolean',
+        ]);
+        $material->update([
+            'conta_progresso' => $validated['conta_progresso'],
+        ]);
+        return response()->json($material);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Material $material)
     {
         $user = auth()->user();
-        $canDelete = $user->isAdmin()
-            || $material->id_user === $user->id
-            || ($user->isFormador() && $material->materialCurso->formadores === $user->id);
-        if (!$canDelete) {
+        if (!$user->isAdmin() && !$user->isFormador()) {
+            return response()->json('Não tens permissão para apagar este material', 403);
+        }
+        if ($user->isFormador() && $material->materialCurso->formadores !== $user->id) {
             return response()->json('Não tens permissão para apagar este material', 403);
         }
         Storage::disk('public')->delete($material->caminho_ficheiro);
@@ -138,3 +161,5 @@ return redirect()->route('UploadMaterials')->with('success', 'Material enviado c
         return response()->json($materiais);
     }
 }
+
+// Resumo: Gere materiais (listar, criar, aprovar, marcar suporte/progresso e apagar), com regras por tipo de utilizador.

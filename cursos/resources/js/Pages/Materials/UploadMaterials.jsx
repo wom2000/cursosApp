@@ -14,7 +14,6 @@ export default function UploadMaterials() {
         ficheiro: null,
     });
 
-    // Buscar cursos disponíveis
     useEffect(() => {
         fetch('/api/cursos', {
             headers: {
@@ -76,7 +75,6 @@ export default function UploadMaterials() {
                 </div>
 
                 <form onSubmit={submit} className="upload-materials-form">
-                    {/* Upload de Ficheiro - Destaque */}
                     <div className="form-file-upload">
                         <label htmlFor="ficheiro" className="file-upload-label">
                             {data.ficheiro ? (
@@ -120,10 +118,7 @@ export default function UploadMaterials() {
                         />
                         {errors.ficheiro && <span className="error-message">{errors.ficheiro}</span>}
                     </div>
-
-                    {/* Campos do Formulário */}
                     <div className="form-fields">
-                        {/* Nome do Material */}
                         <div className="form-group">
                             <label htmlFor="nome" className="form-label">
                                 Nome do Material *
@@ -139,8 +134,6 @@ export default function UploadMaterials() {
                             />
                             {errors.nome && <span className="error-message">{errors.nome}</span>}
                         </div>
-
-                        {/* Curso */}
                         <div className="form-group">
                             <label htmlFor="id_curso" className="form-label">
                                 Curso *
@@ -166,8 +159,6 @@ export default function UploadMaterials() {
                             {errors.id_curso && <span className="error-message">{errors.id_curso}</span>}
                         </div>
                     </div>
-
-                    {/* Info Box */}
                     <div className="info-box">
                         <svg className="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -181,8 +172,6 @@ export default function UploadMaterials() {
                             </p>
                         </div>
                     </div>
-
-                    {/* Botões */}
                     <div className="form-actions">
                         <button
                             type="button"
@@ -219,3 +208,6 @@ export default function UploadMaterials() {
         </MainLayout>
     );
 }
+
+// Resumo: Formulario de upload de materiais com selecao de curso e ficheiro.
+// React: useState/useEffect para cursos, useForm para upload.

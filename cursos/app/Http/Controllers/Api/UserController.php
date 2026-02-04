@@ -16,14 +16,12 @@ class UserController extends Controller
 
         switch ($tipo) {
             case 'subscritor':
-                // Users com subscrição ativa
                 $query->whereHas('subscricao', function($q) {
                     $q->where('status', 'ativa');
                 });
                 break;
 
             case 'estudante_sem_sub':
-                // Estudantes SEM subscrição ativa (excluindo alunos CESAE)
                 $query->where('role', 'estudante')
                       ->where(function($q) {
                           $q->where('cesae_student', false)
@@ -44,7 +42,6 @@ class UserController extends Controller
 
             case 'todos':
             default:
-                // Retorna todos
                 break;
         }
 
@@ -62,16 +59,13 @@ class UserController extends Controller
         ], 500);
     }
 }
+
     public function destroy(User $user)
     {
         $authUser = auth()->user();
-
-        // Verifica se é admin
         if (!$authUser || $authUser->role !== 'admin') {
             return response()->json(['message' => 'Não autorizado'], 403);
         }
-
-        // Não permite apagar o próprio utilizador
         if ($user->id === $authUser->id) {
             return response()->json(['message' => 'Não pode apagar o próprio utilizador'], 403);
         }
@@ -81,3 +75,5 @@ class UserController extends Controller
         return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso']);
     }
 }
+
+// Resumo: Lista utilizadores e filtra por estado de subscricao.

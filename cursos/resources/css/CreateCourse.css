@@ -36,7 +36,6 @@
     padding: 2.5rem;
 }
 
-/* Upload de Imagem */
 .form-image-upload {
     margin-bottom: 2.5rem;
 }
@@ -120,7 +119,6 @@
     display: none;
 }
 
-/* Grid de Formulário */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -192,7 +190,6 @@
     margin-top: 0.5rem;
 }
 
-/* Botões */
 .form-actions {
     display: flex;
     gap: 1rem;

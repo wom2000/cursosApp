@@ -71,3 +71,5 @@ class CategoriaController extends Controller
         return response()->json("categoria eliminada", 200);
     }
 }
+
+// Resumo: CRUD de categorias para listar, criar, editar e apagar.

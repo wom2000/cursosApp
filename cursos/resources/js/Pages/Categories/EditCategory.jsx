@@ -71,7 +71,6 @@ export default function EditCategory({ auth }) {
                 setCategoria(null);
                 setSelectedCategoryId(null);
                 setData({ nome: "", descricao: "" });
-                // Recarregar categorias
                 fetch('/api/categorias', { credentials: 'same-origin' })
                     .then(res => res.json())
                     .then(data => setCategorias(Array.isArray(data) ? data : (data.categorias || [])));
@@ -103,7 +102,6 @@ export default function EditCategory({ auth }) {
                 setCategoria(null);
                 setSelectedCategoryId(null);
                 setData({ nome: "", descricao: "" });
-                // Recarregar lista de categorias
                 fetch('/api/categorias', { credentials: 'same-origin' })
                     .then(res => res.json())
                     .then(data => setCategorias(Array.isArray(data) ? data : (data.categorias || [])));
@@ -168,7 +166,7 @@ export default function EditCategory({ auth }) {
                                 type="text"
                                 className="form-input"
                                 value={data.nome}
-                                onChange={e => setData(d => ({...d, nome: e.target.value}))}
+                                onChange={e => setData(d => ({ ...d, nome: e.target.value }))}
                                 placeholder="Nome da categoria"
                                 required
                             />
@@ -179,7 +177,7 @@ export default function EditCategory({ auth }) {
                             <textarea
                                 className="form-textarea"
                                 value={data.descricao}
-                                onChange={e => setData(d => ({...d, descricao: e.target.value}))}
+                                onChange={e => setData(d => ({ ...d, descricao: e.target.value }))}
                                 placeholder="Descrição da categoria..."
                             />
                         </div>
@@ -215,3 +213,6 @@ export default function EditCategory({ auth }) {
         </MainLayout>
     );
 }
+
+// Resumo: Lista categorias, permite selecionar, editar e eliminar.
+// React: useState/useEffect para carregar e editar dados.

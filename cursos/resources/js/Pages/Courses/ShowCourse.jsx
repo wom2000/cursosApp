@@ -1,17 +1,89 @@
 import MainLayout from "@/Layouts/MainLayout";
+<<<<<<< angeloBranch
 import { Head } from "@inertiajs/react";
+import "../../../css/ShowCourse.css";
 
-export default function ShowCourse() {
+export default function ShowCourse({ auth, course }) {
+    const materials = course?.materials ?? [];
+
     return (
         <MainLayout
+            user={auth?.user}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Curso{" "}
+                    Curso: {course?.title}
                 </h2>
             }
         >
+            <Head title={course?.title ?? "Curso"} />
+
+            <div className="course-page">
+
+                {/* Foto do curso */}
+                <div className="course-cover">
+                    <img src={course?.image} alt={course?.title} />
+                </div>
+
+                {/* Resumo */}
+                <div className="course-summary">
+                    <h3>Resumo do Curso</h3>
+                    <p>{course?.description}</p>
+                </div>
+
+                {/* Materiais */}
+                <div className="course-materials">
+                    <h3>Materiais Disponíveis</h3>
+
+                    {materials.length === 0 && (
+                        <p className="no-materials">Nenhum material disponível.</p>
+                    )}
+
+                    <ul>
+                        {materials.map((m) => (
+                            <li key={m.id} className="material-card">
+                                <div className="material-info">
+                                    <img src={m.thumbnail} alt={m.name} />
+                                    <div>
+                                        <p className="material-title">{m.name}</p>
+                                        <p className="material-desc">{m.description}</p>
+                                    </div>
+                                </div>
+
+                                <a
+                                    href={m.download_url}
+                                    className="material-download"
+                                    target="_blank"
+                                >
+                                    Download
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+=======
+import { Head, Link } from "@inertiajs/react";
+
+export default function ShowCourse({ auth, id }) {
+    return (
+        <MainLayout user={auth.user}>
             <Head title="Curso" />
-            <div>Isto é um curso</div>
+            <div className="max-w-4xl mx-auto px-6 py-10">
+                <h1 className="text-2xl font-semibold text-gray-900">
+                    Detalhes do Curso
+                </h1>
+                <p className="mt-2 text-gray-600">
+                    Aceda aos materiais e registe o seu progresso.
+                </p>
+
+                <div className="mt-6">
+                    <Link
+                        href={`/curso/${id}/materiais`}
+                        className="inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800"
+                    >
+                        Ver Materiais
+                    </Link>
+>>>>>>> main
+                </div>
+            </div>
         </MainLayout>
     );
 }

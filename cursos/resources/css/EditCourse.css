@@ -230,7 +230,6 @@
     animation: spin 1s linear infinite;
 }
 
-/* Botões */
 .form-actions {
     display: flex;
     gap: 1rem;
@@ -299,7 +298,6 @@
         transform: rotate(360deg);
     }
 }
-/* Seleção de Cursos */
 .courses-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -356,7 +354,6 @@
     font-size: 0.85rem;
 }
 
-/* Sem Cursos */
 .no-courses {
     text-align: center;
     padding: 3rem 2rem;
