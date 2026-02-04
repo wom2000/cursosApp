@@ -1,4 +1,8 @@
+<<<<<<< angeloBranch
+import MainLayout from "@/Layouts/MainLayout";
+=======
  import MainLayout from "@/Layouts/MainLayout";
+>>>>>>> main
 import { Head, useForm, usePage } from "@inertiajs/react";
 import "../../../css/CreateCourse.css";
 
@@ -31,8 +35,14 @@ export default function CreateCategory() {
                 </div>
 
                 <form onSubmit={submit} className="create-course-form">
+<<<<<<< angeloBranch
+                    {/* Grid de Campos */}
+                    <div className="form-grid">
+                        {/* Nome da Categoria */}
+=======
                     <div className="form-grid">
 
+>>>>>>> main
                         <div className="form-group full-width">
                             <label htmlFor="nome" className="form-label">
                                 Nome da Categoria *
@@ -48,6 +58,11 @@ export default function CreateCategory() {
                             />
                             {errors.nome && <span className="error-message">{errors.nome}</span>}
                         </div>
+<<<<<<< angeloBranch
+
+                        {/* Descrição */}
+=======
+>>>>>>> main
                         <div className="form-group full-width">
                             <label htmlFor="descricao" className="form-label">
                                 Descrição
@@ -63,6 +78,11 @@ export default function CreateCategory() {
                             {errors.descricao && <span className="error-message">{errors.descricao}</span>}
                         </div>
                     </div>
+<<<<<<< angeloBranch
+
+                    {/* Botões */}
+=======
+>>>>>>> main
                     <div className="form-actions">
                         <button
                             type="button"
