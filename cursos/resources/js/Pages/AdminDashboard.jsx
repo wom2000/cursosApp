@@ -12,16 +12,6 @@ export default function AdminDashboard({ auth }) {
 <h1 className="dashboard-title">Painel do Administrador</h1>
 <p className="dashboard-subtitle">
                         Faça a gestão dos utilizadores, cursos, materiais e subscrições da plataforma.
-<<<<<<< angeloBranch
-</p>
-</div>
-<div className="dashboard-cards-grid">
-                {/* Card gerir utilizadores */}
-<DashboardCard
-                    icon={
-<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path
-=======
                     </p>
                 </div>
                 <div className="dashboard-cards-grid">
@@ -29,29 +19,18 @@ export default function AdminDashboard({ auth }) {
                     icon={
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path
->>>>>>> main
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
                                 d="M17 20h5v-2a4 4 0 00-4-4h-1m-6 6H2v-2a4 4 0 014-4h1m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 0a4 4 0 11-8 0 4 4 0 018 0z"
                             />
-<<<<<<< angeloBranch
-</svg>
-=======
                         </svg>
->>>>>>> main
                     }
                     title="Gerir Utilizadores"
                     description="Administre contas e permissões."
                     href="/admin/users"
                 />
-<<<<<<< angeloBranch
-
-                    {/* card gerir cursos */}
-<DashboardCard
-=======
                     <DashboardCard
->>>>>>> main
                         icon={
 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path
@@ -66,13 +45,7 @@ export default function AdminDashboard({ auth }) {
                         description="Consulte e administre todos os cursos."
                         href="/editar-curso"
                     />
-<<<<<<< angeloBranch
-
-                    {/* carg gerir materiais */}
-<DashboardCard
-=======
                     <DashboardCard
->>>>>>> main
                         icon={
 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path
@@ -88,12 +61,7 @@ export default function AdminDashboard({ auth }) {
                         href={route("PendingMaterials")}
                     />
 
-<<<<<<< angeloBranch
-                    {/* card gerir categoria */}
-<DashboardCard
-=======
                     <DashboardCard
->>>>>>> main
                         icon={
 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path
@@ -109,12 +77,7 @@ export default function AdminDashboard({ auth }) {
                         href="/editar-categoria"
                     />
 
-<<<<<<< angeloBranch
-                    {/* card criar categoria */}
-<DashboardCard
-=======
                     <DashboardCard
->>>>>>> main
                         icon={
 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path
@@ -130,12 +93,7 @@ export default function AdminDashboard({ auth }) {
                         href="/criar-categoria"
                     />
 
-<<<<<<< angeloBranch
-                    {/* card gerir subs */}
-<DashboardCard
-=======
                     <DashboardCard
->>>>>>> main
                         icon={
 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path
