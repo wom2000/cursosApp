@@ -15,6 +15,16 @@ class SubscriptionController extends Controller
         ]);
 
         $user = auth()->user();
+        if ($user->isCesaeStudent()) {
+            return redirect()
+                ->back()
+                ->with('error', 'Os alunos CESAE têm subscrição gratuita.');
+        }
+        if ($user->temSubscricaoAtiva()) {
+            return redirect()
+                ->back()
+                ->with('error', 'Já tens uma subscrição ativa.');
+        }
 
         $start = Carbon::today();
 
@@ -33,6 +43,8 @@ class SubscriptionController extends Controller
             'status' => 'ativa',
         ]);
 
-        return redirect()->route('dashboard')->with('success', $message);
+        return redirect()
+            ->route('dashboard.estudante')
+            ->with('success', $message);
     }
 }

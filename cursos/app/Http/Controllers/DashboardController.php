@@ -29,7 +29,7 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->isEstudante()) {
+        if (!$user->hasAcessoCursos()) {
             abort(403, 'Acesso negado');
         }
         $totalProgressos = $user->progressos()->count();
@@ -39,7 +39,6 @@ class DashboardController extends Controller
             ->distinct('id_material')
             ->count();
 
-        // Fix: Use 'user_id' instead of 'id_user' which does not exist in subscricoes table
         $subscricao = $user->subscricao()->where('status', 'ativa')->first();
         $hasAccess = $user->isCesaeStudent() || $subscricao !== null;
         $ultimosMateriais = $user->progressos()

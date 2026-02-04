@@ -1,10 +1,9 @@
 import MainLayout from "@/Layouts/MainLayout";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import "../../../css/ShowCourse.css";
+import PrimaryButton from '../../Components/PrimaryButton'
 
 export default function ShowCourse({ auth, course }) {
-    const materials = course?.materials ?? [];
-
     return (
         <MainLayout
             user={auth?.user}
@@ -29,35 +28,15 @@ export default function ShowCourse({ auth, course }) {
                     <p>{course?.description}</p>
                 </div>
 
-                {/* Materiais */}
                 <div className="course-materials">
-                    <h3>Materiais Disponíveis</h3>
-
-                    {materials.length === 0 && (
-                        <p className="no-materials">Nenhum material disponível.</p>
-                    )}
-
-                    <ul>
-                        {materials.map((m) => (
-                            <li key={m.id} className="material-card">
-                                <div className="material-info">
-                                    <img src={m.thumbnail} alt={m.name} />
-                                    <div>
-                                        <p className="material-title">{m.name}</p>
-                                        <p className="material-desc">{m.description}</p>
-                                    </div>
-                                </div>
-
-                                <a
-                                    href={m.download_url}
-                                    className="material-download"
-                                    target="_blank"
-                                >
-                                    Download
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                    <Link
+                        href={`/curso/${course?.id}/materiais`}
+                    >
+                        <PrimaryButton>Ver Materiais</PrimaryButton>
+                    </Link>
+                    <Link href={`/carregar-conteudo?curso=${course?.id}`}>
+                        <PrimaryButton>Carregar Materiais</PrimaryButton>
+                    </Link>
                 </div>
             </div>
         </MainLayout>
