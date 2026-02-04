@@ -3,7 +3,7 @@ import DashboardCard from "@/Components/DashboardCard";
 import { Head } from "@inertiajs/react";
 import "../../css/FormadorDashboard.css";
 
-export default function FormadorDashboard({ auth, pendingApprovals }) {
+export default function FormadorDashboard({ auth, pendingApprovals, cursos_recentes }) {
     return (
         <MainLayout user={auth.user}>
             <Head title="Dashboard Formador" />

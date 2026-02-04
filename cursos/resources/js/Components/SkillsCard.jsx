@@ -4,6 +4,11 @@ import '../../css/SkillsCard.css'
 export default function SkillCard({ curso, imagePosition = 'left' }) {
     const isImageLeft = imagePosition === 'left';
 
+    // ✅ Define o caminho da imagem uma única vez
+    const imageSrc = curso.imagem_curso
+        ? `/storage/${curso.imagem_curso}`
+        : '/images/placeholder.png';
+
     return (
         <div className="skills-block">
             {isImageLeft ? (
@@ -11,7 +16,7 @@ export default function SkillCard({ curso, imagePosition = 'left' }) {
                     <div className="skills-image-left">
                         <div className="image-container">
                             <img
-                                src={curso.imagem_curso || '/images/placeholder.png'}
+                                src={imageSrc}
                                 alt={curso.nome}
                                 className="course-image"
                             />
@@ -47,7 +52,7 @@ export default function SkillCard({ curso, imagePosition = 'left' }) {
                     <div className="skills-image-right">
                         <div className="image-container">
                             <img
-                                src={curso.imagem_curso || '/images/placeholder.png'}
+                                src={imageSrc}
                                 alt={curso.nome}
                                 className="course-image"
                             />

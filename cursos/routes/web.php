@@ -1,12 +1,18 @@
+
 <?php
 
+use Inertia\Inertia;
+use App\Models\Curso;
+use App\Models\Material;
+use App\Models\Categoria;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomepageController;
-use App\Http\Controllers\ProfileController;
-use App\Models\Categoria;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\CategoriaController;
 
 require __DIR__.'/auth.php';
 
@@ -40,13 +46,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/curso/{id}', function ($id) {
         return Inertia::render('Courses/ShowCourse', ['id' => $id]);
     })->name('ShowCourse');
+     Route::get('/api-web/cursos', [CursoController::class, 'index'])->name('cursos.list');
 
     Route::get('/criar-curso', function () {
         return Inertia::render('Courses/CreateCourse', ['categorias' => Categoria::all()]);
     })->name('CreateCourse')->middleware('can:criar-cursos');
     Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
 
-    Route::get('/editar-curso/{id}', function ($id) {
+    Route::get('/editar-curso/{id?}', function ($id = null) {
         return Inertia::render('Courses/EditCourse', ['id' => $id]);
     })->name('EditCourse');
 
@@ -62,6 +69,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/carregar-conteudo', function () {
         return Inertia::render('Materials/UploadMaterials');
     })->name('UploadMaterials');
+    Route::post('/carregar-conteudo', [MaterialController::class, 'store'])->name('materiais.store');
+
 
     Route::get('/editar-conteudo/{id}', function ($id) {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);
@@ -101,3 +110,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+    Route::get('/admin/users', function () {
+        return Inertia::render('UsersAdmin');
+    })->name('admin.users')->middleware(['auth', 'verified']);
+        Route::get('/editar-categoria', function () {
+        return Inertia::render('Categories/EditCategory');
+    })->name('EditCategory')->middleware(['auth', 'verified']);

@@ -1,0 +1,253 @@
+.subscription-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: #fff;
+}
+
+.subscription-pretitle {
+    margin: 0;
+    font-weight: 600;
+    color: var(--accent-color, #7c3aed);
+}
+
+.subscription-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.row {
+    width: 100%;
+}
+
+.row-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.box-subscription {
+    border: 2px solid var(--accent-color, #7c3aed);
+    padding: 1.25rem;
+    border-radius: 8px;
+    background: rgba(124, 58, 237, 0.04);
+}
+
+.box-subscription .plan-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.box-subscription .plan-toggle button {
+    background: transparent;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+}
+
+.box-subscription .plan-toggle button.active {
+    background: var(--accent-color, #7c3aed);
+    border-color: var(--accent-color, #7c3aed);
+}
+
+.box-subscription .plan-info {
+    margin-top: 0.5rem;
+}
+
+.price-and-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.price-left .monthly {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.price-left .annual-note {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin-top: 0.25rem;
+}
+
+.action-right {
+    display: flex;
+    align-items: center;
+}
+
+.right-card-subscription {
+    width: 100%;
+}
+
+.community-card.icon-left,
+.community-card.icon-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.community-card.icon-left .community-card-icon,
+.community-card.icon-right .community-card-icon {
+    width: 80px;
+    height: 80px;
+    flex: 0 0 80px;
+}
+
+.community-card.icon-right .community-card-text {
+    flex: 1;
+}
+
+.community-card.icon-left .community-card-text {
+    flex: 1;
+}
+
+.community-card.centered {
+    text-align: center;
+}
+
+.row-2,
+.row-3 {
+    display: block;
+}
+
+.row-2 .subscription-card,
+.row-3 .subscription-card {
+    width: 100%;
+}
+
+.subscription-footnote {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+.box-subscription + .subscription-footnote,
+.subscription-footnote {
+    margin-top: 0.5rem;
+}
+
+.subscription-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    text-align: center;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.subscription-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
+    border-color: rgba(233, 30, 99, 0.5);
+}
+
+.subscription-card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subscription-card-icon svg {
+    width: 60px;
+    height: 60px;
+    color: #e91e63;
+}
+
+.subscription-card-title {
+    font-size: 1.25rem;
+    font-family: "Anek Tamil", sans-serif;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.subscription-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.subscription-card.centered {
+    text-align: center;
+}
+
+.subscription-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
+    border-color: rgba(233, 30, 99, 0.5);
+}
+
+.subscription-card-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subscription-card-icon svg {
+    width: 60px;
+    height: 60px;
+    color: var(--accent-color, #7c3aed);
+}
+
+.subscription-card-title {
+    font-size: 1.25rem;
+    font-family: "Anek Tamil", sans-serif;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.subscription-card-description {
+    color: #9ca3af;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.subscription-card.icon-left,
+.subscription-card.icon-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.subscription-card.icon-left .subscription-card-icon,
+.subscription-card.icon-right .subscription-card-icon {
+    margin: 0;
+}
+
+.subscription-card.icon-right .subscription-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.subscription-card .subscription-card-text {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .row-1 {
+        grid-template-columns: 1fr;
+    }
+}

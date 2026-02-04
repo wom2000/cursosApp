@@ -49,7 +49,7 @@ class MaterialController extends Controller
         $validated['caminho_ficheiro'] = $path;
         $validated['formato'] = $request->file('ficheiro')->getClientOriginalExtension();
         $validated['id_user'] = $user->id;
-        if ($user->isAdmin() || $user->isformador()) {
+        if ($user->isAdmin() || $user->isFormador()) {
             $validated['status'] = 'aprovado';
             $validated['aprovado_por'] = $user->id;
             $validated['data_aprovacao'] = now();
@@ -60,7 +60,7 @@ class MaterialController extends Controller
         }
         $material = Material::create($validated);
         $material->load(['materialCurso', 'materialUser', 'aprovadoPor']);
-        return response()->json($material, 201);
+return redirect()->route('UploadMaterials')->with('success', 'Material enviado com sucesso!');
     }
 
     /**

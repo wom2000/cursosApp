@@ -1,3 +1,19 @@
+.categories-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem;
+}
+.cursos-button {
+    margin-top: 1rem;
+}
+.active-secondary-button {
+    background-color: var(--main-color);
+}
+.active-secondary-button:hover {
+    transform: translateY(0) !important;
+}
 .all-courses-container {
     display: flex;
     flex-direction: column;
@@ -11,6 +27,7 @@
     text-transform: var(--title-text-transform);
     font-weight: var(--title-font-weight);
     margin-bottom: var(--title-margin);
+    text-align: center;
 }
 .course-card {
     position: relative;
@@ -71,4 +88,13 @@
 .tag-materiais {
     background-color: var(--tertiary-background-color);
     color: var(--tertiary-color);
+}
+.navegacao-paginas {
+    border: var(--main-color) 1px solid;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+}
+.navegacao-paginas-ativo {
+    background-color: var(--accent-color);
+    border: var(--accent-color) 1px solid;
 }

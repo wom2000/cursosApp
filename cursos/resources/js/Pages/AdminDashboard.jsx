@@ -1,3 +1,4 @@
+
 import MainLayout from "@/Layouts/MainLayout";
 import DashboardCard from "@/Components/DashboardCard";
 import { Head } from "@inertiajs/react";
@@ -7,7 +8,6 @@ export default function AdminDashboard({ auth }) {
     return (
         <MainLayout user={auth.user}>
             <Head title="Dashboard Admin" />
-
             <div className="admin-dashboard">
                 <div className="dashboard-header">
                     <h1 className="dashboard-title">Painel do Administrador</h1>
@@ -15,7 +15,6 @@ export default function AdminDashboard({ auth }) {
                         Faça a gestão dos utilizadores, cursos, materiais e subscrições da plataforma.
                     </p>
                 </div>
-
                 <div className="dashboard-cards-grid">
 
                     {/* gerir users */}
@@ -49,7 +48,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Cursos"
                         description="Consulte e administre todos os cursos."
-                        href="/cursos"
+                        href="/editar-curso"
                     />
 
                     {/* carg gerir materiais */}
@@ -66,7 +65,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Gerir Materiais"
                         description="Aceda a todos os materiais enviados."
-                        href="/conteudos"
+                        href={route("PendingMaterials")}
                     />
 
                     {/* card gerir categoria */}
@@ -83,7 +82,7 @@ export default function AdminDashboard({ auth }) {
                         }
                         title="Categorias"
                         description="Veja todas as categorias disponíveis."
-                        href="/categorias"
+                        href="/editar-categoria"
                     />
 
                     {/* card criar categoria */}
@@ -119,10 +118,11 @@ export default function AdminDashboard({ auth }) {
                         description="Acompanhe e administre subscrições."
                         href="/subscricoes"
                     />
+                    </div>
                 </div>
-            </div>
+                 </MainLayout>
 
 
-        </MainLayout>
+
     );
 }

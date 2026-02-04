@@ -1,8 +1,10 @@
-import { Head } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import GuestLayout from '@/Layouts/GuestLayout';
-import MainLayout from '@/Layouts/MainLayout';
+import { Head } from "@inertiajs/react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import GuestLayout from "@/Layouts/GuestLayout";
+import MainLayout from "@/Layouts/MainLayout";
+import CategoriaCard from "@/Components/CategoriaCard";
+import "../../../css/Categorias.css";
 
 export default function AllCategories({ auth }) {
     const [categorias, setCategorias] = useState([]);
@@ -15,24 +17,24 @@ export default function AllCategories({ auth }) {
         fetchCategorias(currentPage);
     }, [currentPage]);
 
-   const fetchCategorias = async (page = 1) => {
-    try {
-        setLoading(true);
-        const response = await axios.get(`/api/categorias?page=${page}`);
-        const categoriasArray = response.data.data ?? response.data ?? [];
+    const fetchCategorias = async (page = 1) => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`/api/categorias?page=${page}`);
+            const categoriasArray = response.data.data ?? response.data ?? [];
 
-        setCategorias(categoriasArray);
-        setCurrentPage(response.data.current_page ?? 1);
-        setLastPage(response.data.last_page ?? 1);
-    } catch (error) {
-        console.error('Erro ao buscar categorias:', error);
-        setCategorias([]);
-        setCurrentPage(1);
-        setLastPage(1);
-    } finally {
-        setLoading(false);
-    }
-};
+            setCategorias(categoriasArray);
+            setCurrentPage(response.data.current_page ?? 1);
+            setLastPage(response.data.last_page ?? 1);
+        } catch (error) {
+            console.error("Erro ao buscar categorias:", error);
+            setCategorias([]);
+            setCurrentPage(1);
+            setLastPage(1);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const goToPage = (page) => {
         if (page >= 1 && page <= lastPage) {
@@ -46,8 +48,10 @@ export default function AllCategories({ auth }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                        <h2 className="text-2xl font-bold mb-6">📂 Todas as Categorias</h2>
+                    <div className="all-categories-container">
+                        <h2 className="all-categories-title">
+                            Todas as Categorias
+                        </h2>
 
                         {loading ? (
                             <p>A carregar categorias...</p>
@@ -55,27 +59,36 @@ export default function AllCategories({ auth }) {
                             <>
                                 {categorias.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <p className="text-gray-500 text-lg">Nenhuma categoria encontrada.</p>
+                                        <p className="text-lg">
+                                            Nenhuma categoria encontrada.
+                                        </p>
                                     </div>
                                 ) : (
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         {categorias.map((categoria) => (
-                                            <div
+                                            <CategoriaCard
                                                 key={categoria.id}
-                                                className="bg-white border rounded-lg shadow-md hover:shadow-xl transition-shadow p-6"
-                                            >
-                                                <h3 className="font-bold text-xl mb-2">{categoria.nome}</h3>
-
-                                                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                                    {categoria.descricao || 'Sem descrição'}
-                                                </p>
-
-                                                <button
-                                                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-                                                >
-                                                    Ver Cursos
-                                                </button>
-                                            </div>
+                                                icon={
+                                                    <svg
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                                                        />
+                                                    </svg>
+                                                }
+                                                title={categoria.nome}
+                                                description={
+                                                    categoria.descricao ||
+                                                    "Sem descrição"
+                                                }
+                                                href={`/cursos?area=${categoria.id}`}
+                                            ></CategoriaCard>
                                         ))}
                                     </div>
                                 )}
@@ -84,9 +97,11 @@ export default function AllCategories({ auth }) {
                                 {lastPage > 1 && (
                                     <div className="flex justify-center mt-6 gap-2">
                                         <button
-                                            onClick={() => goToPage(currentPage - 1)}
+                                            onClick={() =>
+                                                goToPage(currentPage - 1)
+                                            }
                                             disabled={currentPage === 1}
-                                            className="px-3 py-1 border rounded disabled:opacity-50"
+                                            className="navegacao-paginas"
                                         >
                                             &lt; Anterior
                                         </button>
@@ -95,8 +110,10 @@ export default function AllCategories({ auth }) {
                                             <button
                                                 key={i + 1}
                                                 onClick={() => goToPage(i + 1)}
-                                                className={`px-3 py-1 border rounded ${
-                                                    currentPage === i + 1 ? 'bg-blue-600 text-white' : ''
+                                                className={`navegacao-paginas ${
+                                                    currentPage === i + 1
+                                                        ? "navegacao-paginas-ativo"
+                                                        : ""
                                                 }`}
                                             >
                                                 {i + 1}
@@ -104,9 +121,11 @@ export default function AllCategories({ auth }) {
                                         ))}
 
                                         <button
-                                            onClick={() => goToPage(currentPage + 1)}
+                                            onClick={() =>
+                                                goToPage(currentPage + 1)
+                                            }
                                             disabled={currentPage === lastPage}
-                                            className="px-3 py-1 border rounded disabled:opacity-50"
+                                            className="navegacao-paginas"
                                         >
                                             Próximo &gt;
                                         </button>
