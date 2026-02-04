@@ -37,7 +37,6 @@ export default function CreateCourse() {
                 </div>
 
                 <form onSubmit={submit} className="create-course-form">
-                    {/* Upload de Imagem - Destaque */}
                     <div className="form-image-upload">
                         <label htmlFor="imagem" className="image-upload-label">
                             {data.imagem ? (
@@ -74,9 +73,7 @@ export default function CreateCourse() {
                         {errors.imagem && <span className="error-message">{errors.imagem}</span>}
                     </div>
 
-                    {/* Grid de Campos */}
                     <div className="form-grid">
-                        {/* Nome do Curso */}
                         <div className="form-group full-width">
                             <label htmlFor="nome" className="form-label">
                                 Nome do Curso *
@@ -92,8 +89,6 @@ export default function CreateCourse() {
                             />
                             {errors.nome && <span className="error-message">{errors.nome}</span>}
                         </div>
-
-                        {/* Descrição */}
                         <div className="form-group full-width">
                             <label htmlFor="descricao" className="form-label">
                                 Descrição
@@ -109,7 +104,6 @@ export default function CreateCourse() {
                             {errors.descricao && <span className="error-message">{errors.descricao}</span>}
                         </div>
 
-                        {/* Categoria */}
                         <div className="form-group">
                             <label htmlFor="area" className="form-label">
                                 Categoria *
@@ -135,7 +129,6 @@ export default function CreateCourse() {
                             {errors.area && <span className="error-message">{errors.area}</span>}
                         </div>
 
-                        {/* Nível */}
                         <div className="form-group">
                             <label htmlFor="nivel" className="form-label">
                                 Nível *
@@ -154,8 +147,6 @@ export default function CreateCourse() {
                             </select>
                             {errors.nivel && <span className="error-message">{errors.nivel}</span>}
                         </div>
-
-                        {/* Duração */}
                         <div className="form-group">
                             <label htmlFor="duracao" className="form-label">
                                 Duração *
@@ -171,10 +162,8 @@ export default function CreateCourse() {
                             />
                             {errors.duracao && <span className="error-message">{errors.duracao}</span>}
                         </div>
-      <div></div>
+                        <div></div>
                     </div>
-
-                    {/* Botões */}
                     <div className="form-actions">
                         <button
                             type="button"
@@ -211,3 +200,6 @@ export default function CreateCourse() {
         </MainLayout>
     );
 }
+
+// Resumo: Formulario para criar cursos com imagem, categoria, nivel e duracao.
+// React: useForm para estado do formulario e envio, usePage para props.

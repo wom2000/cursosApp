@@ -26,6 +26,7 @@ class CursoController extends Controller
             $query->where('nome', 'like', '%' . $request->search . '%');
         }
         $cursos = $query->paginate(12);
+        \Illuminate\Support\Facades\Log::info('API Cursos hit. Total: ' . $cursos->total());
         return response()->json($cursos);
     }
 
@@ -37,7 +38,6 @@ class CursoController extends Controller
         $user = auth()->user();
 
         if (!$user) {
-            // Debug: return info about why auth failed
             return response()->json([
                 'error' => 'Não autenticado',
                 'message' => 'Você precisa estar autenticado para acessar seus cursos',
@@ -114,11 +114,14 @@ class CursoController extends Controller
             if ($user->isAdmin() || $user->isFormador()) {
                 $curso->load('materiais');
             } elseif ($user->hasAcessoCursos()) {
-                $curso->load(['materiais' => function ($query) {
-                    $query->where('status', 'aprovado');
-                }]);
+                $curso->load([
+                    'materiais' => function ($query) {
+                        $query->where('status', 'aprovado');
+                    }
+                ]);
             }
-        };
+        }
+        ;
         return response()->json([
             'curso' => $curso,
             'tem_acesso_materiais' => $user ? ($user->isAdmin() || $user->isFormador() || $user->hasAcessoCursos()) : false,
@@ -168,3 +171,5 @@ class CursoController extends Controller
         return response()->json("curso eliminado", 200);
     }
 }
+
+// Resumo: CRUD de cursos e listagens (inclui filtros e cursos do utilizador).

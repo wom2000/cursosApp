@@ -9,20 +9,15 @@ use App\Http\Controllers\Api\ProgressoController;
 use App\Http\Controllers\Api\SubscricaoController;
 use App\Http\Controllers\Api\UserController;
 
-// Ping
-Route::get('/ping', function () {
-    return response()->json(['message' => 'API funcionando!', 'timestamp' => now()]);
-});
 
-// Auth - Públicas
 Route::post('/auth/login', [ApiAuthController::class, 'login'])->name('auth.login');
 Route::post('/auth/register', [ApiAuthController::class, 'register'])->name('auth.register');
 
-// Auth - Protegidas
+
 Route::post('/auth/logout', [ApiAuthController::class, 'logout'])->name('auth.logout')->middleware('auth');
 Route::get('/auth/me', [ApiAuthController::class, 'me'])->name('auth.me')->middleware('auth');
 
-// User
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth');

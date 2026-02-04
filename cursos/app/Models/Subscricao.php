@@ -17,3 +17,5 @@ class Subscricao extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 }
+
+// Resumo: Guarda periodo e estado da subscricao e liga ao utilizador.

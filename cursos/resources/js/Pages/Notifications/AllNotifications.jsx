@@ -10,7 +10,6 @@ export default function AllNotifications({ auth, notifications }) {
             <Head title="Notificações" />
 
             <div className="notifications-page">
-                {/* Header */}
                 <div className="notifications-header">
                     <h1 className="notifications-title">Notificações</h1>
                     <p className="notifications-subtitle">
@@ -18,7 +17,6 @@ export default function AllNotifications({ auth, notifications }) {
                     </p>
                 </div>
 
-                {/* Lista de notificações */}
                 <div className="notifications-feed">
                     {list.length === 0 && (
                         <p className="no-notifications">

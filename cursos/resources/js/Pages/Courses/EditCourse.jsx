@@ -21,9 +21,7 @@ export default function EditCourse({ id }) {
         imagem: null,
     });
 
-    // Carregar lista de cursos disponíveis
     useEffect(() => {
-        // Obter CSRF token
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
         fetch('/api/cursos/meus-cursos', {
@@ -34,51 +32,47 @@ export default function EditCourse({ id }) {
             },
             credentials: 'same-origin'
         })
-        .then(res => {
-            if (res.status === 401) {
-                return res.json().then(data => {
-                    setErro('Você precisa estar autenticado para editar cursos.');
-                    setLoading(false);
-                    throw new Error('Unauthorized');
-                });
-            }
-            if (res.status === 403) {
-                setErro('Você não tem permissão para editar cursos.');
-                setLoading(false);
-                throw new Error('Forbidden');
-            }
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then(data => {
-            // Ensure data is an array
-            const cursosArray = Array.isArray(data) ? data : (data.cursos || []);
-            setCursos(cursosArray);
-
-            // Se temos um id na URL e encontramos o curso, carrega-o
-            if (id && cursosArray.length > 0) {
-                const cursoExistente = cursosArray.find(c => c.id == id);
-                if (cursoExistente) {
-                    setSelectedCourseId(id);
-                    carregarCursoParaEdicao(id, cursosArray);
-                    return; // Não setar loading=false aqui, pois carregarCursoParaEdicao vai fazer
+            .then(res => {
+                if (res.status === 401) {
+                    return res.json().then(data => {
+                        setErro('Você precisa estar autenticado para editar cursos.');
+                        setLoading(false);
+                        throw new Error('Unauthorized');
+                    });
                 }
-            }
-            // Se chegou aqui, não há id ou não encontrou curso, portanto o loading acaba
-            setLoading(false);
-        })
-        .catch(error => {
-            if (error.message !== 'Unauthorized' && error.message !== 'Forbidden') {
-                console.error('Erro ao carregar cursos:', error);
-                setErro(`Erro ao carregar cursos: ${error.message}`);
-            }
-            setLoading(false);
-        });
+                if (res.status === 403) {
+                    setErro('Você não tem permissão para editar cursos.');
+                    setLoading(false);
+                    throw new Error('Forbidden');
+                }
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                const cursosArray = Array.isArray(data) ? data : (data.cursos || []);
+                setCursos(cursosArray);
+
+                if (id && cursosArray.length > 0) {
+                    const cursoExistente = cursosArray.find(c => c.id == id);
+                    if (cursoExistente) {
+                        setSelectedCourseId(id);
+                        carregarCursoParaEdicao(id, cursosArray);
+                        return;
+                    }
+                }
+                setLoading(false);
+            })
+            .catch(error => {
+                if (error.message !== 'Unauthorized' && error.message !== 'Forbidden') {
+                    console.error('Erro ao carregar cursos:', error);
+                    setErro(`Erro ao carregar cursos: ${error.message}`);
+                }
+                setLoading(false);
+            });
     }, []);
 
-    // Carregar dados do curso para edição
     const carregarCursoParaEdicao = (cursoId, cursosLista = null) => {
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
@@ -104,29 +98,28 @@ export default function EditCourse({ id }) {
                 return res.json();
             })
         ])
-        .then(([cursoData, categoriasData]) => {
-            const curso = cursoData.curso || cursoData;
-            const categorias = Array.isArray(categoriasData) ? categoriasData : (categoriasData.categorias || []);
+            .then(([cursoData, categoriasData]) => {
+                const curso = cursoData.curso || cursoData;
+                const categorias = Array.isArray(categoriasData) ? categoriasData : (categoriasData.categorias || []);
 
-            setCurso(curso);
-            setCategorias(categorias);
+                setCurso(curso);
+                setCategorias(categorias);
 
-            // Preenche o formulário com os dados do curso
-            setData({
-                nome: curso.nome || "",
-                descricao: curso.descricao || "",
-                area: curso.area || "",
-                duracao: curso.duracao || "",
-                nivel: curso.nivel || "",
-                imagem: null,
+                setData({
+                    nome: curso.nome || "",
+                    descricao: curso.descricao || "",
+                    area: curso.area || "",
+                    duracao: curso.duracao || "",
+                    nivel: curso.nivel || "",
+                    imagem: null,
+                });
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar dados:', error);
+                alert(`Erro ao carregar dados do curso: ${error.message}`);
+                setLoading(false);
             });
-            setLoading(false);
-        })
-        .catch(error => {
-            console.error('Erro ao carregar dados:', error);
-            alert(`Erro ao carregar dados do curso: ${error.message}`);
-            setLoading(false);
-        });
     };
 
     const handleSelectCurso = (cursoId) => {
@@ -143,10 +136,8 @@ export default function EditCourse({ id }) {
 
         const formData = new FormData();
 
-        // Adicionar token CSRF
         formData.append('_token', token);
 
-        // Adicionar dados ao FormData
         formData.append('nome', data.nome);
         formData.append('descricao', data.descricao);
         formData.append('area', data.area);
@@ -161,63 +152,61 @@ export default function EditCourse({ id }) {
             credentials: 'same-origin',
             body: formData
         })
-        .then(res => {
-            console.log('Response status:', res.status);
-            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-            return res.json();
-        })
-        .then(data => {
-            alert('Curso atualizado com sucesso!');
-            // Voltar para a lista de cursos
-            setCurso(null);
-            setSelectedCourseId(null);
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-            alert(`Erro ao atualizar: ${error.message}`);
-        });
+            .then(res => {
+                console.log('Response status:', res.status);
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
+            .then(data => {
+                alert('Curso atualizado com sucesso!');
+                setCurso(null);
+                setSelectedCourseId(null);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert(`Erro ao atualizar: ${error.message}`);
+            });
     };
     const eliminar = () => {
-    if (!window.confirm('Tem a certeza que deseja eliminar este curso?')) return;
+        if (!window.confirm('Tem a certeza que deseja eliminar este curso?')) return;
 
-    const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
-    fetch(`/api/cursos/${selectedCourseId}`, {
-        method: 'DELETE',
-        credentials: 'same-origin',
-        headers: {
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
-        }
-    })
-    .then(res => {
-        if (!res.ok) throw new Error(`Erro ao eliminar: ${res.status}`);
-        return res.json();
-    })
-    .then(() => {
-        alert('Curso eliminado com sucesso!');
-        setCurso(null);
-        setSelectedCourseId(null);
-        // Recarregar lista de cursos
-        fetch('/api/cursos/meus-cursos', {
+        fetch(`/api/cursos/${selectedCourseId}`, {
+            method: 'DELETE',
+            credentials: 'same-origin',
             headers: {
-                'Accept': 'application/json',
                 'X-CSRF-TOKEN': token,
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
+                'Accept': 'application/json'
+            }
         })
-        .then(res => res.json())
-        .then(data => {
-            const cursosArray = Array.isArray(data) ? data : (data.cursos || []);
-            setCursos(cursosArray);
-        });
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        alert(`Erro ao eliminar: ${error.message}`);
-    });
-};
+            .then(res => {
+                if (!res.ok) throw new Error(`Erro ao eliminar: ${res.status}`);
+                return res.json();
+            })
+            .then(() => {
+                alert('Curso eliminado com sucesso!');
+                setCurso(null);
+                setSelectedCourseId(null);
+                fetch('/api/cursos/meus-cursos', {
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        const cursosArray = Array.isArray(data) ? data : (data.cursos || []);
+                        setCursos(cursosArray);
+                    });
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert(`Erro ao eliminar: ${error.message}`);
+            });
+    };
 
     if (loading) {
         return (
@@ -257,8 +246,6 @@ export default function EditCourse({ id }) {
             </MainLayout>
         );
     }
-
-    // Se nenhum curso selecionado, mostrar lista para escolher
     if (!selectedCourseId || !curso) {
         return (
             <MainLayout user={auth.user}>
@@ -323,7 +310,6 @@ export default function EditCourse({ id }) {
                 </div>
 
                 <form onSubmit={submit} className="edit-course-form">
-                    {/* Preview da Imagem Atual */}
                     {curso?.imagem_curso && !data.imagem && (
                         <div className="current-image-preview">
                             <p className="preview-label">Imagem Atual:</p>
@@ -335,7 +321,6 @@ export default function EditCourse({ id }) {
                         </div>
                     )}
 
-                    {/* Upload de Nova Imagem */}
                     <div className="form-image-upload">
                         <label htmlFor="imagem" className="image-upload-label">
                             {data.imagem ? (
@@ -372,9 +357,7 @@ export default function EditCourse({ id }) {
                         {errors.imagem && <span className="error-message">{errors.imagem}</span>}
                     </div>
 
-                    {/* Grid de Campos */}
                     <div className="form-grid">
-                        {/* Nome do Curso */}
                         <div className="form-group full-width">
                             <label htmlFor="nome" className="form-label">
                                 Nome do Curso *
@@ -390,8 +373,6 @@ export default function EditCourse({ id }) {
                             />
                             {errors.nome && <span className="error-message">{errors.nome}</span>}
                         </div>
-
-                        {/* Descrição */}
                         <div className="form-group full-width">
                             <label htmlFor="descricao" className="form-label">
                                 Descrição
@@ -406,8 +387,6 @@ export default function EditCourse({ id }) {
                             />
                             {errors.descricao && <span className="error-message">{errors.descricao}</span>}
                         </div>
-
-                        {/* Categoria */}
                         <div className="form-group">
                             <label htmlFor="area" className="form-label">
                                 Categoria *
@@ -428,8 +407,6 @@ export default function EditCourse({ id }) {
                             </select>
                             {errors.area && <span className="error-message">{errors.area}</span>}
                         </div>
-
-                        {/* Nível */}
                         <div className="form-group">
                             <label htmlFor="nivel" className="form-label">
                                 Nível *
@@ -449,7 +426,6 @@ export default function EditCourse({ id }) {
                             {errors.nivel && <span className="error-message">{errors.nivel}</span>}
                         </div>
 
-                        {/* Duração */}
                         <div className="form-group">
                             <label htmlFor="duracao" className="form-label">
                                 Duração *
@@ -466,8 +442,6 @@ export default function EditCourse({ id }) {
                             {errors.duracao && <span className="error-message">{errors.duracao}</span>}
                         </div>
                     </div>
-
-                    {/* Botões */}
                     <div className="form-actions">
                         <button
                             type="button"
@@ -506,18 +480,21 @@ export default function EditCourse({ id }) {
 
                         </button>
                         <button
-    type="button"
-    onClick={eliminar}
-    className="btn-danger"
->
-    <svg className="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-    </svg>
-    Eliminar
-</button>
+                            type="button"
+                            onClick={eliminar}
+                            className="btn-danger"
+                        >
+                            <svg className="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Eliminar
+                        </button>
                     </div>
                 </form>
             </div>
         </MainLayout>
     );
 }
+
+// Resumo: Lista cursos do utilizador, permite editar dados, imagem e eliminar.
+// React: useState/useEffect para carregar dados, useForm para editar.

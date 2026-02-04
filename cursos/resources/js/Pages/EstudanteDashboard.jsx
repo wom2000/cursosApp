@@ -57,7 +57,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/cursos"
                     />
 
-                    {/* card subs */}
                     <DashboardCard
                         icon={
                             <svg
@@ -78,7 +77,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/subscricoes"
                     />
 
-                    {/* card progresso */}
                     <DashboardCard
                         icon={
                             <svg
@@ -99,7 +97,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/progresso"
                     />
 
-                    {/* card notificacoes */}
                     <DashboardCard
                         icon={
                             <svg
@@ -120,7 +117,6 @@ export default function EstudanteDashboard({ auth }) {
                         href="/notificacoes"
                     />
 
-                    {/* card inserir conteudo — AGORA DENTRO DA GRID */}
                     <DashboardCard
                         icon={
                             <svg
@@ -145,3 +141,5 @@ export default function EstudanteDashboard({ auth }) {
         </MainLayout>
     );
 }
+
+// React: componente simples, props via Inertia, sem estado local.

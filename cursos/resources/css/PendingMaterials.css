@@ -61,7 +61,6 @@
     to { transform: rotate(360deg); }
 }
 
-/* No Materials */
 .no-materials {
     text-align: center;
     padding: 4rem 2rem;
@@ -89,7 +88,6 @@
     font-size: 1rem;
 }
 
-/* Materials List */
 .materials-list {
     display: grid;
     gap: 1.5rem;
@@ -201,7 +199,6 @@
     font-weight: 600;
 }
 
-/* Actions */
 .material-actions {
     display: flex;
     gap: 0.75rem;
