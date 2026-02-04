@@ -44,7 +44,7 @@
     background-color: #be185d;
 }
 
-/* Secção de Skills */
+
 .skills-section {
     background-color: #000000;
     padding: 4rem 0;
@@ -54,7 +54,7 @@
     margin: 0;
     padding: 0;
 }
-/* Secção Comunidade */
+
 .comunidade-section {
     background-color: #000000;
     padding: 4rem 0;
@@ -73,7 +73,6 @@
     margin-bottom: 0;
 }
 
-/* Bloco 1 - Imagem Esquerda */
 .skills-image-left {
     background-color: #111827;
     display: flex;
@@ -92,7 +91,6 @@
     min-height: 400px;
 }
 
-/* Bloco 2 - Imagem Direita */
 .skills-content-left {
     background-color: white;
     padding: 3rem;
@@ -111,7 +109,6 @@
     min-height: 400px;
 }
 
-/* Elementos comuns */
 .image-placeholder {
     width: 100%;
     height: 16rem;

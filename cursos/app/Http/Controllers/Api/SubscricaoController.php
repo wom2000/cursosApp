@@ -119,3 +119,4 @@ class SubscricaoController extends Controller
     }
 }
 
+// Resumo: Gere subscricoes (listar, criar, atualizar, cancelar e renovar).

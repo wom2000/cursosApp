@@ -24,6 +24,7 @@ class DashboardController extends Controller
     }
 }
 
+
     public function estudante()
     {
         $user = auth()->user();
@@ -165,3 +166,5 @@ class DashboardController extends Controller
         ]);
     }
 }
+
+// Resumo: Gera os dashboards por tipo de utilizador e agrega dados (cursos, materiais, progressos e subscricoes) para mostrar nas paginas.

@@ -12,27 +12,21 @@ class HomepageController extends Controller
     public function index()
     {
         $user = auth()->user();
-
-        // Buscar categorias da base de dados
         $categorias = Categoria::withCount('cursos')
             ->orderBy('nome', 'asc')
             ->get();
             //dd($categorias->toArray());
-
-        // Buscar cursos em destaque (os mais recentes)
         $cursosDestaque = Curso::with(['categoria', 'formador'])
             ->withCount('materiais')
             ->latest()
             ->take(6)
             ->get();
 
-        // Dados base para todos os utilizadores
         $data = [
             'categorias' => $categorias,
             'cursosDestaque' => $cursosDestaque,
         ];
 
-        // Dados adicionais para utilizadores autenticados
         if ($user) {
             $data['stats'] = [
                 'total_cursos' => Curso::count(),
@@ -48,3 +42,5 @@ class HomepageController extends Controller
         return Inertia::render('Homepage', $data);
     }
 }
+
+// Resumo: Controla a homepage e envia dados iniciais para a vista.

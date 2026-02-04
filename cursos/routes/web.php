@@ -11,9 +11,22 @@ use App\Models\Curso;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+<<<<<<< angeloBranch
 use Inertia\Inertia;
 
 require __DIR__ . '/auth.php';
+=======
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\Api\CursoController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\Api\ProgressoController;
+
+require __DIR__ . '/auth.php';
+
+>>>>>>> main
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/cursos', function () {
@@ -32,6 +45,10 @@ Route::get('/editar-categoria/{id?}', function ($id = null) {
     return Inertia::render('Categories/EditCategory', ['id' => $id]);
 })->name('EditCategory')->middleware(['auth', 'verified']);
 
+<<<<<<< angeloBranch
+=======
+
+>>>>>>> main
 // Rotas autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -63,7 +80,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]
         ]);
     })->name('ShowCourse');
+<<<<<<< angeloBranch
     Route::get('/api-web/cursos', [CursoController::class, 'index'])->name('cursos.list');
+=======
+    Route::get('/curso/{id}/materiais', function ($id) {
+        return Inertia::render('Materials/CourseMaterials', ['id' => $id]);
+    })->name('CourseMaterials');
+
+    // Materiais (web session)
+    Route::get('/materiais', [MaterialController::class, 'index'])->name('web.materiais.index');
+    Route::patch('/materiais/{material}/conta-progresso', [MaterialController::class, 'updateContaProgresso'])->name('web.materiais.contaProgresso');
+    Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('web.materiais.destroy');
+
+    // Progressos (web session)
+    Route::get('/progressos', [ProgressoController::class, 'index'])->name('web.progressos.index');
+    Route::post('/progressos-criar', [ProgressoController::class, 'store'])->name('web.progressos.store');
+    Route::get('/progressos/cursos-completados', [ProgressoController::class, 'cursosCompletados'])->name('web.progressos.cursosCompletados');
+     Route::get('/api-web/cursos', [CursoController::class, 'index'])->name('cursos.list');
+>>>>>>> main
 
     Route::get('/criar-curso', function () {
         return Inertia::render('Courses/CreateCourse', ['categorias' => Categoria::all()]);
@@ -109,6 +143,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);
     })->name('EditMaterials');
 
+<<<<<<< angeloBranch
     Route::get('/materiais-pendentes', function () {
         $user = auth()->user();
 
@@ -168,6 +203,60 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'material' => $material,
         ]);
     })->name('materiais.updateStatus');
+=======
+Route::get('/materiais-pendentes', function () {
+    $user = auth()->user();
+
+    if ($user->role !== 'admin' && $user->role !== 'formador') {
+        abort(403, 'Não tens permissão');
+    }
+
+    $query = Material::where('status', 'pendente');
+
+    if ($user->role === 'formador') {
+        $cursoIds = Curso::where('formadores', $user->id)->pluck('id')->toArray();
+
+        if (count($cursoIds) > 0) {
+            $query->whereIn('id_curso', $cursoIds);
+        } else {$query->where('id', 0);}}
+
+$materiais = $query->with(['materialCurso', 'materialUser'])->latest()->get();
+
+    return Inertia::render('Materials/PendingMaterials', [
+        'materiais' => $materiais,
+    ]);
+})->name('PendingMaterials');
+
+Route::patch('/materiais/{material}/status', function (Request $request, Material $material) {
+    $user = auth()->user();
+
+    if (!$user->isAdmin() && !$user->isFormador()) {
+        return response()->json(['message' => 'Não tens permissão'], 403);
+    }
+
+    if ($user->isFormador()) {
+        $cursoIds = $user->cursosLecionados()->pluck('id');
+        if (!$cursoIds->contains($material->id_curso)) {
+            return response()->json(['message' => 'Não tens permissão para este curso'], 403);
+        }
+    }
+
+    $validated = $request->validate([
+        'status' => 'required|in:aprovado,rejeitado',
+    ]);
+
+    $material->update([
+        'status' => $validated['status'],
+        'aprovado_por' => $user->id,
+        'data_aprovacao' => now(),
+    ]);
+
+    return response()->json([
+        'message' => 'Material atualizado com sucesso',
+        'material' => $material
+    ]);
+})->name('materiais.updateStatus');
+>>>>>>> main
 
     // Subscrições
     Route::get('/subscrever', function () {
@@ -179,10 +268,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('ManageSubscription');
 
     Route::get('/progresso', function () {
-        return Inertia::render('Subscriptions/ManageSubscription');
+        return Inertia::render('Progress/Progress');
     })->name('subscriptions.progress');
 
+<<<<<<< angeloBranch
     // todas notificaçoes
+=======
+>>>>>>> main
     Route::get('/notificacoes', function () {
         return Inertia::render('Notifications/AllNotifications');
     })->name('notifications.index');

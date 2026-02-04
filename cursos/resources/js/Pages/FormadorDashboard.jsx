@@ -113,3 +113,5 @@ export default function FormadorDashboard({ auth, pendingApprovals, cursos_recen
 </MainLayout>
     );
 }
+
+// React: componente simples com props e sem estado local.
