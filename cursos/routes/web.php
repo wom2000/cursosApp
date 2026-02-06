@@ -1,4 +1,5 @@
 <?php
+
 use Inertia\Inertia;
 use App\Models\Categoria;
 use App\Models\Curso;
@@ -11,6 +12,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProgressoController;
 
@@ -78,7 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/progressos', [ProgressoController::class, 'index'])->name('web.progressos.index');
     Route::post('/progressos-criar', [ProgressoController::class, 'store'])->name('web.progressos.store');
     Route::get('/progressos/cursos-completados', [ProgressoController::class, 'cursosCompletados'])->name('web.progressos.cursosCompletados');
-     Route::get('/api-web/cursos', [CursoController::class, 'index'])->name('cursos.list');
+    Route::get('/api-web/cursos', [CursoController::class, 'index'])->name('cursos.list');
 
     Route::get('/criar-curso', function () {
         return Inertia::render('Courses/CreateCourse', ['categorias' => Categoria::all()]);
@@ -130,58 +132,61 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Materials/EditMaterials', ['id' => $id]);
     })->name('EditMaterials');
 
-Route::get('/materiais-pendentes', function () {
-    $user = auth()->user();
+    Route::get('/materiais-pendentes', function () {
+        $user = auth()->user();
 
-    if ($user->role !== 'admin' && $user->role !== 'formador') {
-        abort(403, 'Não tens permissão');
-    }
-
-    $query = Material::where('status', 'pendente');
-
-    if ($user->role === 'formador') {
-        $cursoIds = Curso::where('formadores', $user->id)->pluck('id')->toArray();
-
-        if (count($cursoIds) > 0) {
-            $query->whereIn('id_curso', $cursoIds);
-        } else {$query->where('id', 0);}}
-
-$materiais = $query->with(['materialCurso', 'materialUser'])->latest()->get();
-
-    return Inertia::render('Materials/PendingMaterials', [
-        'materiais' => $materiais,
-    ]);
-})->name('PendingMaterials');
-
-Route::patch('/materiais/{material}/status', function (Request $request, Material $material) {
-    $user = auth()->user();
-
-    if (!$user->isAdmin() && !$user->isFormador()) {
-        return response()->json(['message' => 'Não tens permissão'], 403);
-    }
-
-    if ($user->isFormador()) {
-        $cursoIds = $user->cursosLecionados()->pluck('id');
-        if (!$cursoIds->contains($material->id_curso)) {
-            return response()->json(['message' => 'Não tens permissão para este curso'], 403);
+        if ($user->role !== 'admin' && $user->role !== 'formador') {
+            abort(403, 'Não tens permissão');
         }
-    }
 
-    $validated = $request->validate([
-        'status' => 'required|in:aprovado,rejeitado',
-    ]);
+        $query = Material::where('status', 'pendente');
 
-    $material->update([
-        'status' => $validated['status'],
-        'aprovado_por' => $user->id,
-        'data_aprovacao' => now(),
-    ]);
+        if ($user->role === 'formador') {
+            $cursoIds = Curso::where('formadores', $user->id)->pluck('id')->toArray();
 
-    return response()->json([
-        'message' => 'Material atualizado com sucesso',
-        'material' => $material
-    ]);
-})->name('materiais.updateStatus');
+            if (count($cursoIds) > 0) {
+                $query->whereIn('id_curso', $cursoIds);
+            } else {
+                $query->where('id', 0);
+            }
+        }
+
+        $materiais = $query->with(['materialCurso', 'materialUser'])->latest()->get();
+
+        return Inertia::render('Materials/PendingMaterials', [
+            'materiais' => $materiais,
+        ]);
+    })->name('PendingMaterials');
+
+    Route::patch('/materiais/{material}/status', function (Request $request, Material $material) {
+        $user = auth()->user();
+
+        if (!$user->isAdmin() && !$user->isFormador()) {
+            return response()->json(['message' => 'Não tens permissão'], 403);
+        }
+
+        if ($user->isFormador()) {
+            $cursoIds = $user->cursosLecionados()->pluck('id');
+            if (!$cursoIds->contains($material->id_curso)) {
+                return response()->json(['message' => 'Não tens permissão para este curso'], 403);
+            }
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:aprovado,rejeitado',
+        ]);
+
+        $material->update([
+            'status' => $validated['status'],
+            'aprovado_por' => $user->id,
+            'data_aprovacao' => now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Material atualizado com sucesso',
+            'material' => $material
+        ]);
+    })->name('materiais.updateStatus');
 
     // Subscrições
     Route::get('/subscrever', function () {
@@ -190,13 +195,9 @@ Route::patch('/materiais/{material}/status', function (Request $request, Materia
 
     Route::post('/subscrever', [SubscriptionController::class, 'store'])->name('subscricoes.store');
 
-    Route::get('/gerir-subscricao/{id}', function ($id) {
-        return Inertia::render('Subscriptions/ManageSubscription', ['id' => $id]);
-    })->name('ManageSubscription');
+    Route::get('/gerir-subscricao/{id}', [SubscriptionController::class, 'manage'])->name('ManageSubscription');
+    Route::patch('/subscricao/{id}/cancelar', [SubscriptionController::class, 'cancelar'])->name('subscricoes.cancelar.web');
 
-    Route::get('/progresso', function () {
-        return Inertia::render('Progress/Progress');
-    })->name('subscriptions.progress');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

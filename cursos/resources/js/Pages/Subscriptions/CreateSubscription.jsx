@@ -16,8 +16,8 @@ export default function CreateSubscription() {
             .then(() => {
                 window.location.href = route("dashboard.estudante");
             })
-            .catch(() => {
-                window.location.reload();
+            .catch((err) => {
+                console.error("Subscription error:", err);
             })
             .finally(() => setProcessing(false));
     };
