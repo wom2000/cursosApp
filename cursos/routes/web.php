@@ -12,7 +12,6 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\MaterialController;
-use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProgressoController;
 
@@ -77,6 +76,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('web.materiais.destroy');
 
     // Progressos (web session)
+    Route::get('/progresso', function () {
+    return Inertia::render('Progress/Progress');
+})->name('subscriptions.progress');
+
     Route::get('/progressos', [ProgressoController::class, 'index'])->name('web.progressos.index');
     Route::post('/progressos-criar', [ProgressoController::class, 'store'])->name('web.progressos.store');
     Route::get('/progressos/cursos-completados', [ProgressoController::class, 'cursosCompletados'])->name('web.progressos.cursosCompletados');
