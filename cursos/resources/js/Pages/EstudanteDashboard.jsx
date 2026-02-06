@@ -94,6 +94,7 @@ export default function EstudanteDashboard({ auth }) {
                         title="Progresso"
                         description="Veja o seu progresso nos cursos."
                         href="/progresso"
+
                     />
 
                     <DashboardCard
