@@ -8,9 +8,7 @@ import { useEffect, useState } from "react";
 export default function ShowCourse({ auth, id }) {
     const { props } = usePage();
     const routeId =
-        id ||
-        props?.id ||
-        window.location.pathname.split("/").pop();
+        id || props?.id || window.location.pathname.split("/").pop();
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -31,14 +29,14 @@ export default function ShowCourse({ auth, id }) {
                 const response = await axios.get(`/api/cursos/${routeId}`);
                 const data = response.data?.curso ?? response.data ?? null;
 
-                console.log('Dados recebidos:', data);
+                // console.log('Dados recebidos:', data);
 
                 if (mounted) {
                     setCourse(data);
                     setLoading(false);
                 }
             } catch (err) {
-                console.error('Erro ao carregar:', err);
+                console.error("Erro ao carregar:", err);
                 if (mounted) {
                     setError("Não foi possível carregar o curso.");
                     setLoading(false);
@@ -56,10 +54,18 @@ export default function ShowCourse({ auth, id }) {
     const title = course?.nome || "Curso";
     const description = course?.descricao || "Sem descrição.";
     const image = course?.imagem_curso
-        ? `/storage/${course.imagem_curso}`
-        : "/images/placeholder.png";
+        ? course.imagem_curso.startsWith("images/")
+            ? `/${course.imagem_curso}`
+            : `/storage/${course.imagem_curso}`
+        : "/images/imagensCursos/placeholder.png";
     const category = course?.categoria?.nome || "—";
-    const level = course?.nivel || "—";
+    const level = course?.nivel
+        ? course.nivel === "iniciante"
+            ? "Iniciante"
+            : course.nivel === "intermedio"
+              ? "Intermédio"
+              : "Avançado"
+        : "—";
     const duration = course?.duracao || "—";
     const instructor = course?.formador?.name || "—";
 
@@ -92,7 +98,9 @@ export default function ShowCourse({ auth, id }) {
                                             Ver Materiais
                                         </PrimaryButton>
                                     </Link>
-                                    <Link href={`/carregar-conteudo?curso=${routeId}`}>
+                                    <Link
+                                        href={`/carregar-conteudo?curso=${routeId}`}
+                                    >
                                         <PrimaryButton>
                                             Carregar Materiais
                                         </PrimaryButton>
