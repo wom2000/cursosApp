@@ -207,12 +207,6 @@ export default function CourseMaterials({ auth, id }) {
                                                         "Autor desconhecido"}
                                                 </span>
                                                 <span>
-                                                    {material.status ===
-                                                    "aprovado"
-                                                        ? "Aprovado"
-                                                        : "Pendente"}
-                                                </span>
-                                                <span>
                                                     {material.conta_progresso
                                                         ? "Conta no progresso"
                                                         : "Suporte"}
