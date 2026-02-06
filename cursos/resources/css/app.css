@@ -96,9 +96,22 @@ body {
     color: var(--main-color);
 }
 .mobile-nav-link {
+    font-family: var(--nav-font-family);
     font-size: var(--nav-link-size);
     padding-bottom: 1rem;
     padding-left: 0.5rem;
+}
+.mobile-links-section {
+    border-bottom: 1px solid var(--dividers);
+}
+.mobile-profile-links {
+    font-family: var(--nav-font-family);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.mobile-profile-links button {
+    text-align: left;
 }
 .mobile-profile-icon {
     padding-left: 0.5rem;
