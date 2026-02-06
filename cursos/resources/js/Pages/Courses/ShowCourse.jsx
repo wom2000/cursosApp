@@ -57,7 +57,7 @@ export default function ShowCourse({ auth, id }) {
     const description = course?.descricao || "Sem descrição.";
     const image = course?.imagem_curso
         ? `/storage/${course.imagem_curso}`
-        : "/images/placeholder.png";
+        : "/images/imagensCursos/placeholder.png";
     const category = course?.categoria?.nome || "—";
     const level = course?.nivel || "—";
     const duration = course?.duracao || "—";

@@ -9,6 +9,7 @@ use App\Models\Material;
 use App\Models\Subscricao;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\ImagensCursosSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -181,6 +182,8 @@ class DatabaseSeeder extends Seeder
             'nivel' => 'iniciante',
             'formadores' => $formador1->id,
         ]);
+
+        $this->call(ImagensCursosSeeder::class);
 
         // ============================================
         // MATERIAIS

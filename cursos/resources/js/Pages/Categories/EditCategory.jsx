@@ -1,6 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import '../../../css/EditCategory.css';
 
 export default function EditCategory({ auth }) {
@@ -12,102 +13,89 @@ export default function EditCategory({ auth }) {
     const [data, setData] = useState({ nome: "", descricao: "" });
 
     useEffect(() => {
-        fetch('/api/categorias', { credentials: 'include' })
-            .then(res => {
-                if (!res.ok) throw new Error('Erro ao carregar categorias');
-                return res.json();
-            })
-            .then(data => {
+        const fetchCategorias = async () => {
+            try {
+                setLoading(true);
+                const { data } = await axios.get('/api/categorias', {
+                    withCredentials: true,
+                    headers: { Accept: 'application/json' }
+                });
                 setCategorias(Array.isArray(data) ? data : (data.categorias || []));
                 setLoading(false);
-            })
-            .catch(error => {
-                setErro(error.message);
+            } catch (error) {
+                setErro('Erro ao carregar categorias');
                 setLoading(false);
-            });
+            }
+        };
+        fetchCategorias();
     }, []);
 
     const carregarCategoriaParaEdicao = (categoriaId) => {
         setLoading(true);
         setErro(null);
-        fetch(`/api/categorias/${categoriaId}`, { credentials: 'include' })
-            .then(res => {
-                if (!res.ok) throw new Error('Erro ao carregar categoria');
-                return res.json();
-            })
-            .then(data => {
+        axios.get(`/api/categorias/${categoriaId}`, {
+            withCredentials: true,
+            headers: { Accept: 'application/json' }
+        })
+            .then(({ data }) => {
                 const cat = data.categoria || data;
                 setCategoria(cat);
                 setData({ nome: cat.nome || "", descricao: cat.descricao || "" });
                 setSelectedCategoryId(cat.id);
                 setLoading(false);
             })
-            .catch(error => {
-                setErro(error.message);
+            .catch(() => {
+                setErro('Erro ao carregar categoria');
                 setLoading(false);
             });
     };
 
     const submit = (e) => {
         e.preventDefault();
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        fetch(`/api/categorias/${selectedCategoryId}`, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'X-CSRF-TOKEN': token,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(data)
+        axios.put(`/api/categorias/${selectedCategoryId}`, data, {
+            withCredentials: true,
+            headers: { Accept: 'application/json' }
         })
-            .then(res => {
-                if (!res.ok) throw new Error(`Erro ao atualizar: ${res.status}`);
-                return res.json();
-            })
             .then(() => {
                 alert('Categoria atualizada com sucesso!');
                 setCategoria(null);
                 setSelectedCategoryId(null);
                 setData({ nome: "", descricao: "" });
-                fetch('/api/categorias', { credentials: 'include' })
-                    .then(res => res.json())
-                    .then(data => setCategorias(Array.isArray(data) ? data : (data.categorias || [])));
+                return axios.get('/api/categorias', {
+                    withCredentials: true,
+                    headers: { Accept: 'application/json' }
+                });
             })
-            .catch(error => {
-                alert(error.message);
+            .then(({ data }) => {
+                setCategorias(Array.isArray(data) ? data : (data.categorias || []));
+            })
+            .catch(() => {
+                alert('Erro ao atualizar categoria');
             });
     };
 
     const eliminar = () => {
         if (!window.confirm('Tem a certeza que deseja eliminar esta categoria?')) return;
 
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        fetch(`/api/categorias/${selectedCategoryId}`, {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: {
-                'X-CSRF-TOKEN': token,
-                'Accept': 'application/json'
-            }
+        axios.delete(`/api/categorias/${selectedCategoryId}`, {
+            withCredentials: true,
+            headers: { Accept: 'application/json' }
         })
-            .then(res => {
-                if (!res.ok) throw new Error(`Erro ao eliminar: ${res.status}`);
-                return res.json();
-            })
             .then(() => {
                 alert('Categoria eliminada com sucesso!');
                 setCategoria(null);
                 setSelectedCategoryId(null);
                 setData({ nome: "", descricao: "" });
-                fetch('/api/categorias', { credentials: 'include' })
-                    .then(res => res.json())
-                    .then(data => setCategorias(Array.isArray(data) ? data : (data.categorias || [])));
+                return axios.get('/api/categorias', {
+                    withCredentials: true,
+                    headers: { Accept: 'application/json' }
+                });
             })
-            .catch(error => {
-                alert(error.message);
+            .then(({ data }) => {
+                setCategorias(Array.isArray(data) ? data : (data.categorias || []));
+            })
+            .catch(() => {
+                alert('Erro ao eliminar categoria');
             });
     };
 

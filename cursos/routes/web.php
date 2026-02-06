@@ -1,17 +1,18 @@
 <?php
 
 use Inertia\Inertia;
-use App\Models\Categoria;
 use App\Models\Curso;
 use App\Models\Material;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\HomepageController;
-use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProgressoController;
 
@@ -89,6 +90,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Courses/CreateCourse', ['categorias' => Categoria::all()]);
     })->name('CreateCourse')->middleware('can:criar-cursos');
     Route::post('/cursos', [CursoController::class, 'store'])->name('cursos.store');
+    Route::delete('/cursos/{curso}', [CursoController::class, 'destroy'])
+        ->name('cursos.destroy.web')
+        ->middleware(['auth', 'verified']);
+    Route::get('/criar-user', function () {
+        return Inertia::render('Users/CreateUser');
+    })->name('CreateUser')->middleware(['auth', 'verified', 'admin']);
+    Route::post('/users', [UserController::class, 'store'])
+        ->name('users.store')
+        ->middleware(['auth', 'verified', 'admin']);
 
     Route::get('/editar-curso/{id?}', function ($id = null) {
         return Inertia::render('Courses/EditCourse', ['id' => $id]);
@@ -114,10 +124,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return response()->json($curso, 200);
     })->name('cursos.update.web');
-        Route::get('/notificacoes', function () {
+    Route::get('/notificacoes', function () {
+        $user = Auth::user();
+        if ($user) {
+            $user->unreadNotifications->markAsRead();
+        }
+        $notifications = $user
+            ? $user->unreadNotifications->map(function ($n) {
+                return [
+                    'id' => $n->id,
+                    'message' => $n->data['message'] ?? '',
+                    'time' => $n->created_at?->diffForHumans() ?? '',
+                    'read' => $n->read_at !== null,
+                ];
+            })
+            : [];
+
         return Inertia::render('Notifications/AllNotifications', [
-            'auth' => Auth::user(),
-            'notifications' => Auth::user()->notifications ?? [],
+            'auth' => $user,
+            'notifications' => $notifications,
         ]);
     })->name('notifications.index');
 
@@ -185,6 +210,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'data_aprovacao' => now(),
         ]);
 
+        if ($validated['status'] === 'aprovado' && $material->materialUser) {
+            $material->materialUser->notify(
+                new \App\Notifications\MaterialAprovado($material, $user)
+            );
+        }
+
         return response()->json([
             'message' => 'Material atualizado com sucesso',
             'material' => $material
@@ -214,3 +245,11 @@ Route::get('/admin/users', function () {
 Route::get('/editar-categoria', function () {
     return Inertia::render('Categories/EditCategory');
 })->name('EditCategory')->middleware(['auth', 'verified']);
+
+Route::fallback(function () {
+    return Inertia::render('Errors/NotFound');
+})->name('fallback');
+
+Route::fallback(function () {
+    return Inertia::render('Errors/NotFound');
+})->name('fallback');

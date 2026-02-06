@@ -1,6 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import axios from "axios";
 import "../../../css/PendingMaterials.css";
 
 export default function PendingMaterials() {
@@ -14,25 +15,14 @@ export default function PendingMaterials() {
         setProcessing(materialId);
 
         try {
-            const response = await fetch(`/materiais/${materialId}/status`, {
-                method: 'PATCH',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ status: 'aprovado' })
-            });
+            await axios.patch(
+                `/materiais/${materialId}/status`,
+                { status: "aprovado" },
+                { withCredentials: true, headers: { Accept: "application/json" } }
+            );
+            setMateriais(materiais.filter((m) => m.id !== materialId));
+            alert("Material aprovado com sucesso!");
 
-            if (response.ok) {
-                setMateriais(materiais.filter(m => m.id !== materialId));
-                alert('Material aprovado com sucesso!');
-                window.location.reload();
-            } else {
-                const error = await response.json();
-                alert(error.message || 'Erro ao aprovar material');
-            }
         } catch (error) {
             console.error('Erro:', error);
             alert('Erro ao aprovar material');
@@ -47,24 +37,13 @@ export default function PendingMaterials() {
         setProcessing(materialId);
 
         try {
-            const response = await fetch(`/materiais/${materialId}/status`, {
-                method: 'PATCH',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                body: JSON.stringify({ status: 'aprovado' })
-            });
-
-            if (response.ok) {
-                setMateriais(materiais.filter(m => m.id !== materialId));
-                alert('Material rejeitado');
-            } else {
-                const error = await response.json();
-                alert(error.message || 'Erro ao rejeitar material');
-            }
+            await axios.patch(
+                `/materiais/${materialId}/status`,
+                { status: "rejeitado" },
+                { withCredentials: true, headers: { Accept: "application/json" } }
+            );
+            setMateriais(materiais.filter((m) => m.id !== materialId));
+            alert("Material rejeitado");
         } catch (error) {
             console.error('Erro:', error);
             alert('Erro ao rejeitar material');
@@ -72,6 +51,7 @@ export default function PendingMaterials() {
             setProcessing(null);
         }
     };
+
 
     const getFileIcon = (formato) => {
         const icons = {
