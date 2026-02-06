@@ -14,13 +14,7 @@ export default function CreateSubscription() {
         axios
             .post(route("subscricoes.store"), { plan: selectedPlan })
             .then(() => {
-                const msg =
-                    selectedPlan === "anual"
-                        ? "Subscrito por um ano"
-                        : "Subscrito por um mês";
-                window.location.href =
-                    route("dashboard.estudante") +
-                    `?success=${encodeURIComponent(msg)}`;
+                window.location.href = route("dashboard.estudante");
             })
             .catch((err) => {
                 console.error("Subscription error:", err);

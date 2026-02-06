@@ -63,3 +63,4 @@ Route::patch('/subscricoes/{subscricao}/cancelar', [SubscricaoController::class,
 Route::post('/subscricoes/{subscricao}/renovar', [SubscricaoController::class, 'renovar'])->name('subscricoes.renovar')->middleware('web');
 Route::get('/users', [UserController::class, 'index'])->middleware('web');
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('web');
+Route::patch('/users/{user}/cesae', [UserController::class, 'updateCesae'])->middleware('web');

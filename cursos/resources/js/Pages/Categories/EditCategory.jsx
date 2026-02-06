@@ -12,7 +12,7 @@ export default function EditCategory({ auth }) {
     const [data, setData] = useState({ nome: "", descricao: "" });
 
     useEffect(() => {
-        fetch('/api/categorias', { credentials: 'same-origin' })
+        fetch('/api/categorias', { credentials: 'include' })
             .then(res => {
                 if (!res.ok) throw new Error('Erro ao carregar categorias');
                 return res.json();
@@ -30,7 +30,7 @@ export default function EditCategory({ auth }) {
     const carregarCategoriaParaEdicao = (categoriaId) => {
         setLoading(true);
         setErro(null);
-        fetch(`/api/categorias/${categoriaId}`, { credentials: 'same-origin' })
+        fetch(`/api/categorias/${categoriaId}`, { credentials: 'include' })
             .then(res => {
                 if (!res.ok) throw new Error('Erro ao carregar categoria');
                 return res.json();
@@ -54,7 +54,7 @@ export default function EditCategory({ auth }) {
 
         fetch(`/api/categorias/${selectedCategoryId}`, {
             method: 'PUT',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 'X-CSRF-TOKEN': token,
                 'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export default function EditCategory({ auth }) {
                 setCategoria(null);
                 setSelectedCategoryId(null);
                 setData({ nome: "", descricao: "" });
-                fetch('/api/categorias', { credentials: 'same-origin' })
+                fetch('/api/categorias', { credentials: 'include' })
                     .then(res => res.json())
                     .then(data => setCategorias(Array.isArray(data) ? data : (data.categorias || [])));
             })
@@ -87,7 +87,7 @@ export default function EditCategory({ auth }) {
 
         fetch(`/api/categorias/${selectedCategoryId}`, {
             method: 'DELETE',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 'X-CSRF-TOKEN': token,
                 'Accept': 'application/json'
@@ -102,7 +102,7 @@ export default function EditCategory({ auth }) {
                 setCategoria(null);
                 setSelectedCategoryId(null);
                 setData({ nome: "", descricao: "" });
-                fetch('/api/categorias', { credentials: 'same-origin' })
+                fetch('/api/categorias', { credentials: 'include' })
                     .then(res => res.json())
                     .then(data => setCategorias(Array.isArray(data) ? data : (data.categorias || [])));
             })

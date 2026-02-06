@@ -35,13 +35,16 @@ class SubscricaoController extends Controller
             return response()->json("a subscrição está ativa", 400);
         }
         $validated = $request->validate([
-            'data_inicio' => 'required|date',
-            'data_fim' => 'required|date|after:data_inicio',
+            'plan' => 'required|in:mensal,anual',
         ]);
+        $dataInicio = now()->startOfDay();
+        $dataFim = $validated['plan'] === 'anual'
+            ? $dataInicio->copy()->addYear()
+            : $dataInicio->copy()->addMonth();
         $subscricao = Subscricao::create([
             'user_id' => $user->id,
-            'data_inicio' => $validated['data_inicio'],
-            'data_fim' => $validated['data_fim'],
+            'data_inicio' => $dataInicio,
+            'data_fim' => $dataFim,
             'status' => 'ativa',
         ]);
         return response()->json($subscricao, 201);
