@@ -12,7 +12,6 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\MaterialController;
-use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProgressoController;
 
@@ -111,7 +110,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         return response()->json($curso, 200);
     })->name('cursos.update.web');
-        Route::get('/notificacoes', function () {
+    Route::get('/notificacoes', function () {
         return Inertia::render('Notifications/AllNotifications', [
             'auth' => Auth::user(),
             'notifications' => Auth::user()->notifications ?? [],
