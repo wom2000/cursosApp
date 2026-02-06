@@ -31,6 +31,22 @@ export default function AdminDashboard({ auth }) {
                         href="/admin/users"
                     />
                     <DashboardCard
+                        icon={
+                           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M12 6v12m6-6H6"
+                                />
+                            </svg>
+                        }
+                        title="Adicionar Utilizador"
+                        description="Crie novos users."
+                        href="/criar-user"
+                    />
+
+                    <DashboardCard
                     icon={
                             <svg
                                 fill="none"
@@ -115,7 +131,8 @@ export default function AdminDashboard({ auth }) {
                         description="Adicione novas categorias à plataforma."
                         href="/criar-categoria"
                     />
-                             <DashboardCard
+
+                    <DashboardCard
                         icon={
                             <svg
                                 fill="none"

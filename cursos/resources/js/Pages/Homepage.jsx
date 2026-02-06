@@ -14,7 +14,7 @@ export default function Homepage({ auth, cursosDestaque, categorias }) {
         <Layout>
             <Head title="Homepage" />
             <div>
-                <CarouselBanner />
+                <CarouselBanner cursos={cursosDestaque} />
             </div>
             <div className="categories-section">
                 <div className="categories-container">

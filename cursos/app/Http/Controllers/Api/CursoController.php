@@ -161,15 +161,21 @@ class CursoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Curso $curso)
-    {
-        $user = auth()->user();
-        if (!$user->isAdmin()) {
-            return response()->json('Não é autorizado a eliminar cursos', 403);
-        }
-        $curso->delete();
-        return response()->json("curso eliminado", 200);
+   public function destroy(Curso $curso)
+{
+    $user = auth()->user();
+
+    if (!$user->isAdmin() && !$user->isFormador()) {
+        return response()->json('Não é autorizado a eliminar cursos', 403);
     }
+
+    if ($user->isFormador() && $curso->formadores !== $user->id) {
+        return response()->json('Não tens permissão para este curso', 403);
+    }
+
+    $curso->delete();
+    return response()->json("curso eliminado", 200);
+}
 }
 
 // Resumo: CRUD de cursos e listagens (inclui filtros e cursos do utilizador).

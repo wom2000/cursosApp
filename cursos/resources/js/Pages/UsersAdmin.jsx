@@ -1,6 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "../../css/UsersAdmin.css";
 
 export default function UsersAdmin({ auth }) {
@@ -19,22 +20,16 @@ export default function UsersAdmin({ auth }) {
             url += `?tipo=${tipo}`;
         }
 
-        fetch(url, {
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-            }
+        axios.get(url, {
+            withCredentials: true,
+            headers: { Accept: 'application/json' }
         })
-            .then(res => {
-                if (!res.ok) throw new Error('Erro ao carregar utilizadores');
-                return res.json();
-            })
-            .then(data => {
+            .then(({ data }) => {
                 setUsers(Array.isArray(data) ? data : []);
                 setLoading(false);
             })
             .catch(err => {
-                setErro(err.message);
+                setErro('Erro ao carregar utilizadores');
                 setLoading(false);
                 setUsers([]);
             });
@@ -46,42 +41,25 @@ export default function UsersAdmin({ auth }) {
 
     const handleDelete = (id) => {
         if (!window.confirm('Tem a certeza que deseja apagar este utilizador?')) return;
-        fetch(`/api/users/${id}`, {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
+        axios.delete(`/api/users/${id}`, {
+            withCredentials: true,
+            headers: { Accept: 'application/json' },
         })
-            .then(res => {
-                if (!res.ok) throw new Error('Erro ao apagar utilizador');
+            .then(() => {
                 setUsers(users.filter(u => u.id !== id));
                 alert('Utilizador apagado com sucesso!');
             })
-            .catch(err => alert(err.message));
+            .catch(() => alert('Erro ao apagar utilizador'));
     };
 
     const handleToggleCesae = (user) => {
-        const token = document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute('content');
         setUpdatingId(user.id);
-        fetch(`/api/users/${user.id}/cesae`, {
-            method: 'PATCH',
-            credentials: 'include',
-            headers: {
-                'X-CSRF-TOKEN': token,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                cesae_student: !user.cesae_student
-            })
+        axios.patch(`/api/users/${user.id}/cesae`, {
+            cesae_student: !user.cesae_student
+        }, {
+            withCredentials: true,
+            headers: { Accept: 'application/json' }
         })
-            .then(res => {
-                if (!res.ok) throw new Error('Erro ao atualizar CESAE');
-                return res.json();
-            })
             .then(() => {
                 setUsers(users.map(u =>
                     u.id === user.id
@@ -89,9 +67,27 @@ export default function UsersAdmin({ auth }) {
                         : u
                 ));
             })
-            .catch(err => alert(err.message))
+            .catch(() => alert('Erro ao atualizar CESAE'))
             .finally(() => setUpdatingId(null));
     };
+
+    const handleUpdateRole = (user, role) => {
+        setUpdatingId(user.id);
+        axios.patch(`/api/users/${user.id}/role`, { role }, {
+            withCredentials: true,
+            headers: { Accept: 'application/json' }
+        })
+            .then(() => {
+                setUsers(users.map(u =>
+                    u.id === user.id
+                        ? { ...u, role }
+                        : u
+                ));
+            })
+            .catch(() => alert('Erro ao atualizar role'))
+            .finally(() => setUpdatingId(null));
+    };
+
 
     const getRoleBadgeClass = (role) => {
         return `user-role ${role?.toLowerCase() || 'estudante'}`;
@@ -208,6 +204,21 @@ export default function UsersAdmin({ auth }) {
                                         </td>
                                         <td>
                                             <div className="action-buttons">
+                                                <select
+                                                    className="role-select"
+                                                    value={user.role}
+                                                    onChange={(e) =>
+                                                        handleUpdateRole(
+                                                            user,
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    disabled={updatingId === user.id}
+                                                >
+                                                    <option value="estudante">Estudante</option>
+                                                    <option value="formador">Formador</option>
+                                                    <option value="admin">Admin</option>
+                                                </select>
                                                 <button
                                                     onClick={() => handleToggleCesae(user)}
                                                     className="btn-cesae"
