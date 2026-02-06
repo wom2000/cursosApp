@@ -54,13 +54,13 @@ Route::put('/progressos/{progresso}', [ProgressoController::class, 'update'])->n
 Route::delete('/progressos/{progresso}', [ProgressoController::class, 'destroy'])->name('progressos.destroy')->middleware('auth');
 
 // Subscrições
-Route::get('/subscricoes', [SubscricaoController::class, 'index'])->name('subscricoes.index')->middleware('auth');
-Route::post('/subscricoes-criar', [SubscricaoController::class, 'store'])->name('api.subscricoes.store')->middleware('auth');
-Route::get('/subscricoes/todas', [SubscricaoController::class, 'todas'])->name('subscricoes.todas')->middleware('auth');
-Route::get('/subscricoes/{subscricao}', [SubscricaoController::class, 'show'])->name('subscricoes.show')->middleware('auth');
-Route::put('/subscricoes/{subscricao}', [SubscricaoController::class, 'update'])->name('subscricoes.update')->middleware('auth');
-Route::patch('/subscricoes/{subscricao}/cancelar', [SubscricaoController::class, 'cancelar'])->name('subscricoes.cancelar')->middleware('auth');
-Route::post('/subscricoes/{subscricao}/renovar', [SubscricaoController::class, 'renovar'])->name('subscricoes.renovar')->middleware('auth');
+Route::get('/subscricoes', [SubscricaoController::class, 'index'])->name('subscricoes.index')->middleware('web');
+Route::post('/subscricoes-criar', [SubscricaoController::class, 'store'])->name('api.subscricoes.store')->middleware('web');
+Route::get('/subscricoes/todas', [SubscricaoController::class, 'todas'])->name('subscricoes.todas')->middleware('web');
+Route::get('/subscricoes/{subscricao}', [SubscricaoController::class, 'show'])->name('subscricoes.show')->middleware('web');
+Route::put('/subscricoes/{subscricao}', [SubscricaoController::class, 'update'])->name('subscricoes.update')->middleware('web');
+Route::patch('/subscricoes/{subscricao}/cancelar', [SubscricaoController::class, 'cancelar'])->name('subscricoes.cancelar')->middleware('web');
+Route::post('/subscricoes/{subscricao}/renovar', [SubscricaoController::class, 'renovar'])->name('subscricoes.renovar')->middleware('web');
 Route::get('/users', [UserController::class, 'index'])->middleware('web');
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('web');
 Route::patch('/users/{user}/cesae', [UserController::class, 'updateCesae'])->middleware('web');

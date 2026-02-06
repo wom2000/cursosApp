@@ -35,7 +35,7 @@ export default function EstudanteDashboard({ auth }) {
                 </div>
 
                 <div className="dashboard-cards-grid">
-
+                    {/* card cursos */}
                     <DashboardCard
                         icon={
                             <svg
@@ -71,9 +71,9 @@ export default function EstudanteDashboard({ auth }) {
                                 />
                             </svg>
                         }
-                        title="Subscrições"
-                        description="Aceda aos conteúdos que subscreveu."
-                        href="/gerir-subscricao/{id}"
+                            title="Subscrições"
+                            description="Aceda aos conteúdos que subscreveu."
+                            href={route('ManageSubscription', auth.user.id)}
                     />
 
                     <DashboardCard
