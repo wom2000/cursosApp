@@ -15,11 +15,14 @@ export default function PendingMaterials() {
         setProcessing(materialId);
 
         try {
-            await axios.patch(`/materiais/${materialId}/status`, {
-                status: "aprovado",
-            });
+            await axios.patch(
+                `/materiais/${materialId}/status`,
+                { status: "aprovado" },
+                { withCredentials: true, headers: { Accept: "application/json" } }
+            );
             setMateriais(materiais.filter((m) => m.id !== materialId));
             alert("Material aprovado com sucesso!");
+
         } catch (error) {
             console.error("Erro:", error);
             alert(error.response?.data?.message || "Erro ao aprovar material");
@@ -35,9 +38,11 @@ export default function PendingMaterials() {
         setProcessing(materialId);
 
         try {
-            await axios.patch(`/materiais/${materialId}/status`, {
-                status: "rejeitado",
-            });
+            await axios.patch(
+                `/materiais/${materialId}/status`,
+                { status: "rejeitado" },
+                { withCredentials: true, headers: { Accept: "application/json" } }
+            );
             setMateriais(materiais.filter((m) => m.id !== materialId));
             alert("Material rejeitado");
         } catch (error) {
@@ -47,6 +52,7 @@ export default function PendingMaterials() {
             setProcessing(null);
         }
     };
+
 
     const getFileIcon = (formato) => {
         const icons = {

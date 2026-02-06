@@ -1,6 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
+import axios from "axios";
 import '../../../css/UploadMaterial.css'
 
 export default function UploadMaterials() {
@@ -18,13 +19,11 @@ export default function UploadMaterials() {
         const params = new URLSearchParams(window.location.search);
         const cursoParam = params.get("curso");
 
-        fetch('/api/cursos', {
-            headers: {
-                'Accept': 'application/json',
-            }
+        axios.get('/api/cursos', {
+            withCredentials: true,
+            headers: { Accept: 'application/json' }
         })
-            .then(res => res.json())
-            .then(data => {
+            .then(({ data }) => {
                 const lista = data.data || [];
                 setCursos(lista);
                 if (cursoParam) {

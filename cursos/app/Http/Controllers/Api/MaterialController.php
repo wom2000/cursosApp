@@ -104,6 +104,11 @@ return redirect()->route('UploadMaterials')->with('success', 'Material enviado c
             'aprovado_por' => $user->id,
             'data_aprovacao' => now(),
         ]);
+        if ($validated['status'] === 'aprovado' && $material->materialUser) {
+            $material->materialUser->notify(
+                new \App\Notifications\MaterialAprovado($material, $user)
+            );
+        }
         return response()->json($material);
     }
 

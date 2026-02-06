@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -92,6 +92,51 @@ class UserController extends Controller
             'user' => $user->only('id', 'cesae_student'),
         ]);
     }
+
+    public function updateRole(User $user, Request $request)
+    {
+        $authUser = auth()->user();
+        if (!$authUser || $authUser->role !== 'admin') {
+            return response()->json(['message' => 'Não autorizado'], 403);
+        }
+        $validated = $request->validate([
+            'role' => 'required|in:admin,formador,estudante',
+        ]);
+        $user->update([
+            'role' => $validated['role'],
+        ]);
+        return response()->json([
+            'success' => true,
+            'user' => $user->only('id', 'role'),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $user = auth()->user();
+        if (!$user->isAdmin()) {
+            return response()->json('Não é autorizado a criar users', 403);
+        }
+       $validated = $request->validate([
+    'name' => 'required|string|max:255',
+    'email' => 'required|string|email|max:255|unique:users,email',
+    'password' => 'required|string|min:8|confirmed',
+    'role' => 'required|in:admin,formador,estudante',
+    'cesae_student' => 'nullable|boolean',
+]);
+
+$user = User::create([
+    'name' => $validated['name'],
+    'email' => $validated['email'],
+    'password' => Hash::make($validated['password']),
+    'role' => $validated['role'],
+    'cesae_student' => $validated['cesae_student'] ?? false,
+]);
+
+
+        return redirect()->route('dashboard');
+    }
+
 }
 
 // Resumo: Lista utilizadores e filtra por estado de subscricao.

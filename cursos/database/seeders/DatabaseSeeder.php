@@ -182,7 +182,9 @@ class DatabaseSeeder extends Seeder
             'nivel' => 'iniciante',
             'formadores' => $formador1->id,
         ]);
+
         $this->call(ImagensCursosSeeder::class);
+
         // ============================================
         // MATERIAIS
         // ============================================

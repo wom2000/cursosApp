@@ -13,7 +13,6 @@ class ImagensCursosSeeder extends Seeder
      */
     public function run(): void
     {
-        //
         DB::table('cursos')->where('id', 1)->update([
             'imagem_curso' => 'imagensCursos/react.png'
         ]);
