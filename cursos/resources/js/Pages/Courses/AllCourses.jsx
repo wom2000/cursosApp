@@ -104,14 +104,15 @@ export default function AllCourses({ auth }) {
                                             key={curso.id}
                                             className="course-card"
                                             style={{
-                                                backgroundImage: `url(${curso.imagem_curso
-                                                    ? curso.imagem_curso.startsWith(
-                                                        "images/",
-                                                    )
-                                                        ? `/${curso.imagem_curso}`
-                                                        : `/storage/${curso.imagem_curso}`
-                                                    : "/images/imagensCursos/placeholder.png"
-                                                    })`,
+                                                backgroundImage: `url(${
+                                                    curso.imagem_curso
+                                                        ? curso.imagem_curso.startsWith(
+                                                              "images/",
+                                                          )
+                                                            ? `/${curso.imagem_curso}`
+                                                            : `/storage/${curso.imagem_curso}`
+                                                        : "/images/imagensCursos/placeholder.png"
+                                                })`,
                                             }}
                                         >
                                             <h3 className="course-card-title">
@@ -125,16 +126,25 @@ export default function AllCourses({ auth }) {
 
                                             <div className="flex flex-wrap gap-2 mb-4">
                                                 <span
-                                                    className={`tag-nivel ${curso.nivel ===
+                                                    className={`tag-nivel ${
+                                                        curso.nivel ===
                                                         "iniciante"
-                                                        ? "tag-nivel-iniciante"
-                                                        : curso.nivel ===
-                                                            "intermedio"
-                                                            ? "tag-nivel-intermedio"
-                                                            : "tag-nivel-avancado"
-                                                        }`}
+                                                            ? "tag-nivel-iniciante"
+                                                            : curso.nivel ===
+                                                                "intermedio"
+                                                              ? "tag-nivel-intermedio"
+                                                              : "tag-nivel-avancado"
+                                                    }`}
                                                 >
-                                                    {curso.nivel}
+                                                    {curso.nivel ===
+                                                    "iniciante" ? (
+                                                        <span>Iniciante</span>
+                                                    ) : curso.nivel ===
+                                                      "intermedio" ? (
+                                                        <span>Intermédio</span>
+                                                    ) : (
+                                                        <span>Avançado</span>
+                                                    )}
                                                 </span>
 
                                                 {curso.duracao && (
@@ -145,14 +155,17 @@ export default function AllCourses({ auth }) {
 
                                                 {curso.materiais_count !==
                                                     undefined && (
-                                                        <span className="tag-materiais">
-                                                            {curso.materiais_count}{" "}
-                                                            materiais
-                                                        </span>
-                                                    )}
+                                                    <span className="tag-materiais">
+                                                        {curso.materiais_count}{" "}
+                                                        materiais
+                                                    </span>
+                                                )}
                                             </div>
 
-                                            <Link href={`/curso/${curso.id}`} className="primary-button">
+                                            <Link
+                                                href={`/curso/${curso.id}`}
+                                                className="primary-button"
+                                            >
                                                 Ver Detalhes
                                             </Link>
                                         </div>
@@ -175,10 +188,11 @@ export default function AllCourses({ auth }) {
                                         <button
                                             key={i + 1}
                                             onClick={() => goToPage(i + 1)}
-                                            className={`navegacao-paginas ${currentPage === i + 1
-                                                ? "navegacao-paginas-ativo"
-                                                : ""
-                                                }`}
+                                            className={`navegacao-paginas ${
+                                                currentPage === i + 1
+                                                    ? "navegacao-paginas-ativo"
+                                                    : ""
+                                            }`}
                                         >
                                             {i + 1}
                                         </button>

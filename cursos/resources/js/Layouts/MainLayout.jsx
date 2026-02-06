@@ -128,7 +128,7 @@ export default function MainLayout({ header, children }) {
                 </div>
                 {/* MOBILE HAMBURGUER MENU */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden max-w-full overflow-x-hidden px-2 pt-2 pb-3 space-y-1">
+                    <div className="md:hidden max-w-full overflow-x-hidden px-2 pt-2 pb-3 space-y-1 mobile-links-section">
                         {/* MOBILE NAV LINKS LIST */}
                         {links.map((link) => (
                             <Link
@@ -151,7 +151,7 @@ export default function MainLayout({ header, children }) {
                             </button>
                             {/* MOBILE PROFILE LINKS */}
                             {profileOpen && (
-                                <div className="mt-1 space-y-1">
+                                <div className="mt-1 mobile-profile-links">
                                     {profileLinks.map((link) => (
                                         <Link
                                             key={link.label}

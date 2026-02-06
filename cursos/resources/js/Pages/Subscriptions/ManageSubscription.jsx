@@ -76,7 +76,7 @@ export default function ManageSubscription({ subscricao, userId }) {
 
                 {currentSubscricao ? (
                     <div className="row">
-                        <div className="subscription-card">
+                        <div className="subscription-card-management">
                             <div className="subscription-details">
                                 <div className="subscription-detail-row">
                                     <span className="detail-label">
@@ -127,7 +127,7 @@ export default function ManageSubscription({ subscricao, userId }) {
                     </div>
                 ) : (
                     <div className="row">
-                        <div className="subscription-card">
+                        <div className="subscription-card-management">
                             <div className="centered">
                                 <div className="subscription-card-icon">
                                     <svg
@@ -168,62 +168,6 @@ export default function ManageSubscription({ subscricao, userId }) {
                     </div>
                 )}
             </div>
-
-            <style>{`
-                .subscription-details {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1.25rem;
-                    text-align: left;
-                }
-                .subscription-detail-row {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 0.75rem 0;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                }
-                .subscription-detail-row:last-child {
-                    border-bottom: none;
-                }
-                .detail-label {
-                    color: #9ca3af;
-                    font-size: 0.95rem;
-                }
-                .detail-value {
-                    color: white;
-                    font-weight: 600;
-                    font-size: 1rem;
-                }
-                .status-badge {
-                    padding: 0.35rem 0.75rem;
-                    border-radius: 9999px;
-                    font-size: 0.85rem;
-                }
-                .status-active {
-                    background-color: rgba(34, 197, 94, 0.2);
-                    color: #22c55e;
-                }
-                .status-expired {
-                    background-color: rgba(234, 179, 8, 0.2);
-                    color: #eab308;
-                }
-                .status-cancelled {
-                    background-color: rgba(239, 68, 68, 0.2);
-                    color: #ef4444;
-                }
-                .subscription-actions {
-                    margin-top: 2rem;
-                    display: flex;
-                    justify-content: center;
-                }
-                .cancel-button {
-                    background-color: #ef4444 !important;
-                }
-                .cancel-button:hover {
-                    background-color: #dc2626 !important;
-                }
-            `}</style>
         </MainLayout>
     );
 }

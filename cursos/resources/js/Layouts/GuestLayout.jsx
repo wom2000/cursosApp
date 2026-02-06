@@ -73,7 +73,7 @@ export default function MainLayout({ header, children }) {
                 </div>
                 {/* MOBILE HAMBURGUER MENU */}
                 {mobileMenuOpen && (
-                    <div className="lg:hidden max-w-full overflow-x-hidden px-2 pt-2 pb-3 space-y-1">
+                    <div className="lg:hidden max-w-full overflow-x-hidden px-2 pt-2 pb-3 space-y-1 mobile-links-section">
                         {/* MOBILE NAV LINKS LIST */}
                         {links.map((link) => (
                             <Link
