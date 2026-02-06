@@ -8,12 +8,7 @@ export default function MainLayout({ header, children }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
 
-    const links = [
-        { label: "HOMEPAGE", routeName: "home" },
-        { label: "CURSOS", routeName: "cursos.index" },
-        { label: "CATEGORIAS", routeName: "AllCategories" },
-        { label: "PROGRESSO", routeName: "home" },
-    ];
+
 
     const getDashboardRoute = () => {
         if (!user) return "dashboard";
@@ -28,6 +23,12 @@ export default function MainLayout({ header, children }) {
         }
         return "dashboard";
     };
+        const links = [
+        { label: "HOMEPAGE", routeName: "home" },
+        { label: "CURSOS", routeName: "cursos.index" },
+        { label: "CATEGORIAS", routeName: "AllCategories" },
+        { label: "DASHBOARD", routeName: "dashboard" },
+    ];
 
     const getProfileLinkLabel = () => {
         if (!user) return "Dashboard cu";

@@ -30,7 +30,7 @@ export default function EditCourse({ id }) {
                 'X-CSRF-TOKEN': token,
                 'Content-Type': 'application/json'
             },
-            credentials: 'same-origin'
+            credentials: 'include'
         })
             .then(res => {
                 if (res.status === 401) {
@@ -82,7 +82,7 @@ export default function EditCourse({ id }) {
                     'Accept': 'application/json',
                     'X-CSRF-TOKEN': token
                 },
-                credentials: 'same-origin'
+                credentials: 'include'
             }).then(res => {
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 return res.json();
@@ -92,7 +92,7 @@ export default function EditCourse({ id }) {
                     'Accept': 'application/json',
                     'X-CSRF-TOKEN': token
                 },
-                credentials: 'same-origin'
+                credentials: 'include'
             }).then(res => {
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                 return res.json();
@@ -149,7 +149,7 @@ export default function EditCourse({ id }) {
 
         fetch(`/editar-curso/${selectedCourseId}`, {
             method: 'POST',
-            credentials: 'same-origin',
+            credentials: 'include',
             body: formData
         })
             .then(res => {
@@ -174,7 +174,7 @@ export default function EditCourse({ id }) {
 
         fetch(`/api/cursos/${selectedCourseId}`, {
             method: 'DELETE',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 'X-CSRF-TOKEN': token,
                 'Accept': 'application/json'
@@ -194,7 +194,7 @@ export default function EditCourse({ id }) {
                         'X-CSRF-TOKEN': token,
                         'Content-Type': 'application/json'
                     },
-                    credentials: 'same-origin'
+                    credentials: 'include'
                 })
                     .then(res => res.json())
                     .then(data => {

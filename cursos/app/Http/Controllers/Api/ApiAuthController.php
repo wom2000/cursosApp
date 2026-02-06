@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class ApiAuthController extends Controller
@@ -53,13 +54,15 @@ class ApiAuthController extends Controller
             'cesae_student' => 'boolean',
         ]);
 
+        $email = $validated['email'];
+        $isCesae = Str::contains($email, '@cesae');
         $user = User::create([
             'name' => $validated['name'],
-            'email' => $validated['email'],
+            'email' => $email,
             'password' => Hash::make($validated['password']),
             'telemovel' => $validated['telemovel'] ?? null,
             'role' => User::ROLE_ESTUDANTE,
-            'cesae_student' => $validated['cesae_student'] ?? false,
+            'cesae_student' => $isCesae || ($validated['cesae_student'] ?? false),
         ]);
 
         $token = $user->createToken('api-token')->plainTextToken;

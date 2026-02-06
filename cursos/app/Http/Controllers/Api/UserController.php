@@ -45,7 +45,7 @@ class UserController extends Controller
                 break;
         }
 
-        $users = $query->select('id', 'name', 'email', 'role', 'created_at')
+        $users = $query->select('id', 'name', 'email', 'role', 'cesae_student', 'created_at')
                        ->latest()
                        ->get();
 
@@ -73,6 +73,24 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['success' => true, 'message' => 'Utilizador apagado com sucesso']);
+    }
+
+    public function updateCesae(User $user, Request $request)
+    {
+        $authUser = auth()->user();
+        if (!$authUser || $authUser->role !== 'admin') {
+            return response()->json(['message' => 'Não autorizado'], 403);
+        }
+        $validated = $request->validate([
+            'cesae_student' => 'required|boolean',
+        ]);
+        $user->update([
+            'cesae_student' => $validated['cesae_student'],
+        ]);
+        return response()->json([
+            'success' => true,
+            'user' => $user->only('id', 'cesae_student'),
+        ]);
     }
 }
 

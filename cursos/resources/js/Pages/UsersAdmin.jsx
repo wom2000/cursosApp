@@ -8,6 +8,7 @@ export default function UsersAdmin({ auth }) {
     const [loading, setLoading] = useState(true);
     const [tipoFiltro, setTipoFiltro] = useState('todos');
     const [erro, setErro] = useState(null);
+    const [updatingId, setUpdatingId] = useState(null);
 
     const fetchUsers = (tipo = 'todos') => {
         setLoading(true);
@@ -19,7 +20,7 @@ export default function UsersAdmin({ auth }) {
         }
 
         fetch(url, {
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
             }
@@ -47,7 +48,7 @@ export default function UsersAdmin({ auth }) {
         if (!window.confirm('Tem a certeza que deseja apagar este utilizador?')) return;
         fetch(`/api/users/${id}`, {
             method: 'DELETE',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             },
@@ -58,6 +59,38 @@ export default function UsersAdmin({ auth }) {
                 alert('Utilizador apagado com sucesso!');
             })
             .catch(err => alert(err.message));
+    };
+
+    const handleToggleCesae = (user) => {
+        const token = document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute('content');
+        setUpdatingId(user.id);
+        fetch(`/api/users/${user.id}/cesae`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+                'X-CSRF-TOKEN': token,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                cesae_student: !user.cesae_student
+            })
+        })
+            .then(res => {
+                if (!res.ok) throw new Error('Erro ao atualizar CESAE');
+                return res.json();
+            })
+            .then(() => {
+                setUsers(users.map(u =>
+                    u.id === user.id
+                        ? { ...u, cesae_student: !u.cesae_student }
+                        : u
+                ));
+            })
+            .catch(err => alert(err.message))
+            .finally(() => setUpdatingId(null));
     };
 
     const getRoleBadgeClass = (role) => {
@@ -154,6 +187,7 @@ export default function UsersAdmin({ auth }) {
                                     <th>Nome</th>
                                     <th>Email</th>
                                     <th>Tipo</th>
+                                    <th>CESAE</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -168,7 +202,19 @@ export default function UsersAdmin({ auth }) {
                                             </span>
                                         </td>
                                         <td>
+                                            <span className={user.cesae_student ? "cesae-badge on" : "cesae-badge off"}>
+                                                {user.cesae_student ? "Sim" : "Não"}
+                                            </span>
+                                        </td>
+                                        <td>
                                             <div className="action-buttons">
+                                                <button
+                                                    onClick={() => handleToggleCesae(user)}
+                                                    className="btn-cesae"
+                                                    disabled={updatingId === user.id}
+                                                >
+                                                    {user.cesae_student ? 'Remover CESAE' : 'Marcar CESAE'}
+                                                </button>
                                                 <button
                                                     onClick={() => handleDelete(user.id)}
                                                     className="btn-delete"

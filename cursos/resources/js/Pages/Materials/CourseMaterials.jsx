@@ -272,7 +272,7 @@ export default function CourseMaterials({ auth, id }) {
                                                                 material.id
                                                             }
                                                         >
-                                                            Conta
+                                                            Matéria
                                                         </button>
                                                         <button
                                                             type="button"

@@ -12,7 +12,6 @@ export default function EstudanteDashboard({ auth }) {
             const msg = params.get("success");
             if (msg) setSuccessMessage(msg);
         } catch (e) {
-            // nada acontece
         }
     }, []);
     return (

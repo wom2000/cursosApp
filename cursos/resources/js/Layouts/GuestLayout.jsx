@@ -9,7 +9,7 @@ export default function MainLayout({ header, children }) {
         { label: "HOMEPAGE", routeName: "home" },
         { label: "CURSOS", routeName: "cursos.index" },
         { label: "CATEGORIAS", routeName: "AllCategories" },
-        { label: "PROGRESSO", routeName: "home" },
+        { label: "SUBSCREVER", routeName: "login" },
     ];
 
     return (
@@ -48,10 +48,10 @@ export default function MainLayout({ header, children }) {
                                     ENTRAR
                                 </Link>
                                 <Link
-                                    href={route("CreateSubscription")}
+                                    href={route("register")}
                                     className="primary-button"
                                 >
-                                    SUBSCREVER
+                                    REGISTAR
                                 </Link>
                             </div>
                             <div className="flex lg:hidden">

@@ -16,7 +16,7 @@ export default function PendingMaterials() {
         try {
             const response = await fetch(`/materiais/${materialId}/status`, {
                 method: 'PATCH',
-                credentials: 'same-origin',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -49,7 +49,7 @@ export default function PendingMaterials() {
         try {
             const response = await fetch(`/materiais/${materialId}/status`, {
                 method: 'PATCH',
-                credentials: 'same-origin',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
