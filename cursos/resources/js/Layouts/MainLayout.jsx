@@ -23,11 +23,24 @@ export default function MainLayout({ header, children }) {
         }
         return "dashboard";
     };
-        const links = [
+
+    const getDashboardNavLinkLabel = () => {
+        if (!user) return "DASHBOARD";
+
+        if (user.role === "formador" || user.role === "admin") {
+            return "DASHBOARD";
+        } else if (user.role === "estudante") {
+            const hasAccess = user.cesae_student || subscricao;
+            return hasAccess ? "DASHBOARD" : "SUBSCREVER";
+        }
+        return "DASHBOARD";
+    };
+
+    const links = [
         { label: "HOMEPAGE", routeName: "home" },
         { label: "CURSOS", routeName: "cursos.index" },
         { label: "CATEGORIAS", routeName: "AllCategories" },
-        { label: "DASHBOARD", routeName: "dashboard" },
+        { label: getDashboardNavLinkLabel(), routeName: getDashboardRoute() },
     ];
 
     const getProfileLinkLabel = () => {
