@@ -11,8 +11,7 @@ export default function EstudanteDashboard({ auth }) {
             const params = new URLSearchParams(window.location.search);
             const msg = params.get("success");
             if (msg) setSuccessMessage(msg);
-        } catch (e) {
-        }
+        } catch (e) {}
     }, []);
     return (
         <MainLayout user={auth.user}>
@@ -56,25 +55,27 @@ export default function EstudanteDashboard({ auth }) {
                         href="/cursos"
                     />
 
-                    <DashboardCard
-                        icon={
-                            <svg
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                />
-                            </svg>
-                        }
+                    {!auth.user?.cesae_student && (
+                        <DashboardCard
+                            icon={
+                                <svg
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M5 13l4 4L19 7"
+                                    />
+                                </svg>
+                            }
                             title="Subscrições"
                             description="Aceda aos conteúdos que subscreveu."
-                            href={route('ManageSubscription', auth.user.id)}
-                    />
+                            href={route("ManageSubscription", auth.user.id)}
+                        />
+                    )}
 
                     <DashboardCard
                         icon={
@@ -94,7 +95,6 @@ export default function EstudanteDashboard({ auth }) {
                         title="Progresso"
                         description="Veja o seu progresso nos cursos."
                         href="/progresso"
-
                     />
 
                     <DashboardCard

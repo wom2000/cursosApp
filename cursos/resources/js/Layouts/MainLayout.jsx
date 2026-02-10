@@ -54,6 +54,7 @@ export default function MainLayout({ header, children }) {
     return (
         <>
             <header>
+            
                 <div className="pink-section-header"></div>
                 <div className="nav-content-div">
                     <div className="grid grid-cols-2 md:grid-cols-3 items-center h-full">
