@@ -2,7 +2,7 @@ import MainLayout from "@/Layouts/MainLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import '../../../css/UploadMaterial.css'
+import "../../../css/UploadMaterial.css";
 
 export default function UploadMaterials() {
     const { auth } = usePage().props;
@@ -19,10 +19,11 @@ export default function UploadMaterials() {
         const params = new URLSearchParams(window.location.search);
         const cursoParam = params.get("curso");
 
-        axios.get('/api/cursos', {
-            withCredentials: true,
-            headers: { Accept: 'application/json' }
-        })
+        axios
+            .get("/api/cursos", {
+                withCredentials: true,
+                headers: { Accept: "application/json" },
+            })
             .then(({ data }) => {
                 const lista = data.data || [];
                 setCursos(lista);
@@ -36,8 +37,8 @@ export default function UploadMaterials() {
                 }
                 setLoading(false);
             })
-            .catch(error => {
-                console.error('Erro ao carregar cursos:', error);
+            .catch((error) => {
+                console.error("Erro ao carregar cursos:", error);
                 setLoading(false);
             });
     }, []);
@@ -45,32 +46,32 @@ export default function UploadMaterials() {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('materiais.store'), {
+        post(route("materiais.store"), {
             preserveScroll: true,
             forceFormData: true,
             onSuccess: () => {
                 reset();
-                alert('Material enviado com sucesso!');
+                alert("Material enviado com sucesso!");
             },
             onError: (errors) => {
-                console.error('Erros:', errors);
-            }
+                console.error("Erros:", errors);
+            },
         });
     };
 
     const getFileIcon = () => {
         if (!data.ficheiro) return null;
 
-        const ext = data.ficheiro.name.split('.').pop().toLowerCase();
+        const ext = data.ficheiro.name.split(".").pop().toLowerCase();
         const icons = {
-            pdf: '📄',
-            mp4: '🎥',
-            mp3: '🎵',
-            jpg: '🖼️',
-            png: '🖼️',
-            docx: '📝'
+            pdf: "📄",
+            mp4: "🎥",
+            mp3: "🎵",
+            jpg: "🖼️",
+            png: "🖼️",
+            docx: "📝",
         };
-        return icons[ext] || '📎';
+        return icons[ext] || "📎";
     };
 
     return (
@@ -79,9 +80,12 @@ export default function UploadMaterials() {
 
             <div className="upload-materials-container">
                 <div className="upload-materials-header">
-                    <h1 className="upload-materials-title">Carregar Material</h1>
+                    <h1 className="upload-materials-title">
+                        Carregar Material
+                    </h1>
                     <p className="upload-materials-subtitle">
-                        Envie vídeos, PDFs, áudios ou documentos para seus cursos
+                        Envie vídeos, PDFs, áudios ou documentos para seus
+                        cursos
                     </p>
                 </div>
 
@@ -94,14 +98,23 @@ export default function UploadMaterials() {
                                         {getFileIcon()}
                                     </div>
                                     <div className="file-info">
-                                        <p className="file-name">{data.ficheiro.name}</p>
+                                        <p className="file-name">
+                                            {data.ficheiro.name}
+                                        </p>
                                         <p className="file-size">
-                                            {(data.ficheiro.size / 1024 / 1024).toFixed(2)} MB
+                                            {(
+                                                data.ficheiro.size /
+                                                1024 /
+                                                1024
+                                            ).toFixed(2)}{" "}
+                                            MB
                                         </p>
                                     </div>
                                     <button
                                         type="button"
-                                        onClick={() => setData('ficheiro', null)}
+                                        onClick={() =>
+                                            setData("ficheiro", null)
+                                        }
                                         className="file-remove-btn"
                                     >
                                         ✕
@@ -109,12 +122,26 @@ export default function UploadMaterials() {
                                 </div>
                             ) : (
                                 <div className="upload-placeholder">
-                                    <svg className="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    <svg
+                                        className="upload-icon"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                        />
                                     </svg>
-                                    <p className="upload-text">Arraste o ficheiro ou clique para selecionar</p>
+                                    <p className="upload-text">
+                                        Arraste o ficheiro ou clique para
+                                        selecionar
+                                    </p>
                                     <p className="upload-hint">
-                                        Formatos aceites: MP3, MP4, PDF, JPG, PNG, DOCX (máx. 50MB)
+                                        Formatos aceites: MP3, MP4, PDF, JPG,
+                                        PNG, DOCX (máx. 50MB)
                                     </p>
                                 </div>
                             )}
@@ -123,11 +150,17 @@ export default function UploadMaterials() {
                             id="ficheiro"
                             type="file"
                             accept=".mp3,.mp4,.pdf,.jpg,.png,.docx"
-                            onChange={(e) => setData("ficheiro", e.target.files[0])}
+                            onChange={(e) =>
+                                setData("ficheiro", e.target.files[0])
+                            }
                             className="hidden-input"
                             required
                         />
-                        {errors.ficheiro && <span className="error-message">{errors.ficheiro}</span>}
+                        {errors.ficheiro && (
+                            <span className="error-message">
+                                {errors.ficheiro}
+                            </span>
+                        )}
                     </div>
                     <div className="form-fields">
                         <div className="form-group">
@@ -138,48 +171,82 @@ export default function UploadMaterials() {
                                 id="nome"
                                 type="text"
                                 value={data.nome}
-                                onChange={(e) => setData("nome", e.target.value)}
+                                onChange={(e) =>
+                                    setData("nome", e.target.value)
+                                }
                                 className="form-input"
                                 placeholder="Ex: Aula 1 - Introdução ao Laravel"
                                 required
                             />
-                            {errors.nome && <span className="error-message">{errors.nome}</span>}
+                            {errors.nome && (
+                                <span className="error-message">
+                                    {errors.nome}
+                                </span>
+                            )}
                         </div>
                         <div className="form-group">
                             <label htmlFor="id_curso" className="form-label">
                                 Curso *
                             </label>
                             {loading ? (
-                                <div className="form-loading">A carregar cursos...</div>
+                                <div className="form-loading">
+                                    A carregar cursos...
+                                </div>
                             ) : (
                                 <select
                                     id="id_curso"
                                     value={data.id_curso}
-                                    onChange={(e) => setData("id_curso", e.target.value)}
+                                    onChange={(e) =>
+                                        setData("id_curso", e.target.value)
+                                    }
                                     className="form-select"
                                     required
                                 >
-                                    <option value="">Selecione um curso</option>
+                                    <option
+                                        value=""
+                                        className="form-select-option"
+                                    >
+                                        Selecione um curso
+                                    </option>
                                     {cursos.map((curso) => (
-                                        <option key={curso.id} value={curso.id}>
+                                        <option
+                                            key={curso.id}
+                                            value={curso.id}
+                                            className="form-select-option"
+                                        >
                                             {curso.nome}
                                         </option>
                                     ))}
                                 </select>
                             )}
-                            {errors.id_curso && <span className="error-message">{errors.id_curso}</span>}
+                            {errors.id_curso && (
+                                <span className="error-message">
+                                    {errors.id_curso}
+                                </span>
+                            )}
                         </div>
                     </div>
                     <div className="info-box">
-                        <svg className="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg
+                            className="info-icon"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
                         </svg>
                         <div>
                             <p className="info-title">Aprovação de Materiais</p>
                             <p className="info-text">
-                                {auth.user.role === 'formador' || auth.user.role === 'admin'
-                                    ? 'Os seus materiais serão aprovados automaticamente.'
-                                    : 'Os materiais enviados precisam de aprovação do formador antes de ficarem visíveis.'}
+                                {auth.user.role === "formador" ||
+                                auth.user.role === "admin"
+                                    ? "Os seus materiais serão aprovados automaticamente."
+                                    : "Os materiais enviados precisam de aprovação do formador antes de ficarem visíveis."}
                             </p>
                         </div>
                     </div>
@@ -198,16 +265,41 @@ export default function UploadMaterials() {
                         >
                             {processing ? (
                                 <>
-                                    <svg className="spinner" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                    <svg
+                                        className="spinner"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                            fill="none"
+                                        />
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                        />
                                     </svg>
                                     A enviar...
                                 </>
                             ) : (
                                 <>
-                                    <svg className="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    <svg
+                                        className="btn-icon"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                        />
                                     </svg>
                                     Enviar Material
                                 </>

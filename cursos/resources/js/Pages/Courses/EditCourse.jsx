@@ -28,10 +28,13 @@ export default function EditCourse({ id }) {
         const fetchCursos = async () => {
             try {
                 setLoading(true);
-                const { data: response } = await axios.get("/api/cursos/meus-cursos", {
-                    withCredentials: true,
-                    headers: { Accept: "application/json" },
-                });
+                const { data: response } = await axios.get(
+                    "/api/cursos/meus-cursos",
+                    {
+                        withCredentials: true,
+                        headers: { Accept: "application/json" },
+                    },
+                );
 
                 const cursosArray = Array.isArray(response)
                     ? response
@@ -52,7 +55,9 @@ export default function EditCourse({ id }) {
             } catch (error) {
                 if (!mounted) return;
                 if (error.response?.status === 401) {
-                    setErro("Você precisa estar autenticado para editar cursos.");
+                    setErro(
+                        "Você precisa estar autenticado para editar cursos.",
+                    );
                 } else if (error.response?.status === 403) {
                     setErro("Você não tem permissão para editar cursos.");
                 } else {
@@ -142,7 +147,8 @@ export default function EditCourse({ id }) {
     };
 
     const eliminar = async () => {
-        if (!window.confirm("Tem a certeza que deseja eliminar este curso?")) return;
+        if (!window.confirm("Tem a certeza que deseja eliminar este curso?"))
+            return;
 
         try {
             await axios.delete(`/cursos/${selectedCourseId}`, {
@@ -154,12 +160,17 @@ export default function EditCourse({ id }) {
             setCurso(null);
             setSelectedCourseId(null);
 
-            const { data: response } = await axios.get("/api/cursos/meus-cursos", {
-                withCredentials: true,
-                headers: { Accept: "application/json" },
-            });
+            const { data: response } = await axios.get(
+                "/api/cursos/meus-cursos",
+                {
+                    withCredentials: true,
+                    headers: { Accept: "application/json" },
+                },
+            );
 
-            const cursosArray = Array.isArray(response) ? response : response.cursos || [];
+            const cursosArray = Array.isArray(response)
+                ? response
+                : response.cursos || [];
             setCursos(cursosArray);
         } catch (error) {
             console.error("Erro:", error);
@@ -234,7 +245,9 @@ export default function EditCourse({ id }) {
                         <div className="no-courses">
                             <p>Você não tem cursos disponíveis para editar.</p>
                             <button
-                                onClick={() => router.visit(route("CreateCourse"))}
+                                onClick={() =>
+                                    router.visit(route("CreateCourse"))
+                                }
                                 className="btn-primary"
                             >
                                 Criar Novo Curso
@@ -256,8 +269,12 @@ export default function EditCourse({ id }) {
                                         />
                                     )}
                                     <div className="course-card-content">
-                                        <h3 className="course-card-title">{c.nome}</h3>
-                                        <p className="course-card-level">{c.nivel}</p>
+                                        <h3 className="course-card-title">
+                                            {c.nome}
+                                        </h3>
+                                        <p className="course-card-level">
+                                            {c.nivel}
+                                        </p>
                                         <p className="course-card-duration">
                                             {c.duracao}
                                         </p>
@@ -339,7 +356,9 @@ export default function EditCourse({ id }) {
                                     <p className="upload-text">
                                         Carregar Nova Imagem (Opcional)
                                     </p>
-                                    <p className="upload-hint">PNG, JPG até 5MB</p>
+                                    <p className="upload-hint">
+                                        PNG, JPG até 5MB
+                                    </p>
                                 </div>
                             )}
                         </label>
@@ -347,11 +366,15 @@ export default function EditCourse({ id }) {
                             id="imagem"
                             type="file"
                             accept="image/*"
-                            onChange={(e) => setData("imagem", e.target.files[0])}
+                            onChange={(e) =>
+                                setData("imagem", e.target.files[0])
+                            }
                             className="hidden-input"
                         />
                         {errors.imagem && (
-                            <span className="error-message">{errors.imagem}</span>
+                            <span className="error-message">
+                                {errors.imagem}
+                            </span>
                         )}
                     </div>
 
@@ -364,13 +387,17 @@ export default function EditCourse({ id }) {
                                 id="nome"
                                 type="text"
                                 value={data.nome}
-                                onChange={(e) => setData("nome", e.target.value)}
+                                onChange={(e) =>
+                                    setData("nome", e.target.value)
+                                }
                                 className="form-input"
                                 placeholder="Ex: Laravel Avançado"
                                 required
                             />
                             {errors.nome && (
-                                <span className="error-message">{errors.nome}</span>
+                                <span className="error-message">
+                                    {errors.nome}
+                                </span>
                             )}
                         </div>
                         <div className="form-group full-width">
@@ -380,13 +407,17 @@ export default function EditCourse({ id }) {
                             <textarea
                                 id="descricao"
                                 value={data.descricao}
-                                onChange={(e) => setData("descricao", e.target.value)}
+                                onChange={(e) =>
+                                    setData("descricao", e.target.value)
+                                }
                                 className="form-textarea"
                                 placeholder="Descreva o conteúdo e objetivos do curso..."
                                 rows="4"
                             />
                             {errors.descricao && (
-                                <span className="error-message">{errors.descricao}</span>
+                                <span className="error-message">
+                                    {errors.descricao}
+                                </span>
                             )}
                         </div>
                         <div className="form-group">
@@ -396,19 +427,29 @@ export default function EditCourse({ id }) {
                             <select
                                 id="area"
                                 value={data.area}
-                                onChange={(e) => setData("area", e.target.value)}
+                                onChange={(e) =>
+                                    setData("area", e.target.value)
+                                }
                                 className="form-select"
                                 required
                             >
-                                <option value="">Selecione uma categoria</option>
+                                <option value="" className="form-select-option">
+                                    Selecione uma categoria
+                                </option>
                                 {categorias.map((categoria) => (
-                                    <option key={categoria.id} value={categoria.id}>
+                                    <option
+                                        key={categoria.id}
+                                        value={categoria.id}
+                                        className="form-select-option"
+                                    >
                                         {categoria.nome}
                                     </option>
                                 ))}
                             </select>
                             {errors.area && (
-                                <span className="error-message">{errors.area}</span>
+                                <span className="error-message">
+                                    {errors.area}
+                                </span>
                             )}
                         </div>
                         <div className="form-group">
@@ -418,17 +459,38 @@ export default function EditCourse({ id }) {
                             <select
                                 id="nivel"
                                 value={data.nivel}
-                                onChange={(e) => setData("nivel", e.target.value)}
+                                onChange={(e) =>
+                                    setData("nivel", e.target.value)
+                                }
                                 className="form-select"
                                 required
                             >
-                                <option value="">Selecione um nível</option>
-                                <option value="iniciante">Iniciante</option>
-                                <option value="intermedio">Intermédio</option>
-                                <option value="avancado">Avançado</option>
+                                <option value="" className="form-select-option">
+                                    Selecione um nível
+                                </option>
+                                <option
+                                    value="iniciante"
+                                    className="form-select-option"
+                                >
+                                    Iniciante
+                                </option>
+                                <option
+                                    value="intermedio"
+                                    className="form-select-option"
+                                >
+                                    Intermédio
+                                </option>
+                                <option
+                                    value="avancado"
+                                    className="form-select-option"
+                                >
+                                    Avançado
+                                </option>
                             </select>
                             {errors.nivel && (
-                                <span className="error-message">{errors.nivel}</span>
+                                <span className="error-message">
+                                    {errors.nivel}
+                                </span>
                             )}
                         </div>
 
@@ -440,13 +502,17 @@ export default function EditCourse({ id }) {
                                 id="duracao"
                                 type="text"
                                 value={data.duracao}
-                                onChange={(e) => setData("duracao", e.target.value)}
+                                onChange={(e) =>
+                                    setData("duracao", e.target.value)
+                                }
                                 className="form-input"
                                 placeholder="Ex: 40 horas"
                                 required
                             />
                             {errors.duracao && (
-                                <span className="error-message">{errors.duracao}</span>
+                                <span className="error-message">
+                                    {errors.duracao}
+                                </span>
                             )}
                         </div>
                     </div>
@@ -462,10 +528,18 @@ export default function EditCourse({ id }) {
                         >
                             Voltar
                         </button>
-                        <button type="submit" disabled={processing} className="btn-primary">
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="btn-primary"
+                        >
                             {processing ? "A atualizar..." : "Atualizar Curso"}
                         </button>
-                        <button type="button" onClick={eliminar} className="btn-danger">
+                        <button
+                            type="button"
+                            onClick={eliminar}
+                            className="btn-danger"
+                        >
                             Eliminar
                         </button>
                     </div>

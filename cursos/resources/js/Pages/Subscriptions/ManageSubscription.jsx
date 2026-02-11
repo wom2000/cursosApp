@@ -49,6 +49,7 @@ export default function ManageSubscription({ subscricao, userId }) {
             .patch(`/subscricao/${currentSubscricao.id}/cancelar`)
             .then((response) => {
                 setCurrentSubscricao(response.data);
+                window.location.href = route("home");
             })
             .catch((err) => {
                 console.error("Erro ao cancelar:", err);

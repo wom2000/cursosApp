@@ -23,11 +23,24 @@ export default function MainLayout({ header, children }) {
         }
         return "dashboard";
     };
-        const links = [
+
+    const getDashboardNavLinkLabel = () => {
+        if (!user) return "DASHBOARD";
+
+        if (user.role === "formador" || user.role === "admin") {
+            return "DASHBOARD";
+        } else if (user.role === "estudante") {
+            const hasAccess = user.cesae_student || subscricao;
+            return hasAccess ? "DASHBOARD" : "SUBSCREVER";
+        }
+        return "DASHBOARD";
+    };
+
+    const links = [
         { label: "HOMEPAGE", routeName: "home" },
         { label: "CURSOS", routeName: "cursos.index" },
         { label: "CATEGORIAS", routeName: "AllCategories" },
-        { label: "DASHBOARD", routeName: "dashboard" },
+        { label: getDashboardNavLinkLabel(), routeName: getDashboardRoute() },
     ];
 
     const getProfileLinkLabel = () => {
@@ -54,6 +67,7 @@ export default function MainLayout({ header, children }) {
     return (
         <>
             <header>
+            
                 <div className="pink-section-header"></div>
                 <div className="nav-content-div">
                     <div className="grid grid-cols-2 md:grid-cols-3 items-center h-full">

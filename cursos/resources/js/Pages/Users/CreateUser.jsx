@@ -44,13 +44,17 @@ export default function CreateUser() {
                                 id="name"
                                 type="text"
                                 value={data.name}
-                                onChange={(e) => setData("name", e.target.value)}
+                                onChange={(e) =>
+                                    setData("name", e.target.value)
+                                }
                                 className="form-input"
                                 placeholder="Ex: Pedro Silva"
                                 required
                             />
                             {errors.name && (
-                                <span className="error-message">{errors.name}</span>
+                                <span className="error-message">
+                                    {errors.name}
+                                </span>
                             )}
                         </div>
 
@@ -62,13 +66,17 @@ export default function CreateUser() {
                                 id="email"
                                 type="email"
                                 value={data.email}
-                                onChange={(e) => setData("email", e.target.value)}
+                                onChange={(e) =>
+                                    setData("email", e.target.value)
+                                }
                                 className="form-input"
                                 placeholder="Ex: email@exemplo.com"
                                 required
                             />
                             {errors.email && (
-                                <span className="error-message">{errors.email}</span>
+                                <span className="error-message">
+                                    {errors.email}
+                                </span>
                             )}
                         </div>
 
@@ -87,7 +95,9 @@ export default function CreateUser() {
                                 required
                             />
                             {errors.password && (
-                                <span className="error-message">{errors.password}</span>
+                                <span className="error-message">
+                                    {errors.password}
+                                </span>
                             )}
                         </div>
 
@@ -120,16 +130,35 @@ export default function CreateUser() {
                             <select
                                 id="role"
                                 value={data.role}
-                                onChange={(e) => setData("role", e.target.value)}
+                                onChange={(e) =>
+                                    setData("role", e.target.value)
+                                }
                                 className="form-select"
                                 required
                             >
-                                <option value="estudante">Estudante</option>
-                                <option value="formador">Formador</option>
-                                <option value="admin">Admin</option>
+                                <option
+                                    value="estudante"
+                                    className="form-select-option"
+                                >
+                                    Estudante
+                                </option>
+                                <option
+                                    value="formador"
+                                    className="form-select-option"
+                                >
+                                    Formador
+                                </option>
+                                <option
+                                    value="admin"
+                                    className="form-select-option"
+                                >
+                                    Admin
+                                </option>
                             </select>
                             {errors.role && (
-                                <span className="error-message">{errors.role}</span>
+                                <span className="error-message">
+                                    {errors.role}
+                                </span>
                             )}
                         </div>
 
@@ -140,7 +169,10 @@ export default function CreateUser() {
                                     type="checkbox"
                                     checked={data.cesae_student}
                                     onChange={(e) =>
-                                        setData("cesae_student", e.target.checked)
+                                        setData(
+                                            "cesae_student",
+                                            e.target.checked,
+                                        )
                                     }
                                 />
                                 <span>É aluno CESAE</span>
